@@ -3532,53 +3532,46 @@ textarea {
 }
 
 /* ===== Agent 聊天页（/chat Agent 引擎）专用，不与 RAG 前端共享 =====
-   视觉：实验台·亮色——暖纸白底、精密网格、橙色信号
+   视觉：瓷蓝工作台
    全部 token 挂 .agent-app 域不进 :root；组件类一律 .agent-app 域内生效，与 .admin-layout 的 agent-* 类互不越界 */
 
 .agent-app {
-  /* 色板：暖中性纸 + 单一橙信号（Claude 橙）
-     中性一族统一走 40° 上下的极低饱和暖灰 橙只留给信号 两族不混 */
-  --agent-paper: #faf9f5;
-  --agent-paper-grid: #eeeae1;
-  --agent-surface: #fffefb;
-  --agent-sunk: #f4f1ea;
+  --agent-paper: #f3f6fb;
+  --agent-paper-grid: #bdcde38a;
+  --agent-surface: #ffffff;
+  --agent-sunk: #eef3f9;
   --agent-ink: #17181c;
-  --agent-muted: #6f6b64;
-  --agent-faint: #a09a90;
-  --agent-grid: #e8e4da;
-  --agent-grid-strong: #d7d2c6;
+  --agent-muted: #586777;
+  --agent-faint: #697b91;
+  --agent-grid: #dce5f1;
+  --agent-grid-strong: #c4d3e5;
 
-  /* 橙一族（Claude 橙）：配额制不动 橙只属两件事——唯一的主动作（发送）与正在发生的事 装饰与信息一律走中性
-     两档不是深浅装饰：#d97757 是 Claude 本色 但白字只有 3.1:1（低于 AA 4.5——Claude 自己那枚钮里是箭头图标不是文字）
-     凡要承载白字白勾 或当正文读的 一律走深一档 -ink（白字 5.1:1） */
-  --agent-orange: #d97757;
-  --agent-orange-ink: #b1512c;
-  --agent-orange-wash: #f6e0d3;
-  --agent-orange-mist: #fbeee7;
+  --agent-accent: #426da8;
+  --agent-accent-ink: #31588c;
+  --agent-accent-wash: #d9e7f9;
+  --agent-accent-mist: #eef5ff;
 
-  --agent-signal: var(--agent-orange);
-  --agent-signal-ink: var(--agent-orange-ink);
-  --agent-signal-wash: #fae7dc;
+  --agent-signal: var(--agent-accent);
+  --agent-signal-ink: var(--agent-accent-ink);
+  --agent-signal-wash: #e2ecfa;
 
-  /* 与橙拉开色距：信号在 15° 琥珀与砖红贴近它就会糊成一族 三个状态得各自认得出 */
   --agent-caution: #9a7500;
   --agent-caution-wash: #f9efd0;
 
   --agent-error: #b02f42;
   --agent-error-wash: #f8e5e8;
 
-  /* 左栏卡片外观专属：只管圆角与投影 颜色跟主区同一族暖灰 */
-  --agent-rail-bg: #fbfaf7;
-  --agent-rail-line: #f0ece4;
-  --agent-rail-card: #fffefb;
-  --agent-rail-edge: #eae5db;
+  --agent-rail-bg: #f7f9fc;
+  --agent-rail-line: #e1e8f2;
+  --agent-rail-card: #ffffff;
+  --agent-rail-edge: #dfe7f1;
   --agent-rail-ink: #17181c;
-  --agent-rail-text: #413e37;
-  --agent-rail-muted: #9a948a;
-  --agent-rail-faint: #a8a298;
+  --agent-rail-text: #384a62;
+  --agent-rail-muted: #637487;
+  --agent-rail-faint: #75869a;
   --agent-rail-radius: 16px;
-  --agent-rail-shadow: 0 12px 26px rgba(64, 54, 38, 0.07);
-  --agent-rail-shadow-lg: 0 14px 30px rgba(64, 54, 38, 0.09);
+  --agent-rail-shadow: 0 10px 23px #2f486614;
+  --agent-rail-shadow-lg: 0 12px 28px #2f48661c;
 
   /* IBM Plex 一族两角色 本机未装按栈回落 不做远程字体加载 */
   --agent-font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -3606,6 +3599,7 @@ textarea {
 
   /* 外壳：顶栏 + 主体两行撑满视口 */
   height: 100vh;
+  height: 100dvh;
   display: grid;
   grid-template-rows: auto 1fr;
   min-height: 0;
@@ -3648,7 +3642,7 @@ textarea {
 .agent-app .agent-body {
   position: relative;
   display: grid;
-  grid-template-columns: 288px 1fr;
+  grid-template-columns: 288px minmax(0, 1fr);
   min-height: 0;
 }
 
@@ -3660,10 +3654,8 @@ textarea {
   min-height: 0;
   min-width: 0;
   background-color: var(--agent-paper);
-  background-image:
-    linear-gradient(to right, var(--agent-paper-grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--agent-paper-grid) 1px, transparent 1px);
-  background-size: 27px 27px;
+  background-image: radial-gradient(circle at center, var(--agent-paper-grid) 0.7px, transparent 0.9px);
+  background-size: 23px 23px;
 }
 
 /* ── 顶栏：品牌 / 状态徽标 / 工具钮 ───────── */
@@ -3679,26 +3671,15 @@ textarea {
 
 .agent-app .agent-brand {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: var(--agent-s2);
 }
 
 .agent-app .agent-wordmark {
-  font-family: var(--agent-font-mono);
   font-weight: 600;
   font-size: 0.95rem;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.025em;
   color: var(--agent-ink);
-}
-
-.agent-app .agent-brand-sep {
-  color: var(--agent-grid-strong);
-}
-
-.agent-app .agent-brand-tag {
-  color: var(--agent-muted);
-  font-size: var(--agent-t-sm);
-  letter-spacing: 0.02em;
 }
 
 .agent-app .agent-header-center {
@@ -3968,11 +3949,11 @@ textarea {
   height: 38px;
   border: 1px solid var(--agent-rail-edge);
   border-radius: 12px;
-  background: #f7f4ee;
+  background: #f3f6fa;
   padding: 0 46px 0 34px;
   font-family: var(--agent-font-sans);
   font-size: var(--agent-t-sm);
-  color: #2a2822;
+  color: var(--agent-rail-text);
   outline: none;
   transition: border-color 0.12s, box-shadow 0.12s, background 0.12s;
 }
@@ -3983,7 +3964,7 @@ textarea {
 
 /* 焦点属"此刻在哪" 是橙的合法用途 统一走 token 不硬编码 */
 .agent-app .agent-search-input:focus {
-  border-color: var(--agent-orange);
+  border-color: var(--agent-accent);
   background: #fff;
   box-shadow: 0 0 0 3px var(--agent-signal-wash);
 }
@@ -4058,11 +4039,11 @@ textarea {
 }
 
 .agent-app .agent-session-item[data-active="true"] {
-  background: var(--agent-orange-wash);
+  background: var(--agent-accent-wash);
 }
 
 .agent-app .agent-session-item[data-picked="true"] {
-  background: var(--agent-orange-mist);
+  background: var(--agent-accent-mist);
 }
 
 .agent-app .agent-session-btn {
@@ -4088,7 +4069,7 @@ textarea {
 }
 
 .agent-app .agent-session-item[data-active="true"] .agent-session-title {
-  color: var(--agent-orange-ink);
+  color: var(--agent-accent-ink);
   font-weight: 500;
 }
 
@@ -4108,8 +4089,8 @@ textarea {
 
 /* 勾里是白的 走深一档：本色橙配白勾只有 3.1:1 一枚 16px 的细勾撑不住 */
 .agent-app .agent-checkbox[data-on="true"] {
-  background: var(--agent-orange-ink);
-  border-color: var(--agent-orange-ink);
+  background: var(--agent-accent-ink);
+  border-color: var(--agent-accent-ink);
 }
 
 /* 行尾「…」：hover / 菜单展开 / 激活行 三种情形才现身
@@ -4158,7 +4139,7 @@ textarea {
 }
 
 .agent-app .agent-session-item[data-active="true"] .agent-item-btn {
-  color: var(--agent-orange-ink);
+  color: var(--agent-accent-ink);
 }
 
 .agent-app .agent-rename-input {
@@ -4166,7 +4147,7 @@ textarea {
   min-width: 0;
   height: 32px;
   margin: 0 var(--agent-s2);
-  border: 1px solid var(--agent-orange);
+  border: 1px solid var(--agent-accent);
   border-radius: 10px;
   background: #fff;
   padding: 0 10px;
@@ -4626,7 +4607,7 @@ textarea {
 .agent-app .agent-confirm {
   border: 1px solid var(--agent-signal);
   border-radius: var(--agent-radius);
-  background: var(--agent-orange-mist);
+  background: var(--agent-accent-mist);
   margin-top: 2px;
   padding: var(--agent-s3);
 }
@@ -4809,145 +4790,85 @@ textarea {
   flex-direction: column;
 }
 
-/* 演示 + 图注带 + 问句行是一个物件：边框圆角裁切挂在这层
-   卡外的浮块一律没有归属——问句行是卡里的末行 不单独成块 */
 .agent-app .agent-empty-card {
   border: var(--agent-hair);
-  border-radius: var(--agent-radius);
+  border-radius: 12px;
   background: var(--agent-surface);
-  overflow: hidden;
+  padding: clamp(18px, 3vw, 32px);
+  box-shadow: 0 12px 28px #2442670c;
 }
 
-/* figure 只管「演示 + 注」那一对语义 形交给外层卡 */
-.agent-app .agent-empty-figure {
+.agent-app .agent-empty-card h1 {
   margin: 0;
-}
-
-/* 预演卡：结构就是真卡本体 只摘掉交互
-   不压亮度——半透明在页面上唯一的读法是"禁用/没加载出来" 身份交给卡头「示例」胶囊和下面的图注带
-   信号色也不就地转中性：演示卡说的就是"你的话会被这样打出来" 真卡里橙的东西（答复节点 时间轴 展开箭头）
-   在这儿灰着 演示讲的就不是同一件事了 身份由「示例」胶囊单独担着 不需要再抽一遍色 */
-.agent-app .agent-empty-demo {
-  pointer-events: none;
-  user-select: none;
-}
-
-.agent-app .agent-empty-demo .agent-turn {
-  border: none;
-  border-radius: 0;
-}
-
-/* 图注带：四格按时间顺序横排 说明句与图例合成一个物件 880 的宽度这才被用满 */
-/* 底不上灰：待机屏正中的物件不许灰化（同"半透明＝没加载出来"那条） 分格靠发丝线就够 */
-.agent-app .agent-empty-cap {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: var(--agent-hair);
-  background: transparent;
-}
-
-.agent-app .agent-empty-step {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 8px var(--agent-s3);
-  border-left: var(--agent-hair);
-}
-
-.agent-app .agent-empty-step:first-child {
-  border-left: none;
-}
-
-.agent-app .agent-empty-step-head {
-  display: flex;
-  align-items: baseline;
-  gap: var(--agent-s2);
-  font-size: var(--agent-t-sm);
   color: var(--agent-ink);
+  font-size: clamp(23px, 2.3vw, 32px);
+  font-weight: 680;
+  line-height: 1.25;
 }
 
-/* 字符与卡内左列那一列同形同色 图例这才贴着被解释的东西 */
-.agent-app .agent-empty-step-glyph {
-  font-family: var(--agent-font-mono);
-  font-size: var(--agent-t-xs);
+.agent-app .agent-empty-description {
+  margin: 9px 0 21px;
   color: var(--agent-muted);
-}
-
-/* 同形同色到底：卡里那枚答复节点是橙的 讲它的这一格字符就不能是灰的 另外三格照旧跟着各自的节点走中性 */
-.agent-app .agent-empty-step-glyph[data-answer="true"] {
-  color: var(--agent-signal);
-}
-
-.agent-app .agent-empty-step-desc {
-  font-size: var(--agent-t-xs);
-  line-height: 1.5;
-  color: var(--agent-faint);
-}
-
-/* 示例问题：卡里的末行 接着图注带往下读
-   放到卡下就成了待机屏上没归属的物件：与卡同边同底 读成从卡上掉下来的碎片
-   与图注带同一套形制——发丝上边分行 左内距 s3 与图注带的字对齐
-   演示（图注带）在上 能点的（问句）在下：一张卡里读完"这页怎么用"到"从哪开始" */
-.agent-app .agent-empty-try {
-  display: flex;
-  align-items: baseline;
-  gap: var(--agent-s3);
-  padding: 10px var(--agent-s3);
-  border-top: var(--agent-hair);
-}
-
-.agent-app .agent-empty-try-label {
-  flex: none;
-  font-family: var(--agent-font-mono);
-  font-size: var(--agent-t-xs);
-  letter-spacing: 0.06em;
-  color: var(--agent-faint);
+  font-size: 14px;
 }
 
 .agent-app .agent-empty-chips {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--agent-s2);
 }
 
-/* 芯片宽度跟着问句走 点一条只预填输入框 发不发由用户按回车决定
-   走沉底：与卡同为 surface 底就只剩一圈发丝边 分不出是芯片还是卡上的划痕
-   靠形不靠色区分——四枚下沉的小块，能点的东西自己长一副能按的样子 */
 .agent-app .agent-empty-chip {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: var(--agent-s2);
-  max-width: 100%;
-  padding: 6px 11px;
+  min-width: 0;
+  min-height: 62px;
+  gap: 9px;
+  padding: 9px 10px;
   border: var(--agent-hair);
-  border-radius: var(--agent-radius);
+  border-radius: 6px;
+  background: var(--agent-surface);
+  text-align: left;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.agent-app .agent-empty-chip:hover {
+  background: var(--agent-accent-mist);
+  border-color: var(--agent-accent);
+}
+
+.agent-app .agent-empty-chip-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 31px;
+  height: 31px;
+  border-radius: 8px;
   background: var(--agent-sunk);
-  font-size: var(--agent-t-sm);
-  color: var(--agent-ink);
-  transition: background 0.12s, border-color 0.12s;
+  color: var(--agent-accent-ink);
 }
 
-.agent-app .agent-empty-chip > svg {
-  color: var(--agent-grid-strong);
+.agent-app .agent-empty-chip-text {
+  min-width: 0;
 }
 
-.agent-app .agent-empty-chip > span {
+.agent-app .agent-empty-chip strong,
+.agent-app .agent-empty-chip small {
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* hover 反着来：从沉底浮到卡面 边转橙——"指针正压在它上面"与 focus 圈同属"正在发生的事" 走配额里第二件事
-   这一圈只在指针底下存在 不给待机屏添静态的橙 */
-.agent-app .agent-empty-chip:hover {
-  background: var(--agent-surface);
-  border-color: var(--agent-orange);
+.agent-app .agent-empty-chip strong {
+  font-size: 13px;
+  font-weight: 650;
 }
 
-.agent-app .agent-empty-chip:hover > svg {
-  color: var(--agent-orange);
+.agent-app .agent-empty-chip small {
+  margin-top: 4px;
+  color: var(--agent-muted);
+  font-size: 11px;
 }
 
 /* 后台一条没配 或接口没取到：这一行照常在 换成一句交代 */
@@ -4978,7 +4899,7 @@ textarea {
 
 .agent-app .agent-empty-blank-link:hover {
   color: var(--agent-ink);
-  text-decoration-color: var(--agent-orange);
+  text-decoration-color: var(--agent-accent);
 }
 
 /* 只剩「重试」在用：它作用在本行本身 是这一屏能做的真动作 钮形留着 */
@@ -5000,22 +4921,15 @@ textarea {
   color: var(--agent-ink);
 }
 
+@media (max-width: 1080px) {
+  .agent-app .agent-empty-chips {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 760px) {
   .agent-app .agent-empty-wrap {
-    padding: var(--agent-s4) var(--agent-s4);
-  }
-
-  /* 窄屏四格挤成一行会把小字压断 改两行两格 分隔线跟着换向 */
-  .agent-app .agent-empty-cap {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .agent-app .agent-empty-step:nth-child(odd) {
-    border-left: none;
-  }
-
-  .agent-app .agent-empty-step:nth-child(n + 3) {
-    border-top: var(--agent-hair);
+    padding: var(--agent-s3) 14px;
   }
 
   .agent-app .agent-empty-blank {
@@ -5430,53 +5344,47 @@ textarea {
   }
 }
 
-/* ── 窄屏：左栏堆顶 徽标细节隐去 ────────── */
+.agent-app .agent-sidebar-toggle,
+.agent-app .agent-sidebar-backdrop {
+  display: none;
+}
+
 @media (max-width: 760px) {
   .agent-app .agent-body {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-  }
-
-  .agent-app .agent-rail {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    border-right: none;
-    border-bottom: var(--agent-hair-strong);
-    overflow-y: auto;
-    max-height: 45vh;
-  }
-
-  .agent-app .agent-quick,
-  .agent-app .agent-search-card {
-    flex: 1 1 100%;
-  }
-
-  .agent-app .agent-railbase {
-    flex: 1 1 100%;
-    border-top: none;
-    padding-top: 0;
-  }
-
-  .agent-app .agent-sessions {
-    flex: 1 1 100%;
-    min-height: auto;
-  }
-
-  .agent-app .agent-session-wrap {
-    max-height: 22vh;
-  }
-
-  .agent-app .agent-admin-btn,
-  .agent-app .agent-brand-tag,
-  .agent-app .agent-brand-sep,
-  .agent-app .agent-badge-model,
-  .agent-app .agent-head-btn[data-github] {
-    display: none;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
   }
 
   .agent-app .agent-header {
-    padding: 0 var(--agent-s4);
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--agent-s2);
+    padding: 0 var(--agent-s3);
+  }
+
+  .agent-app .agent-header-center,
+  .agent-app .agent-rail {
+    display: none;
+  }
+
+  .agent-app .agent-sidebar-toggle {
+    display: inline-flex;
+    min-height: 36px;
+  }
+
+  .agent-app[data-sidebar-open="true"] .agent-rail {
+    display: flex;
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 10;
+    width: min(288px, 87vw);
+  }
+
+  .agent-app[data-sidebar-open="true"] .agent-sidebar-backdrop {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 9;
+    background: #18243530;
   }
 
   .agent-app .agent-stream-rows {

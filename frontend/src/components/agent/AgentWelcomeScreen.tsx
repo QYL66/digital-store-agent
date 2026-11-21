@@ -7,12 +7,16 @@ import { useAuthStore } from "@/stores/authStore";
 
 /** 待机页取几条 后台配得少就少显示 不凑数 */
 const SAMPLE_LIMIT = 4;
-const SAMPLE_ICONS: Record<string, LucideIcon> = {
-  商品咨询: Search,
-  规格比对: Columns2,
-  促销政策: TicketPercent,
-  售后咨询: Wrench
-};
+const SAMPLE_SHORTCUTS = new Map<string, { icon: LucideIcon; order: number }>([
+  ["商品咨询", { icon: Search, order: 0 }],
+  ["规格比对", { icon: Columns2, order: 1 }],
+  ["促销政策", { icon: TicketPercent, order: 2 }],
+  ["售后咨询", { icon: Wrench, order: 3 }]
+]);
+
+function shortcutOrder(title?: string | null) {
+  return SAMPLE_SHORTCUTS.get(title?.trim() ?? "")?.order ?? SAMPLE_LIMIT;
+}
 
 type SampleState =
   | { status: "loading" }
@@ -32,7 +36,9 @@ function useSampleQuestions() {
     setState({ status: "loading" });
     listSampleQuestions(SAMPLE_LIMIT)
       .then((rows) => {
-        const items = (rows ?? []).filter((row) => row.question?.trim());
+        const items = (rows ?? [])
+          .filter((row) => row.question?.trim())
+          .sort((first, second) => shortcutOrder(first.title) - shortcutOrder(second.title));
         cachedQuestions = items;
         if (aliveRef.current) setState({ status: "ready", items });
       })
@@ -64,61 +70,46 @@ function AgentSampleQuestions() {
   }
 
   const questions = state.status === "ready" ? state.items : [];
-  const isBlank = questions.length === 0;
+  if (!questions.length) {
+    return (
+      <div className="agent-empty-blank">
+        <p>{state.status === "error" ? "示例问题暂时无法加载。你可以直接提问。" : "在下面输入你想查询的问题。"}</p>
+        {state.status === "error" ? (
+          <button type="button" className="agent-empty-blank-btn" onClick={reload}>重试</button>
+        ) : isAdmin ? (
+          <a className="agent-empty-blank-link" href="/admin/sample-questions" target="_blank" rel="noreferrer">
+            配置示例问题
+          </a>
+        ) : null}
+      </div>
+    );
+  }
 
   return (
-    <section className="agent-empty-try">
-      <span className="agent-empty-try-label">试试这些</span>
-      {isBlank ? (
-        <div className="agent-empty-blank">
-          {state.status === "error" ? (
-            <p>示例问题没取到，不影响提问——直接在下面写下你想问的就行。</p>
-          ) : (
-            <p>
-              管理控制台还没有配置示例问题，直接在下面输入框写下你想问的就行
-              {/* 管理员多一节句内旁注：指路而已 不给钮形——那个位置正常态摆的是能点的问句 摆一枚离开本页的钮就成了这屏最像动作的东西 */}
-              {isAdmin ? (
-                <>
-                  ；也可以
-                  <a
-                    className="agent-empty-blank-link"
-                    href="/admin/sample-questions"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    去后台添加几条
-                  </a>
-                </>
-              ) : null}
-              。
-            </p>
-          )}
-          {state.status === "error" ? (
-            <button type="button" className="agent-empty-blank-btn" onClick={reload}>
-              重试
-            </button>
-          ) : null}
-        </div>
-      ) : (
-        <div className="agent-empty-chips">
-          {questions.map(({ id, title, question }) => {
-            const Icon = title && Object.prototype.hasOwnProperty.call(SAMPLE_ICONS, title) ? SAMPLE_ICONS[title] : MessageCircle;
-            return (
-              <button
-                key={id}
-                type="button"
-                className="agent-empty-chip"
-                title={question}
-                onClick={() => setDraft(question)}
-              >
-                <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />
-                <span>{title || question}</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </section>
+    <div className="agent-empty-chips" role="group" aria-label="商城快捷查询">
+      {questions.map(({ id, title, question, description }) => {
+        const label = title?.trim() || question;
+        const Icon = SAMPLE_SHORTCUTS.get(label)?.icon ?? MessageCircle;
+        const subtitle = description?.trim();
+        return (
+          <button
+            key={id}
+            type="button"
+            className="agent-empty-chip"
+            title={question}
+            onClick={() => setDraft(question)}
+          >
+            <span className="agent-empty-chip-icon">
+              <Icon size={18} strokeWidth={1.7} aria-hidden="true" />
+            </span>
+            <span className="agent-empty-chip-text">
+              <strong>{label}</strong>
+              {subtitle ? <small>{subtitle}</small> : null}
+            </span>
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
@@ -127,10 +118,8 @@ export function AgentWelcomeScreen() {
     <div className="agent-stream-empty">
       <div className="agent-empty-wrap">
         <div className="agent-empty-card">
-          <div className="px-6 py-7 sm:px-8">
-            <h1 className="text-xl font-semibold">数码商城智能体</h1>
-            <p className="mt-2 text-sm opacity-75">查询小米手机、充电配件、促销规则和售后资料。</p>
-          </div>
+          <h1>想查哪款手机？</h1>
+          <p className="agent-empty-description">查小米与 REDMI 商品、充电配件、优惠规则和售后资料。</p>
           <AgentSampleQuestions />
         </div>
       </div>

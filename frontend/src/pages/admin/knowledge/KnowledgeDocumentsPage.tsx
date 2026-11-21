@@ -1702,7 +1702,7 @@ function UploadDialog({ open, onOpenChange, onSubmit }: UploadDialogProps) {
                     <FormLabel>来源地址</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="https://raw.githubusercontent.com/bytedance/deer-flow/main/docs/API.md"
+                        placeholder="https://example.com/guide.md"
                         {...field}
                       />
                     </FormControl>

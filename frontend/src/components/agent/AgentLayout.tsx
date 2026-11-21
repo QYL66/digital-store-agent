@@ -1,9 +1,8 @@
 import * as React from "react";
-import { Github } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import { AgentRawLog } from "@/components/agent/AgentRawLog";
 import { AgentSidebar } from "@/components/agent/AgentSidebar";
-import { useGitHubStars } from "@/hooks/useGitHubStars";
 import { getAgentMeta } from "@/services/agentService";
 import type { AgentEngineMeta } from "@/types/agent";
 
@@ -39,19 +38,29 @@ interface AgentHeaderProps {
   meta: AgentMetaState;
   rawOpen: boolean;
   onToggleRaw: () => void;
+  sidebarOpen: boolean;
+  onToggleSidebar: () => void;
+  sidebarToggleRef: React.Ref<HTMLButtonElement>;
 }
 
-function AgentHeader({ meta, rawOpen, onToggleRaw }: AgentHeaderProps) {
-  const starCount = useGitHubStars();
-
-  const starLabel = starCount === null ? null : starCount.toLocaleString("en-US");
-
+function AgentHeader({ meta, rawOpen, onToggleRaw, sidebarOpen, onToggleSidebar, sidebarToggleRef }: AgentHeaderProps) {
   const badgeName =
     meta.status === "online" ? meta.meta.framework : meta.status === "probing" ? "探测中" : "离线";
 
   return (
     <header className="agent-header">
       <div className="agent-brand">
+        <button
+          ref={sidebarToggleRef}
+          type="button"
+          className="agent-head-btn agent-sidebar-toggle"
+          aria-label="会话与账户"
+          aria-controls="agent-conversation-sidebar"
+          aria-expanded={sidebarOpen}
+          onClick={onToggleSidebar}
+        >
+          <Menu size={16} aria-hidden="true" />
+        </button>
         <span className="agent-wordmark">数码商城智能体</span>
       </div>
 
@@ -71,17 +80,6 @@ function AgentHeader({ meta, rawOpen, onToggleRaw }: AgentHeaderProps) {
       </div>
 
       <div className="agent-header-right">
-        <a
-          href="https://github.com/QYL66/digital-store-agent"
-          target="_blank"
-          rel="noreferrer"
-          className="agent-head-btn"
-          data-github="true"
-          aria-label="打开 GitHub 仓库"
-        >
-          <Github className="h-3.5 w-3.5" strokeWidth={1.5} />
-          {starLabel ? <span className="agent-btn-glyph">{starLabel}</span> : null}
-        </a>
         <button
           type="button"
           className="agent-head-btn"
@@ -102,13 +100,44 @@ interface AgentLayoutProps {
 
 export function AgentLayout({ children }: AgentLayoutProps) {
   const [rawOpen, setRawOpen] = React.useState(false);
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  const sidebarToggleRef = React.useRef<HTMLButtonElement>(null);
   const meta = useAgentMeta();
 
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+    if (sidebarOpen) sidebarToggleRef.current?.focus();
+  };
+
   return (
-    <div className="agent-app">
-      <AgentHeader meta={meta} rawOpen={rawOpen} onToggleRaw={() => setRawOpen((v) => !v)} />
+    <div className="agent-app" data-sidebar-open={sidebarOpen} onKeyDown={(event) => {
+      if (sidebarOpen && event.key === "Escape" && !event.defaultPrevented) closeSidebar();
+    }}>
+      <AgentHeader
+        meta={meta}
+        rawOpen={rawOpen}
+        onToggleRaw={() => {
+          setSidebarOpen(false);
+          setRawOpen((open) => !open);
+        }}
+        sidebarOpen={sidebarOpen}
+        onToggleSidebar={() => {
+          setRawOpen(false);
+          setSidebarOpen((open) => !open);
+        }}
+        sidebarToggleRef={sidebarToggleRef}
+      />
       <div className="agent-body">
-        <AgentSidebar />
+        <AgentSidebar onSelectConversation={closeSidebar} />
+        {sidebarOpen ? (
+          <button
+            type="button"
+            className="agent-sidebar-backdrop"
+            aria-label="收起会话栏"
+            tabIndex={-1}
+            onClick={closeSidebar}
+          />
+        ) : null}
         <main className="agent-main">{children}</main>
         {rawOpen ? <AgentRawLog onClose={() => setRawOpen(false)} /> : null}
       </div>

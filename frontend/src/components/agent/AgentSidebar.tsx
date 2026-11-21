@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  BookOpen,
   Check,
   LogOut,
   MessageSquare,
@@ -64,7 +63,7 @@ function groupSessions(sessions: AgentSession[]): SessionGroup[] {
     .map(([label, items]) => ({ label, items }));
 }
 
-export function AgentSidebar() {
+export function AgentSidebar({ onSelectConversation }: { onSelectConversation: () => void }) {
   const {
     sessions,
     currentSessionId,
@@ -105,6 +104,7 @@ export function AgentSidebar() {
   React.useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        if (!searchRef.current?.getClientRects().length) return;
         event.preventDefault();
         searchRef.current?.focus();
       }
@@ -130,6 +130,7 @@ export function AgentSidebar() {
   };
 
   const openSession = (sessionId: string) => {
+    onSelectConversation();
     if (sessionId === currentSessionId) return;
     loadMessages(sessionId).catch(() => null);
     navigate(`/chat/${sessionId}`);
@@ -175,7 +176,7 @@ export function AgentSidebar() {
   const groups = groupSessions(shown);
 
   return (
-    <aside className="agent-rail">
+    <aside className="agent-rail" id="agent-conversation-sidebar">
       {/* 栏首：主动作卡本身就是卡 外面不再套一层「快速开始」壳 顶栏字标就在正上方 */}
       <div className="agent-quick">
         <button
@@ -185,6 +186,7 @@ export function AgentSidebar() {
             exitSelect();
             startNewChat();
             navigate("/chat");
+            onSelectConversation();
           }}
         >
           <span className="agent-new-icon" aria-hidden="true">
@@ -398,12 +400,6 @@ export function AgentSidebar() {
             sideOffset={8}
             className="w-48 rounded-xl p-1"
           >
-            <DropdownMenuItem asChild className="rounded-lg px-3 py-2 text-[13px]">
-              <a href="https://github.com/QYL66/digital-store-agent#本机启动" target="_blank" rel="noreferrer">
-                <BookOpen className="mr-2 h-4 w-4" />
-                官方文档
-              </a>
-            </DropdownMenuItem>
             <DropdownMenuItem
               className="rounded-lg px-3 py-2 text-[13px] text-rose-600 focus:text-rose-600 data-[highlighted]:text-rose-600"
               onClick={() => logout()}
