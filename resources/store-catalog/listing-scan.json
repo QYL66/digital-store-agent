@@ -1,0 +1,323 @@
+[
+  {
+    "group": "xiaomi数字系列",
+    "url": "https://www.mi.com/shop/search?keyword=xiaomi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97",
+    "checked_on": "2026-11-20",
+    "pages_expected": 1,
+    "page_result_counts": [
+      11
+    ],
+    "matched_record_ids": [
+      "xiaomi-15",
+      "xiaomi-15-custom",
+      "xiaomi-15-ultra",
+      "xiaomi-17",
+      "xiaomi-17-max",
+      "xiaomi-17-pro",
+      "xiaomi-17-pro-max",
+      "xiaomi-17-ultra",
+      "xiaomi-17-ultra-leica",
+      "xiaomi-18-fold"
+    ]
+  },
+  {
+    "group": "xiaomimix系列",
+    "url": "https://www.mi.com/shop/search?keyword=xiaomimix%E7%B3%BB%E5%88%97",
+    "checked_on": "2026-11-20",
+    "pages_expected": 1,
+    "page_result_counts": [
+      5
+    ],
+    "matched_record_ids": [
+      "redmi-k90",
+      "xiaomi-15",
+      "xiaomi-15-custom",
+      "xiaomi-15-ultra",
+      "xiaomi-civi-4-pro"
+    ]
+  },
+  {
+    "group": "xiaomicivi系列",
+    "url": "https://www.mi.com/shop/search?keyword=xiaomicivi%E7%B3%BB%E5%88%97",
+    "checked_on": "2026-11-20",
+    "pages_expected": 1,
+    "page_result_counts": [
+      3
+    ],
+    "matched_record_ids": [
+      "xiaomi-15",
+      "xiaomi-15-custom",
+      "xiaomi-civi-4-pro"
+    ]
+  },
+  {
+    "group": "redmiK系列",
+    "url": "https://www.mi.com/shop/search?keyword=redmiK%E7%B3%BB%E5%88%97",
+    "checked_on": "2026-11-20",
+    "pages_expected": 1,
+    "page_result_counts": [
+      6
+    ],
+    "matched_record_ids": [
+      "redmi-k100",
+      "redmi-k100-pro",
+      "redmi-k100-pro-max",
+      "redmi-k90",
+      "redmi-k90-max",
+      "redmi-k90-ultra"
+    ]
+  },
+  {
+    "group": "Redmi Turbo系列",
+    "url": "https://www.mi.com/shop/search?keyword=Redmi+Turbo%E7%B3%BB%E5%88%97",
+    "checked_on": "2026-11-20",
+    "pages_expected": 1,
+    "page_result_counts": [
+      9
+    ],
+    "matched_record_ids": [
+      "redmi-turbo-5",
+      "redmi-turbo-5-max"
+    ]
+  },
+  {
+    "group": "redminote系列",
+    "url": "https://www.mi.com/shop/search?keyword=redminote%E7%B3%BB%E5%88%97",
+    "checked_on": "2026-11-20",
+    "pages_expected": 1,
+    "page_result_counts": [
+      7
+    ],
+    "matched_record_ids": [
+      "redmi-note-15",
+      "redmi-note-15-pro",
+      "redmi-note-15-pro-plus",
+      "redmi-note-15r-pro",
+      "redmi-note-17",
+      "redmi-note-17-pro",
+      "redmi-note-17-pro-refresh"
+    ]
+  },
+  {
+    "group": "redmi数字系列",
+    "url": "https://www.mi.com/shop/search?keyword=redmi%E6%95%B0%E5%AD%97%E7%B3%BB%E5%88%97",
+    "checked_on": "2026-11-20",
+    "pages_expected": 1,
+    "page_result_counts": [
+      3
+    ],
+    "matched_record_ids": [
+      "redmi-14c",
+      "redmi-17-5g",
+      "redmi-17c"
+    ]
+  },
+  {
+    "group": "移动电源",
+    "url": "https://www.mi.com/shop/search?keyword=%E7%A7%BB%E5%8A%A8%E7%94%B5%E6%BA%90",
+    "checked_on": "2026-11-20",
+    "pages_expected": 2,
+    "page_result_counts": [
+      20,
+      5
+    ],
+    "matched_record_ids": [
+      "165w-10000-integrated",
+      "mi-20000-225w",
+      "mi-20000-67w",
+      "mi-30w-magnet",
+      "mi-product-11174",
+      "mi-product-15554",
+      "mi-product-20395",
+      "mi-product-20878",
+      "mi-product-21382",
+      "mi-product-21468",
+      "mi-product-22179",
+      "mi-product-25210",
+      "mi-product-25714",
+      "mi-product-25723",
+      "mi-product-25744",
+      "mi-product-25745",
+      "mi-product-25761",
+      "mi-product-25801",
+      "mi-product-25813",
+      "pb2165"
+    ]
+  },
+  {
+    "group": "数据线",
+    "url": "https://www.mi.com/shop/search?keyword=%E6%95%B0%E6%8D%AE%E7%BA%BF",
+    "checked_on": "2026-11-20",
+    "pages_expected": 2,
+    "page_result_counts": [
+      20,
+      6
+    ],
+    "matched_record_ids": [
+      "mi-90w-charger-kit",
+      "mi-product-11859",
+      "mi-product-13468",
+      "mi-product-14237",
+      "mi-product-15869",
+      "mi-product-18453",
+      "mi-product-18556",
+      "mi-product-18557",
+      "mi-product-19601",
+      "mi-product-19666",
+      "mi-product-19766",
+      "mi-product-19776",
+      "mi-product-19777",
+      "mi-product-19846",
+      "mi-product-19993",
+      "mi-product-20075",
+      "mi-product-20841",
+      "mi-product-20842",
+      "mi-product-21190",
+      "mi-product-21326",
+      "mi-product-21775",
+      "mi-product-21970",
+      "mi-product-22699"
+    ]
+  },
+  {
+    "group": "充电器",
+    "url": "https://www.mi.com/shop/search?keyword=%E5%85%85%E7%94%B5%E5%99%A8",
+    "checked_on": "2026-11-20",
+    "pages_expected": 2,
+    "page_result_counts": [
+      20,
+      20
+    ],
+    "matched_record_ids": [
+      "mi-100w-car-1a1c",
+      "mi-30w-magnet",
+      "mi-50w-air-wireless-pro",
+      "mi-90w-charger-kit",
+      "mi-product-11174",
+      "mi-product-12896",
+      "mi-product-16709",
+      "mi-product-16720",
+      "mi-product-18181",
+      "mi-product-18182",
+      "mi-product-18290",
+      "mi-product-18453",
+      "mi-product-19153",
+      "mi-product-19331",
+      "mi-product-19353",
+      "mi-product-19586",
+      "mi-product-19694",
+      "mi-product-19856",
+      "mi-product-20003",
+      "mi-product-20188",
+      "mi-product-20421",
+      "mi-product-20780",
+      "mi-product-20863",
+      "mi-product-21326",
+      "mi-product-21967",
+      "mi-product-21973",
+      "mi-product-22000",
+      "mi-product-22305",
+      "mi-product-22451",
+      "mi-product-24336",
+      "mi-product-25723",
+      "mi-product-25744",
+      "pb2165"
+    ]
+  },
+  {
+    "group": "无线充电器",
+    "url": "https://www.mi.com/shop/search?keyword=%E6%97%A0%E7%BA%BF%E5%85%85%E7%94%B5%E5%99%A8",
+    "checked_on": "2026-11-20",
+    "pages_expected": 3,
+    "page_result_counts": [
+      20,
+      20,
+      1
+    ],
+    "matched_record_ids": [
+      "mi-100w-car-1a1c",
+      "mi-30w-magnet",
+      "mi-50w-air-wireless-pro",
+      "mi-90w-charger-kit",
+      "mi-product-11174",
+      "mi-product-12896",
+      "mi-product-14237",
+      "mi-product-16709",
+      "mi-product-16720",
+      "mi-product-18181",
+      "mi-product-18182",
+      "mi-product-18290",
+      "mi-product-18453",
+      "mi-product-19153",
+      "mi-product-19331",
+      "mi-product-19353",
+      "mi-product-19586",
+      "mi-product-19694",
+      "mi-product-19856",
+      "mi-product-20003",
+      "mi-product-20188",
+      "mi-product-20421",
+      "mi-product-20780",
+      "mi-product-20863",
+      "mi-product-21326",
+      "mi-product-21660",
+      "mi-product-21967",
+      "mi-product-21973",
+      "mi-product-21998",
+      "mi-product-22000",
+      "mi-product-22305",
+      "mi-product-22451",
+      "mi-product-24336",
+      "mi-product-25723",
+      "mi-product-25744",
+      "pb2165"
+    ]
+  },
+  {
+    "group": "车载充电器",
+    "url": "https://www.mi.com/shop/search?keyword=%E8%BD%A6%E8%BD%BD%E5%85%85%E7%94%B5%E5%99%A8",
+    "checked_on": "2026-11-20",
+    "pages_expected": 2,
+    "page_result_counts": [
+      20,
+      20
+    ],
+    "matched_record_ids": [
+      "mi-100w-car-1a1c",
+      "mi-30w-magnet",
+      "mi-50w-air-wireless-pro",
+      "mi-90w-charger-kit",
+      "mi-product-11174",
+      "mi-product-12896",
+      "mi-product-14237",
+      "mi-product-16709",
+      "mi-product-16720",
+      "mi-product-18181",
+      "mi-product-18182",
+      "mi-product-18290",
+      "mi-product-18453",
+      "mi-product-19153",
+      "mi-product-19331",
+      "mi-product-19353",
+      "mi-product-19586",
+      "mi-product-19694",
+      "mi-product-19856",
+      "mi-product-20003",
+      "mi-product-20188",
+      "mi-product-20421",
+      "mi-product-20780",
+      "mi-product-20863",
+      "mi-product-21326",
+      "mi-product-21967",
+      "mi-product-21973",
+      "mi-product-21998",
+      "mi-product-22000",
+      "mi-product-22305",
+      "mi-product-22451",
+      "mi-product-24336",
+      "mi-product-25723",
+      "mi-product-25744",
+      "pb2165"
+    ]
+  }
+]

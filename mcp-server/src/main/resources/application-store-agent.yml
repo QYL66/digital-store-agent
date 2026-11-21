@@ -1,0 +1,10 @@
+server:
+  address: 127.0.0.1
+  port: 29099
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:25432/store_agent?client_encoding=UTF8
+    username: postgres
+    password: ${STORE_AGENT_PG_PASSWORD}
+labdesk:
+  mcp-token: ${STORE_AGENT_MCP_TOKEN}

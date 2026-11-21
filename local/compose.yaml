@@ -1,0 +1,84 @@
+name: digital-store-agent-local
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: store_agent
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${STORE_AGENT_PG_PASSWORD:?Missing PostgreSQL password}
+    ports: ["127.0.0.1:25432:5432"]
+    volumes: ["postgres-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d labdesk"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:8.4-alpine
+    environment:
+      REDISCLI_AUTH: ${STORE_AGENT_REDIS_PASSWORD:?Missing Redis password}
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${STORE_AGENT_REDIS_PASSWORD}"]
+    ports: ["127.0.0.1:26379:6379"]
+    volumes: ["redis-data:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  rustfs:
+    image: rustfs/rustfs:1.0.0-alpha.72
+    environment:
+      RUSTFS_ACCESS_KEY: ${STORE_AGENT_S3_KEY:?Missing RustFS access key}
+      RUSTFS_SECRET_KEY: ${STORE_AGENT_S3_SECRET:?Missing RustFS secret key}
+      RUSTFS_CONSOLE_ENABLE: 'true'
+    command: ["--address", ":9000", "--console-enable", "/data"]
+    ports: ["127.0.0.1:29000:9000", "127.0.0.1:29001:9001"]
+    volumes: ["rustfs-data:/data"]
+
+  rmqnamesrv:
+    image: apache/rocketmq:5.2.0
+    command: sh mqnamesrv
+    environment:
+      JAVA_OPT_EXT: '-Xms256m -Xmx400m'
+    ports: ["127.0.0.1:29876:9876"]
+    healthcheck:
+      test: ["CMD-SHELL", "grep -q 'The Name Server boot success' /home/rocketmq/logs/rocketmqlogs/namesrv.log"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  rmqbroker:
+    image: apache/rocketmq:5.2.0
+    depends_on:
+      rmqnamesrv:
+        condition: service_healthy
+      rmq-volume-init:
+        condition: service_completed_successfully
+    environment:
+      NAMESRV_ADDR: rmqnamesrv:9876
+      JAVA_OPT_EXT: '-Xms512m -Xmx512m'
+    command: ["sh", "mqbroker", "-c", "/home/rocketmq/labdesk-broker.properties"]
+    ports: ["127.0.0.1:20909:20909", "127.0.0.1:20911:20911"]
+    volumes:
+      - ./rocketmq-broker.properties:/home/rocketmq/labdesk-broker.properties:ro
+      - rocketmq-data:/home/rocketmq/store
+    healthcheck:
+      test: ["CMD-SHELL", "grep -q 'boot success' /home/rocketmq/logs/rocketmqlogs/broker.log"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  rmq-volume-init:
+    image: apache/rocketmq:5.2.0
+    user: '0:0'
+    entrypoint: ["chown", "3000:3000", "/store"]
+    volumes: ["rocketmq-data:/store"]
+
+volumes:
+  postgres-data:
+  redis-data:
+  rustfs-data:
+  rocketmq-data:

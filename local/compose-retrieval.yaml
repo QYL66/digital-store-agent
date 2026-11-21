@@ -1,0 +1,74 @@
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.4.8
+    ports: ["127.0.0.1:29200:9200"]
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    volumes: ["search-data-v9:/usr/share/elasticsearch/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9200/_cluster/health >/dev/null"]
+      interval: 5s
+      timeout: 4s
+      retries: 30
+
+  neo4j:
+    image: neo4j:5.26-community
+    environment:
+      NEO4J_AUTH: "neo4j/${STORE_AGENT_NEO4J_PASSWORD}"
+      NEO4J_server_memory_heap_max__size: "768m"
+      NEO4J_server_memory_pagecache_size: "256m"
+    volumes: ["graph-data:/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "auth=$${NEO4J_AUTH}; cypher-shell -u \"$${auth%%/*}\" -p \"$${auth#*/}\" 'RETURN 1' >/dev/null"]
+      interval: 8s
+      timeout: 5s
+      retries: 20
+
+  lightrag:
+    image: ghcr.io/hkuds/lightrag:v1.5.7
+    ports: ["127.0.0.1:29621:9621"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+    environment:
+      WORKING_DIR: /app/data/rag_storage
+      INPUT_DIR: /app/data/inputs
+      WORKSPACE: digital_store_agent
+      LLM_BINDING: openai
+      LLM_BINDING_HOST: https://dashscope.aliyuncs.com/compatible-mode/v1
+      LLM_BINDING_API_KEY: ${BAILIAN_API_KEY:-}
+      LLM_MODEL: qwen-plus-latest
+      SUMMARY_LANGUAGE: 简体中文
+      EMBEDDING_BINDING: openai
+      EMBEDDING_BINDING_HOST: https://dashscope.aliyuncs.com/compatible-mode/v1
+      EMBEDDING_BINDING_API_KEY: ${BAILIAN_API_KEY:-}
+      EMBEDDING_MODEL: text-embedding-v4
+      EMBEDDING_DIM: "1536"
+      EMBEDDING_SEND_DIM: "true"
+      LIGHTRAG_GRAPH_STORAGE: Neo4JStorage
+      LIGHTRAG_KV_STORAGE: PGKVStorage
+      LIGHTRAG_VECTOR_STORAGE: PGVectorStorage
+      LIGHTRAG_DOC_STATUS_STORAGE: PGDocStatusStorage
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USERNAME: neo4j
+      NEO4J_PASSWORD: ${STORE_AGENT_NEO4J_PASSWORD}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${STORE_AGENT_PG_PASSWORD}
+      POSTGRES_DATABASE: store_agent
+    volumes: ["lightrag-data:/app/data"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:9621/health', timeout=4)"]
+      interval: 8s
+      timeout: 5s
+      retries: 25
+
+volumes:
+  search-data-v9:
+  graph-data:
+  lightrag-data:

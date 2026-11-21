@@ -1,0 +1,49 @@
+server:
+  address: 127.0.0.1
+  port: 29090
+
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:25432/store_agent?client_encoding=UTF8
+    password: ${STORE_AGENT_PG_PASSWORD}
+  data:
+    redis:
+      port: 26379
+      password: ${STORE_AGENT_REDIS_PASSWORD}
+
+agent:
+  mcp:
+    servers:
+      - name: labdesk
+        url: http://127.0.0.1:29099
+        lab-desk-token: ${STORE_AGENT_MCP_TOKEN}
+
+rag:
+  keyword:
+    type: ${STORE_AGENT_KEYWORD_TYPE:none}
+    es:
+      uris: http://127.0.0.1:29200
+      index: digital_store_agent_chunks
+      analyzer: cjk
+      search-analyzer: cjk
+  graph:
+    type: ${STORE_AGENT_GRAPH_TYPE:none}
+    lightrag:
+      base-url: http://127.0.0.1:29621
+      query-mode: hybrid
+  search:
+    channels:
+      keyword:
+        enabled: ${STORE_AGENT_KEYWORD_ENABLED:false}
+      graph:
+        enabled: ${STORE_AGENT_GRAPH_ENABLED:false}
+  storage:
+    s3:
+      endpoint: http://127.0.0.1:29000
+      access-key: ${STORE_AGENT_S3_KEY}
+      secret-key: ${STORE_AGENT_S3_SECRET}
+
+rocketmq:
+  name-server: 127.0.0.1:29876
+  producer:
+    send-message-timeout: 5000

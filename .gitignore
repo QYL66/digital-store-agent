@@ -1,0 +1,65 @@
+# Modified for LabDesk.
+target/
+temp
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+scripts/logs/
+
+### Frontend ###
+node_modules/
+dist/
+.vite/
+.env
+!frontend/.env
+.env.local
+.env.*.local
+local/maven-settings.xml
+
+### Tmp Out ###
+.output/
+docs/temp
+local/logs/
+*.log
+*.bundle
+.DS_Store
+Thumbs.db
+.claude/
+
+### Frontend build outputs ###
+# tsc -b emits these next to the sources; Vite would load vite.config.js ahead of vite.config.ts
+frontend/*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
+
+# Local Python tooling
+__pycache__/
+.venv/

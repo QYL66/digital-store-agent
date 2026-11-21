@@ -1,0 +1,44 @@
+[
+  {
+    "group": "手机",
+    "url": "https://www.mi.com/shop/category/list",
+    "state": "snapshot",
+    "notes": "核对 Xiaomi 数字、MIX、Civi 和 REDMI K、Turbo、Note、数字七个公开检索入口的可见结果。跨系列推荐、订金和维修服务需按商品类型辨别。"
+  },
+  {
+    "group": "历史手机",
+    "url": "https://hyperos.mi.com/",
+    "state": "partial",
+    "notes": "以官方公开支持名单定位历史机型，按仍可访问的中国大陆规格页补录。停产型号的历史规格页、销售档位和固件支持状态继续逐项核实。"
+  },
+  {
+    "group": "移动端手机与配件",
+    "url": "https://m.mi.com/category",
+    "state": "partial",
+    "notes": "核对移动端 Xiaomi、REDMI 和手机配件目录，并与桌面公开结果交叉比对。"
+  },
+  {
+    "group": "桌面端充电配件",
+    "url": "https://www.mi.com/shop/category/list",
+    "state": "snapshot",
+    "notes": "移动电源、手机充电数据线、充电器、无线充和车载充电器五个公开检索入口共检查 11 页。合并重复商品编号和同规格重复入口，排除手表、笔电、视频线等范围外配件。"
+  },
+  {
+    "group": "优惠与价保",
+    "url": "https://www.mi.com/article/detail/274941d9a102.html",
+    "state": "partial",
+    "notes": "已处理核心优惠券、价保规则，特定活动按规则单独补录"
+  },
+  {
+    "group": "售后与故障",
+    "url": "https://www.mi.com/service/index.html",
+    "state": "partial",
+    "notes": "已入库充电与常用售后摘要，历史 FAQ 待盘点"
+  },
+  {
+    "group": "授权服务网点",
+    "url": "https://www.mi.com/service/sitelist",
+    "state": "snapshot",
+    "notes": "本地采集覆盖公开筛选器中的 342 个城市选项及手机品类。快照与逐城市核对记录保存在本地，由采集脚本重新生成。"
+  }
+]
