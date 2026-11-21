@@ -77,8 +77,10 @@ def main():
     error, compatibility = first.tool("store_compatibility", {"model": "K90", "accessory": "PB2165"})
     check(not error and "系列级" in compatibility and "未确认" in compatibility,
           "series evidence does not become model-specific wattage")
-    error, policy = first.tool("store_policy", {"topic": "优惠券"})
+    error, policy = first.tool("store_policy", {"topic": "优惠券叠加使用规则"})
     check(not error and "叠加" in policy and "mi.com" in policy, "coupon query returns the applicable rule")
+    error, topics = first.tool("store_policy", {"topic": "优惠券和价保规则"})
+    check(error and "优惠券" in topics and "价格保护" in topics, "combined policy topics prompt for clarification")
     error, _ = first.tool("store_product", {"kind": "phone", "name": "REDMI K"})
     check(error, "ambiguous series is sent back for clarification")
     error, source = first.tool("store_service_centers", {"city": "哈尔滨"})
@@ -86,7 +88,7 @@ def main():
 
     error, listing = first.tool("store_catalog", {"kind": "phone", "keyword": "K90"})
     check(not error and "K90 Pro Max" in listing and "实时" in listing, "browse a phone series with snapshot limits")
-    error, support = first.tool("store_support", {"symptom": "无法充电"})
+    error, support = first.tool("store_support", {"symptom": "换线后仍无法充电"})
     check(not error and "mi.com" in support, "charging support preserves the official source")
 
 

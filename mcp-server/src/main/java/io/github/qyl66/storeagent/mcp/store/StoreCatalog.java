@@ -60,14 +60,19 @@ class StoreCatalog {
             throw new IllegalArgumentException("请提供具体型号或名称。");
         }
         List<Entry> candidates = entries(kind);
-        List<Entry> exact = candidates.stream().filter(entry -> entry.matches(key)).toList();
-        if (exact.size() == 1) {
-            return exact.get(0);
+        List<Entry> matched = candidates.stream().filter(entry -> entry.matches(key)).toList();
+        if (matched.isEmpty() && (kind.equals("policy") || kind.equals("fault"))) {
+            // Tool arguments can retain qualifiers from a natural-language question.
+            matched = candidates.stream().filter(entry -> entry.mentionedIn(key)).toList();
         }
-        List<String> options = (exact.isEmpty() ? candidates : exact).stream()
-                .filter(entry -> !exact.isEmpty() || normalize(entry.name()).contains(key)
-                        || normalize(entry.series()).equals(key) || normalize(entry.id()).startsWith(key))
-                .map(Entry::name).distinct().limit(8).toList();
+        if (matched.size() == 1) {
+            return matched.get(0);
+        }
+        if (matched.isEmpty()) {
+            matched = candidates.stream().filter(entry -> normalize(entry.name()).contains(key)
+                    || normalize(entry.series()).equals(key) || normalize(entry.id()).startsWith(key)).toList();
+        }
+        List<String> options = matched.stream().map(Entry::name).distinct().limit(8).toList();
         if (!options.isEmpty()) {
             throw new IllegalArgumentException("请确认具体型号或类别：" + String.join("、", options));
         }
@@ -156,6 +161,12 @@ class StoreCatalog {
                 }
             }
             return false;
+        }
+
+        boolean mentionedIn(String key) {
+            return key.contains(normalize(name)) || details.path("aliases").valueStream()
+                    .map(alias -> normalize(alias.asText()))
+                    .anyMatch(alias -> alias.length() >= 2 && key.contains(alias));
         }
 
         String value(String key) {
