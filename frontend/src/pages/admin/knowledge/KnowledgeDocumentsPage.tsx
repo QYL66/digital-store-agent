@@ -1,4 +1,3 @@
-// Modified for LabDesk.
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Check, ChevronDown, ChevronRight, FileUp, FileImage, Info, PlayCircle, RefreshCw, Trash2, Pencil, FileBarChart, X, Eye, MoreHorizontal, FileText, FileSpreadsheet, Link as LinkIcon, Download } from "lucide-react";
@@ -1703,7 +1702,7 @@ function UploadDialog({ open, onOpenChange, onSubmit }: UploadDialogProps) {
                     <FormLabel>来源地址</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="https://example.org/lab/rules.md"
+                        placeholder="https://raw.githubusercontent.com/bytedance/deer-flow/main/docs/API.md"
                         {...field}
                       />
                     </FormControl>

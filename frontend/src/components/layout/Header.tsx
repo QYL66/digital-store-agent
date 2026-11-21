@@ -1,9 +1,8 @@
-// Modified for LabDesk.
 import * as React from "react";
-import { Menu } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Github, Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { useGitHubStars } from "@/hooks/useGitHubStars";
 import { useChatStore } from "@/stores/chatStore";
 
 interface HeaderProps {
@@ -12,10 +11,19 @@ interface HeaderProps {
 
 export function Header({ onToggleSidebar }: HeaderProps) {
   const { currentSessionId, sessions } = useChatStore();
+  const starCount = useGitHubStars();
   const currentSession = React.useMemo(
     () => sessions.find((session) => session.id === currentSessionId),
     [sessions, currentSessionId]
   );
+
+  const starLabel = React.useMemo(() => {
+    if (starCount === null) return "--";
+    if (starCount < 1000) return String(starCount);
+    const rounded = Math.round((starCount / 1000) * 10) / 10;
+    const text = String(rounded).replace(/\.0$/, "");
+    return `${text}k`;
+  }, [starCount]);
 
   return (
     <header className="sticky top-0 z-20 bg-white">
@@ -34,7 +42,21 @@ export function Header({ onToggleSidebar }: HeaderProps) {
             {currentSession?.title || "新对话"}
           </p>
         </div>
-        <Link to="/chat" className="text-sm font-medium text-slate-700 hover:underline">返回商城智能体</Link>
+        <div className="flex items-center gap-2">
+          <a
+            href="https://github.com/QYL66/digital-store-agent"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-2 rounded-xl border border-gray-200 px-3 py-1.5 text-sm text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
+            aria-label="打开 GitHub 仓库"
+          >
+            <Github className="h-4 w-4" />
+            <span className="font-medium">Star</span>
+            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
+              {starLabel}
+            </span>
+          </a>
+        </div>
       </div>
     </header>
   );

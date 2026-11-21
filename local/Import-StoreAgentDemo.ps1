@@ -1,4 +1,4 @@
-param([string]$Username = 'admin', [string]$Snapshot, [System.Security.SecureString]$Password)
+﻿param([string]$Username = 'admin', [string]$Snapshot, [System.Security.SecureString]$Password)
 . (Join-Path $PSScriptRoot 'Local-Environment.ps1')
 
 $ErrorActionPreference = 'Stop'
@@ -58,7 +58,7 @@ try {
     if ($login.role -ne 'admin' -or -not $login.token) { throw 'An administrator account is required.' }
     $headers = @{ Authorization = $login.token }
     $collection = 'store-agent-catalog'
-    $name = 'StoreAgentCatalog'
+    $name = '小米商城公开资料'
     $page = Call-Api 'Get' ('/knowledge-base?size=100&name=' + [uri]::EscapeDataString($name)) $null $headers
     $kb = @($page.records | Where-Object { $_.collectionName -eq $collection } | Select-Object -First 1)
     $kbId = if ($kb.Count) { $kb[0].id } else {

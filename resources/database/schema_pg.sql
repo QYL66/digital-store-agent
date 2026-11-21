@@ -1,4 +1,4 @@
--- Modified for LabDesk. PostgreSQL schema.
+-- PostgreSQL Schema for Digital Store Agent
 -- Converted from MySQL schema_table.sql
 
 -- Enable pgvector extension
@@ -531,7 +531,6 @@ COMMENT ON TABLE t_agent_memory IS 'Agent长期记忆事实表';
 CREATE TABLE t_agent_memory_cursor (
     user_id         VARCHAR(20) NOT NULL PRIMARY KEY,
     last_message_id VARCHAR(20),
-    memory_version  bigint NOT NULL DEFAULT 0,
     create_time     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     update_time     TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

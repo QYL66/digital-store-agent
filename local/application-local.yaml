@@ -14,9 +14,9 @@ spring:
 agent:
   mcp:
     servers:
-      - name: labdesk
+      - name: digital-store-agent
         url: http://127.0.0.1:29099
-        lab-desk-token: ${STORE_AGENT_MCP_TOKEN}
+        access-token: ${STORE_AGENT_MCP_TOKEN}
 
 rag:
   keyword:

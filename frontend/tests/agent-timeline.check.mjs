@@ -1,4 +1,3 @@
-// Modified for LabDesk.
 /**
  * 时间线投影层的可复现验证：node tests/agent-timeline.check.mjs
  * 仓库没有前端单测框架 本轮不引入 —— 直接编出 src/lib/agentTimeline.ts 再按真实场景断言
@@ -9,16 +8,13 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { rmSync } from "node:fs";
 import { dirname, resolve } from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = resolve(root, ".output/agent-timeline");
 
 rmSync(outDir, { recursive: true, force: true });
-execFileSync(process.execPath, [resolve(root, "node_modules/typescript/bin/tsc"), "-p", "tests/tsconfig.timeline.json"], {
-  cwd: root,
-  stdio: "inherit"
-});
+execFileSync("npx", ["tsc", "-p", "tests/tsconfig.timeline.json"], { cwd: root, stdio: "inherit" });
 
 const {
   applyConfirmStatus,
@@ -28,7 +24,7 @@ const {
   formatDuration,
   replayBlock,
   settleToolBlocks
-} = await import(pathToFileURL(resolve(outDir, "lib/agentTimeline.js")).href);
+} = await import(resolve(outDir, "lib/agentTimeline.js"));
 
 let seq = 0;
 const ctx = { allocId: () => (seq += 1), fallbackAt: "09:41:00" };

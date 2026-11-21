@@ -1,9 +1,8 @@
-// Modified for LabDesk.
 import { Navigate, createBrowserRouter } from "react-router-dom";
 
 import { LoginPage } from "@/pages/LoginPage";
 import { EngineGate } from "@/components/common/EngineGate";
-import { ChatPage } from "@/pages/ChatPage";
+import { ChangeLogsPage } from "@/pages/ChangeLogsPage";
 import { DocPreviewPage } from "@/pages/DocPreviewPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 import { AdminLayout } from "@/pages/admin/AdminLayout";
@@ -95,16 +94,20 @@ export const router = createBrowserRouter([
     )
   },
   {
+    path: "/change-logs",
+    element: (
+      <RequireAuth>
+        <ChangeLogsPage />
+      </RequireAuth>
+    )
+  },
+  {
     path: "/preview/doc/:docId",
     element: (
       <RequireAuth>
         <DocPreviewPage />
       </RequireAuth>
     )
-  },
-  {
-    path: "/knowledge/:sessionId?",
-    element: <RequireAuth><ChatPage /></RequireAuth>
   },
   {
     path: "/admin",

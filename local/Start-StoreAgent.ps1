@@ -1,8 +1,7 @@
 param(
     [switch]$McpOnly,
     [switch]$NoBrowser,
-    [ValidateSet('Vector','Keyword','Hybrid')][string]$RetrievalMode = 'Vector',
-    [switch]$SecondNode
+    [ValidateSet('Vector','Keyword','Hybrid')][string]$RetrievalMode = 'Vector'
 )
 
 . (Join-Path $PSScriptRoot 'Local-Environment.ps1')
@@ -52,8 +51,8 @@ function Start-ManagedService([string]$Name, [string]$Executable, [string[]]$Arg
 
 $java = (Get-Command java.exe).Source
 $node = (Get-Command node.exe).Source
-$mcpJar = Join-Path $RepoDir 'mcp-server\target\labdesk-mcp-server-0.0.1-SNAPSHOT.jar'
-$appJar = Join-Path $RepoDir 'bootstrap\target\labdesk-bootstrap-0.0.1-SNAPSHOT.jar'
+$mcpJar = Join-Path $RepoDir 'mcp-server\target\store-agent-mcp-server-0.0.1-SNAPSHOT.jar'
+$appJar = Join-Path $RepoDir 'bootstrap\target\store-agent-bootstrap-0.0.1-SNAPSHOT.jar'
 $frontend = Join-Path $RepoDir 'frontend'
 $vite = Join-Path $frontend 'node_modules\vite\bin\vite.js'
 $viteConfig = Join-Path $SetupDir 'vite-local.mjs'
@@ -72,31 +71,29 @@ $env:STORE_AGENT_GRAPH_TYPE = if ($RetrievalMode -eq 'Hybrid') { 'lightrag' } el
 $env:STORE_AGENT_GRAPH_ENABLED = if ($RetrievalMode -eq 'Hybrid') { 'true' } else { 'false' }
 Initialize-LocalCredentials
 
-$mcpConfig = '"--spring.config.additional-location=' + (Join-Path $SetupDir 'application-mcp-local.yaml') + '"'
-Start-ManagedService 'mcp-server' $java @('-Dfile.encoding=UTF-8','-Xmx512m','-jar',('"' + $mcpJar + '"'),'--spring.profiles.active=store-agent',$mcpConfig) $RepoDir 29099 '/mcp'
+Start-ManagedService 'mcp-server' $java @('-Dfile.encoding=UTF-8','-Xmx512m','-jar',('"' + $mcpJar + '"')) $RepoDir 29099 '/mcp'
 $status = & curl.exe --silent --max-time 3 --output NUL --write-out '%{http_code}' 'http://127.0.0.1:29099/mcp'
 if ($LASTEXITCODE -ne 0 -or $status -ne '401') { throw 'The store agent MCP access filter did not respond as expected.' }
 if ($McpOnly) { return }
 
-$appName = if ($SecondNode) { 'store-agent-b' } else { 'store-agent' }
-$appPort = if ($SecondNode) { 29091 } else { 29090 }
+$appName = 'store-agent'
+$appPort = 29090
 if (-not (Get-ManagedService $appName)) {
     try {
-        $needsPassword = Invoke-LabDeskCompose exec -T postgres psql -X -U postgres -d store_agent -Atc "SELECT CASE WHEN password ~ '^pbkdf2-sha256-v1:[a-f0-9]{32}:[a-f0-9]{64}$' THEN 0 ELSE 1 END FROM t_user WHERE username = 'admin' AND deleted = 0;"
+        $needsPassword = Invoke-StoreAgentCompose exec -T postgres psql -X -U postgres -d store_agent -Atc "SELECT CASE WHEN password ~ '^pbkdf2-sha256-v1:[a-f0-9]{32}:[a-f0-9]{64}$' THEN 0 ELSE 1 END FROM t_user WHERE username = 'admin' AND deleted = 0;"
         if (($needsPassword | Select-Object -Last 1) -ne '0') {
             Read-LocalSecret 'STORE_AGENT_ADMIN_PASSWORD' 'Set the store agent admin password (at least 12 characters)'
         }
         Read-LocalSecret 'DEEPSEEK_API_KEY' 'DeepSeek API key'
         Read-LocalSecret 'BAILIAN_API_KEY' 'Bailian API key'
         $config = '"--spring.config.additional-location=' + (Join-Path $SetupDir 'application-local.yaml') + '"'
-        Start-ManagedService $appName $java @('-Dfile.encoding=UTF-8','-Xmx1536m','-jar',('"' + $appJar + '"'),$config,"--server.port=$appPort") $RepoDir $appPort '/api/store-agent/actuator/health'
+        Start-ManagedService $appName $java @('-Dfile.encoding=UTF-8','-Xmx1536m','-jar',('"' + $appJar + '"'),$config,"--server.port=$appPort") $RepoDir $appPort '/api/store-agent/actuator/health/readiness'
     } finally {
         [Environment]::SetEnvironmentVariable('DEEPSEEK_API_KEY', $null, 'Process')
         [Environment]::SetEnvironmentVariable('BAILIAN_API_KEY', $null, 'Process')
         [Environment]::SetEnvironmentVariable('STORE_AGENT_ADMIN_PASSWORD', $null, 'Process')
     }
 }
-if ($SecondNode) { return }
 Start-ManagedService 'frontend' $node @(('"' + $vite + '"'),'--config',('"' + $viteConfig + '"')) $frontend 25173
 
 $url = 'http://127.0.0.1:25173/'

@@ -1,4 +1,4 @@
-name: digital-store-agent-local
+name: digital-store-agent-catalog-local
 
 services:
   postgres:
@@ -10,7 +10,7 @@ services:
     ports: ["127.0.0.1:25432:5432"]
     volumes: ["postgres-data:/var/lib/postgresql/data"]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d labdesk"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d store_agent"]
       interval: 3s
       timeout: 3s
       retries: 30
@@ -60,10 +60,10 @@ services:
     environment:
       NAMESRV_ADDR: rmqnamesrv:9876
       JAVA_OPT_EXT: '-Xms512m -Xmx512m'
-    command: ["sh", "mqbroker", "-c", "/home/rocketmq/labdesk-broker.properties"]
+    command: ["sh", "mqbroker", "-c", "/home/rocketmq/store-agent-broker.properties"]
     ports: ["127.0.0.1:20909:20909", "127.0.0.1:20911:20911"]
     volumes:
-      - ./rocketmq-broker.properties:/home/rocketmq/labdesk-broker.properties:ro
+      - ./rocketmq-broker.properties:/home/rocketmq/store-agent-broker.properties:ro
       - rocketmq-data:/home/rocketmq/store
     healthcheck:
       test: ["CMD-SHELL", "grep -q 'boot success' /home/rocketmq/logs/rocketmqlogs/broker.log"]

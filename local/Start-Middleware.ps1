@@ -12,12 +12,12 @@ if ($RetrievalMode -ne 'Vector') {
         $services += @('neo4j', 'lightrag')
     }
 }
-Invoke-LabDeskCompose up -d --pull never --wait --wait-timeout 240 @services
+Invoke-StoreAgentCompose up -d --pull never --wait --wait-timeout 240 @services
 
-$existingTopics = Invoke-LabDeskCompose exec -T rmqbroker sh mqadmin topicList -n rmqnamesrv:9876
+$existingTopics = Invoke-StoreAgentCompose exec -T rmqbroker sh mqadmin topicList -n rmqnamesrv:9876
 foreach ($topic in @('knowledge-document-chunk_topic','knowledge-base-cleanup_topic','message-feedback_topic')) {
     if ($topic -notin $existingTopics) {
-        $created = Invoke-LabDeskCompose exec -T rmqbroker sh mqadmin updateTopic -n rmqnamesrv:9876 -b 127.0.0.1:20911 -t $topic
+        $created = Invoke-StoreAgentCompose exec -T rmqbroker sh mqadmin updateTopic -n rmqnamesrv:9876 -b 127.0.0.1:20911 -t $topic
         if (($created -join "`n") -notmatch 'create topic .* success') {
             throw "RocketMQ topic initialization failed for $topic."
         }
@@ -30,27 +30,26 @@ for ($attempt = 0; $attempt -lt 35; $attempt++) {
     if ($LASTEXITCODE -eq 0) { $s3Ready = $true; break }
     Start-Sleep -Seconds 1
 }
-if (-not $s3Ready) { throw 'LabDesk RustFS is not ready.' }
+if (-not $s3Ready) { throw 'Store Agent RustFS is not ready.' }
 
 $dbArgs = @('exec','-T','postgres','psql','-X','-U','postgres','-d','store_agent','-v','ON_ERROR_STOP=1')
-$schemaExists = Invoke-LabDeskCompose @dbArgs -Atc "SELECT CASE WHEN to_regclass('public.t_user') IS NULL THEN 0 ELSE 1 END;"
+$schemaExists = Invoke-StoreAgentCompose @dbArgs -Atc "SELECT CASE WHEN to_regclass('public.t_user') IS NULL THEN 0 ELSE 1 END;"
 if (($schemaExists | Select-Object -Last 1) -eq '0') {
     $sqlDir = Join-Path $RepoDir 'resources\database'
-    Invoke-LabDeskCompose cp (Join-Path $sqlDir 'schema_pg.sql') 'postgres:/tmp/labdesk-schema.sql'
-    Invoke-LabDeskCompose cp (Join-Path $sqlDir 'init_data_pg.sql') 'postgres:/tmp/labdesk-initial-data.sql'
-    Invoke-LabDeskCompose @dbArgs --single-transaction -f /tmp/labdesk-schema.sql -f /tmp/labdesk-initial-data.sql | Out-Null
-    Invoke-LabDeskCompose exec -T postgres rm /tmp/labdesk-schema.sql /tmp/labdesk-initial-data.sql
+    Invoke-StoreAgentCompose cp (Join-Path $sqlDir 'schema_pg.sql') 'postgres:/tmp/store-agent-schema.sql'
+    Invoke-StoreAgentCompose cp (Join-Path $sqlDir 'init_data_pg.sql') 'postgres:/tmp/store-agent-initial-data.sql'
+    Invoke-StoreAgentCompose @dbArgs --single-transaction -f /tmp/store-agent-schema.sql -f /tmp/store-agent-initial-data.sql | Out-Null
+    Invoke-StoreAgentCompose exec -T postgres rm /tmp/store-agent-schema.sql /tmp/store-agent-initial-data.sql
 }
 $files = @{
     'store-schema' = 'mcp-server\src\main\resources\db\store-agent.sql'
     'store-seed' = 'resources\database\store_agent_seed.sql'
-    'memory-version' = 'resources\database\upgrades\store-agent\memory-version.sql'
 }
 foreach ($key in $files.Keys) {
     $remote = "/tmp/$key.sql"
-    Invoke-LabDeskCompose cp (Join-Path $RepoDir $files[$key]) "postgres:$remote"
-    Invoke-LabDeskCompose @dbArgs --single-transaction -f $remote | Out-Null
-    Invoke-LabDeskCompose exec -T postgres rm $remote
+    Invoke-StoreAgentCompose cp (Join-Path $RepoDir $files[$key]) "postgres:$remote"
+    Invoke-StoreAgentCompose @dbArgs --single-transaction -f $remote | Out-Null
+    Invoke-StoreAgentCompose exec -T postgres rm $remote
 }
 & (Join-Path $SetupDir 'Import-StoreCatalog.ps1')
-Invoke-LabDeskCompose @dbArgs -c "SELECT extversion AS pgvector_version FROM pg_extension WHERE extname='vector';"
+Invoke-StoreAgentCompose @dbArgs -c "SELECT extversion AS pgvector_version FROM pg_extension WHERE extname='vector';"

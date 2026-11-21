@@ -1,4 +1,3 @@
-// Modified for LabDesk.
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -47,7 +46,7 @@ export function ChatPage() {
     if (sessionId) {
       if (sessionsReady && !sessionExists) {
         createSession().catch(() => null);
-        navigate("/knowledge", { replace: true });
+        navigate("/chat", { replace: true });
         return;
       }
       selectSession(sessionId).catch(() => null);
@@ -76,7 +75,7 @@ export function ChatPage() {
 
   React.useEffect(() => {
     if (currentSessionId && currentSessionId !== sessionId) {
-      navigate(`/knowledge/${currentSessionId}`, { replace: true });
+      navigate(`/chat/${currentSessionId}`, { replace: true });
     }
   }, [currentSessionId, sessionId, navigate]);
 

@@ -1,9 +1,8 @@
-// Modified for LabDesk.
 import type { User } from "@/types";
 
-const TOKEN_KEY = "store_agent_token";
-const USER_KEY = "store_agent_user";
-const THEME_KEY = "store_agent_theme";
+const TOKEN_KEY = "storeagent_token";
+const USER_KEY = "storeagent_user";
+const THEME_KEY = "storeagent_theme";
 
 function safeGet(key: string) {
   try {

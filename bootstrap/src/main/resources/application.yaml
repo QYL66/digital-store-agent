@@ -1,13 +1,18 @@
-# Modified for LabDesk.
 server:
   address: 127.0.0.1
-  port: 9090
+  port: 29090
   servlet:
     context-path: /api/store-agent
 
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
 spring:
   application:
-    name: labdesk${unique-name:}-service
+    name: digital-store-agent${unique-name:}-service
 
   servlet:
     multipart:
@@ -18,7 +23,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
     username: postgres
-    password: ${STORE_AGENT_PG_PASSWORD:postgres}
+    password: ${STORE_AGENT_PG_PASSWORD}
     url: jdbc:postgresql://127.0.0.1:25432/store_agent?client_encoding=UTF8
     hikari:
       connection-timeout: 5000
@@ -26,26 +31,27 @@ spring:
       max-lifetime: 1800000
       maximum-pool-size: 10
       minimum-idle: 5
-      pool-name: LabDeskHikariPool
+      pool-name: StoreAgentHikariPool
 
   data:
     redis:
       host: 127.0.0.1
-      port: 6379
-      password: ${STORE_AGENT_REDIS_PASSWORD:}
+      port: 26379
+      password: ${STORE_AGENT_REDIS_PASSWORD}
 
-labdesk:
+ragent:
   engine:
     type: agent  # 执行架构档位，可选 workflow（v1 编排管线）/ agent（v2 ReAct 架构，RAG 管线降级为主 Agent 的一个 Tool）
   demo-mode: false
   eval:
-    enabled: true
+    enabled: false
 
 agent:
   mcp:
     servers:
-      - name: default
-        url: http://localhost:9099
+      - name: digital-store-agent
+        url: http://127.0.0.1:29099
+        access-token: ${STORE_AGENT_MCP_TOKEN}
   chat:
     provider: deepseek
     model: deepseek-flash
@@ -63,8 +69,8 @@ agent:
     enabled: false
     capture-content: true
     endpoint: http://localhost:3000/api/public/otel/v1/traces
-    public-key: pk-lf-labdesk-local
-    secret-key: sk-lf-labdesk-local
+    public-key: ${LANGFUSE_PUBLIC_KEY:}
+    secret-key: ${LANGFUSE_SECRET_KEY:}
     max-field-chars: 32768
     max-attribute-chars: 131072
     service-version:
@@ -73,12 +79,12 @@ agent:
 rag:
   storage:
     type: s3
-    kb-bucket: ${STORE_AGENT_KB_BUCKET:store-agent-sources}
-    asset-bucket: ${STORE_AGENT_ASSET_BUCKET:store-agent-assets}
+    kb-bucket: store-agent-sources
+    asset-bucket: store-agent-assets
     s3:
-      endpoint: http://localhost:9000
-      access-key: ${STORE_AGENT_S3_KEY:rustfsadmin}
-      secret-key: ${STORE_AGENT_S3_SECRET:rustfsadmin}
+      endpoint: http://127.0.0.1:29000
+      access-key: ${STORE_AGENT_S3_KEY}
+      secret-key: ${STORE_AGENT_S3_SECRET}
       region: us-east-1
       path-style: true
       public-url:
@@ -91,6 +97,11 @@ rag:
 
   vector:
     type: pg
+
+  intent:
+    type: llm
+    jev:
+      min-noul: 0.4
 
   keyword:
     type: none
@@ -183,6 +194,8 @@ rag:
     # 证据相关性闸门：检索只保证返回最像的 N 条，库里没答案时照样满额返回，这里补一道相关度下限
     evidence:
       min-rerank-score: 0.2   # 整批最高精排分低于此值则整批丢弃，0=关闭；随 reranker 而变，换模型看「检索归因 - 精排分布」重测
+    # 精排与回答上下文带文档名（原样取 doc_name）：同模板文档的续块正文没有产品名，靠它分辨片段属于哪篇；来源摘录与测评 contexts 保留原文，但进上下文的片段和排名会变，测评分数随之变化
+    include-doc-name: true
 
   trace:
     enabled: true
@@ -239,6 +252,15 @@ ai:
       api-key: ${ZENMUX_API_KEY:}
       endpoints:
         chat: /api/v1/chat/completions
+        jev: /api/v1/systemone
+
+  jev:
+    default-model: jev-stable
+    candidates:
+      - id: jev-stable
+        provider: zenmux
+        model: typesafe/jev-1.14
+        enabled: true
 
   selection:
     failure-threshold: 2
@@ -282,10 +304,10 @@ ai:
 
     tiers:
       fast:
-        candidates: [ qwen-flash, qwen-plus, qwen3-local ]
+        candidates: [ deepseek-flash, qwen-flash, qwen3-local ]
         timeout-ms: 5000
       standard:
-        candidates: [ qwen3.8, qwen-plus, deepseek-flash, qwen3-local ]
+        candidates: [ deepseek-flash, qwen-plus, qwen3-local ]
         timeout-ms: 120000
       deep:
         candidates: [ deepseek-flash ]
@@ -345,8 +367,6 @@ mineru:
 
 sa-token:
   token-name: Authorization
-  is-read-body: false
-  is-read-cookie: false
   timeout: 2592000
   is-concurrent: true
   is-share: false
@@ -355,9 +375,9 @@ sa-token:
   is-print: false
 
 rocketmq:
-  name-server: 127.0.0.1:9876
+  name-server: 127.0.0.1:29876
   producer:
-    group: ${STORE_AGENT_MQ_PRODUCER_GROUP:store-agent-producer${unique-name:}_pg}
+    group: store-agent-producer${unique-name:}_pg
     send-message-timeout: 2000
 
 milvus:

@@ -1,6 +1,6 @@
 . (Join-Path $PSScriptRoot 'Local-Environment.ps1')
 
-foreach ($name in @('frontend','store-agent','store-agent-b','mcp-server')) {
+foreach ($name in @('frontend','store-agent','mcp-server')) {
     $process = Get-ManagedService $name
     if ($process) {
         Stop-Process -Id $process.Id
@@ -13,5 +13,5 @@ foreach ($name in @('frontend','store-agent','store-agent-b','mcp-server')) {
 if (Test-Path -LiteralPath $EnvFile) {
     Initialize-LocalCredentials
     $ComposeOptions += @('-f', (Join-Path $SetupDir 'compose-retrieval.yaml'))
-    Invoke-LabDeskCompose stop
+    Invoke-StoreAgentCompose stop
 }

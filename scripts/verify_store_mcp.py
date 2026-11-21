@@ -1,17 +1,12 @@
-"""Verify live MCP tool results and PostgreSQL slot contention through the isolated service."""
+"""Verify the read-only catalogue over the MCP HTTP transport."""
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime, timedelta, timezone
 import json
 import os
-import re
-from threading import Barrier
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
-META = "io.github.qyl66.labdesk/userId"
-TOKEN_HEADER = "X-LabDesk-Mcp-Token"
+TOKEN_HEADER = "X-Store-Agent-Mcp-Token"
 
 
 class Client:
@@ -47,10 +42,8 @@ class Client:
     def tools(self):
         return self.call("tools/list", {})[0]["tools"]
 
-    def tool(self, name, args=None, user=None):
+    def tool(self, name, args=None):
         params = {"name": name, "arguments": args or {}}
-        if user:
-            params["_meta"] = {META: user}
         result, _ = self.call("tools/call", params)
         return bool(result.get("isError")), "\n".join(item["text"] for item in result["content"])
 
@@ -64,8 +57,6 @@ def check(condition, message):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--port", type=int, default=29099)
-    parser.add_argument("--first", required=True)
-    parser.add_argument("--second", required=True)
     args = parser.parse_args()
     url = f"http://127.0.0.1:{args.port}/mcp"
     token = os.environ["STORE_AGENT_MCP_TOKEN"]
@@ -74,10 +65,12 @@ def main():
         raise AssertionError("unauthenticated MCP accepted")
     except HTTPError as e:
         check(e.code == 401, "MCP requires a service token")
-    first, second = Client(url, token), Client(url, token)
+    first = Client(url, token)
     tools = {tool["name"]: tool.get("annotations", {}) for tool in first.tools()}
-    check("lab_book_equipment" not in tools and len(tools) == 9, "only the store tools are exposed")
-    check(tools["store_create_demo_booking"]["readOnlyHint"] is False, "booking is annotated as a write")
+    check(set(tools) == {"current_date", "store_catalog", "store_product", "store_compare",
+                         "store_compatibility", "store_policy", "store_support", "store_service_centers"},
+          "MCP exposes only the date and catalogue tools")
+    check(all(hints.get("readOnlyHint") is True for hints in tools.values()), "all exposed tools are read-only")
     error, comparison = first.tool("store_compare", {"first": "K90", "second": "K90 Pro Max"})
     check(not error and "7100" in comparison and "K90 Pro Max" in comparison and "https://" in comparison,
           "K90 comparison returns model-specific values and sources")
@@ -91,35 +84,10 @@ def main():
     error, source = first.tool("store_service_centers", {"city": "哈尔滨"})
     check(not error and "mi.com/service/sitelist" in source, "real service directory links to its official source")
 
-    date = (datetime.now(timezone(timedelta(hours=8))) + timedelta(days=2)).date().isoformat()
-    error, slots = first.tool("store_demo_slots", {"model": "K90", "city": "哈尔滨", "date": date})
-    match = re.search(r"HRB-A[^\n]*：(09:00|1[0-7]:00)", slots)
-    check(not error and match is not None and "演示" in slots, "real database returns an available demo slot")
-    params = {"model": "K90", "centerCode": "HRB-A", "symptom": "无法充电", "date": date, "time": match[1]}
-    create = "store_create_demo_booking"
-    check(first.tool(create, params)[0], "booking rejects missing user metadata")
-    check(first.tool(create, params | {"centerCode": "HRB-B"}, args.first)[0], "booking rejects unsupported brand")
-    check(first.tool(create, params | {"time": "16:30"}, args.first)[0], "booking rejects invalid time")
-    check(first.tool(create, params | {"date": "2000-01-01"}, args.first)[0], "booking rejects past time")
-
-    barrier = Barrier(2)
-
-    def book(client, user):
-        barrier.wait(8)
-        return client.tool(create, params, user)
-
-    with ThreadPoolExecutor(max_workers=2) as pool:
-        a = pool.submit(book, first, args.first)
-        b = pool.submit(book, second, args.second)
-        results = [a.result(), b.result()]
-    check(sum(not error for error, _ in results) == 1, "concurrent users compete for exactly one slot")
-    index = next(i for i, (error, _) in enumerate(results) if not error)
-    winner, loser = ((args.first, args.second) if index == 0 else (args.second, args.first))
-    appointment = re.search(r"DS-\d+", results[index][1])[0]
-    check(appointment in first.tool(create, params, winner)[1], "idempotent retry returns same booking")
-    check(first.tool(create, params | {"symptom": "充电慢"}, winner)[0], "same owner with different input conflicts")
-    check(appointment in first.tool("store_my_demo_bookings", user=winner)[1], "owner can query same booking")
-    check(appointment not in second.tool("store_my_demo_bookings", user=loser)[1], "other user cannot see booking")
+    error, listing = first.tool("store_catalog", {"kind": "phone", "keyword": "K90"})
+    check(not error and "K90 Pro Max" in listing and "实时" in listing, "browse a phone series with snapshot limits")
+    error, support = first.tool("store_support", {"symptom": "无法充电"})
+    check(not error and "mi.com" in support, "charging support preserves the official source")
 
 
 if __name__ == "__main__":

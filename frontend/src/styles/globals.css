@@ -3536,7 +3536,7 @@ textarea {
    全部 token 挂 .agent-app 域不进 :root；组件类一律 .agent-app 域内生效，与 .admin-layout 的 agent-* 类互不越界 */
 
 .agent-app {
-  /* 色板：暖中性纸 + 单一橙信号
+  /* 色板：暖中性纸 + 单一橙信号（Claude 橙）
      中性一族统一走 40° 上下的极低饱和暖灰 橙只留给信号 两族不混 */
   --agent-paper: #faf9f5;
   --agent-paper-grid: #eeeae1;
@@ -3548,7 +3548,7 @@ textarea {
   --agent-grid: #e8e4da;
   --agent-grid-strong: #d7d2c6;
 
-  /* 橙一族：配额制不动 橙只属两件事——唯一的主动作（发送）与正在发生的事 装饰与信息一律走中性
+  /* 橙一族（Claude 橙）：配额制不动 橙只属两件事——唯一的主动作（发送）与正在发生的事 装饰与信息一律走中性
      两档不是深浅装饰：#d97757 是 Claude 本色 但白字只有 3.1:1（低于 AA 4.5——Claude 自己那枚钮里是箭头图标不是文字）
      凡要承载白字白勾 或当正文读的 一律走深一档 -ink（白字 5.1:1） */
   --agent-orange: #d97757;
@@ -4772,6 +4772,184 @@ textarea {
   animation: agent-form-in 0.32s ease-out both;
 }
 
+/* 待机空态：一张预演轨迹卡 + 一行示例问句 收成一个物件整块居中
+   两物件若各贴一头（卡贴流顶、问句贴输入条）中间会空出半屏 谁也不挨谁 */
+.agent-app .agent-stream-empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* 上下两枚撑格把整块顶到中间 不用 justify-content: center：内容高过流时上溢那截滚不回来
+   撑格 basis 0 只吃余量 矮屏余量为负时自动归零 整块退回贴顶 24（wrap 自己的上内距 与真卡 Header 同值）
+   下格多两成余量＝光学居中：底下压着一条输入条 严格对称会把整块读低
+   上格封顶 200 超出的余量全归下格：留白再长就不是"居中"而是"这框没填满" */
+.agent-app .agent-stream-empty::before,
+.agent-app .agent-stream-empty::after {
+  content: "";
+  flex: 1 1 0;
+}
+
+.agent-app .agent-stream-empty::before {
+  max-height: 200px;
+}
+
+.agent-app .agent-stream-empty::after {
+  flex-grow: 1.2;
+}
+
+.agent-app .agent-empty-wrap {
+  width: 100%;
+  max-width: 944px;
+  margin: 0 auto;
+  padding: var(--agent-s5) var(--agent-s6);
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 演示 + 图注带 + 问句行是一个物件：边框圆角裁切挂在这层
+   卡外的浮块一律没有归属——问句行是卡里的末行 不单独成块 */
+.agent-app .agent-empty-card {
+  border: var(--agent-hair);
+  border-radius: var(--agent-radius);
+  background: var(--agent-surface);
+  overflow: hidden;
+}
+
+/* figure 只管「演示 + 注」那一对语义 形交给外层卡 */
+.agent-app .agent-empty-figure {
+  margin: 0;
+}
+
+/* 预演卡：结构就是真卡本体 只摘掉交互
+   不压亮度——半透明在页面上唯一的读法是"禁用/没加载出来" 身份交给卡头「示例」胶囊和下面的图注带
+   信号色也不就地转中性：演示卡说的就是"你的话会被这样打出来" 真卡里橙的东西（答复节点 时间轴 展开箭头）
+   在这儿灰着 演示讲的就不是同一件事了 身份由「示例」胶囊单独担着 不需要再抽一遍色 */
+.agent-app .agent-empty-demo {
+  pointer-events: none;
+  user-select: none;
+}
+
+.agent-app .agent-empty-demo .agent-turn {
+  border: none;
+  border-radius: 0;
+}
+
+/* 图注带：四格按时间顺序横排 说明句与图例合成一个物件 880 的宽度这才被用满 */
+/* 底不上灰：待机屏正中的物件不许灰化（同"半透明＝没加载出来"那条） 分格靠发丝线就够 */
+.agent-app .agent-empty-cap {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: var(--agent-hair);
+  background: transparent;
+}
+
+.agent-app .agent-empty-step {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px var(--agent-s3);
+  border-left: var(--agent-hair);
+}
+
+.agent-app .agent-empty-step:first-child {
+  border-left: none;
+}
+
+.agent-app .agent-empty-step-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--agent-s2);
+  font-size: var(--agent-t-sm);
+  color: var(--agent-ink);
+}
+
+/* 字符与卡内左列那一列同形同色 图例这才贴着被解释的东西 */
+.agent-app .agent-empty-step-glyph {
+  font-family: var(--agent-font-mono);
+  font-size: var(--agent-t-xs);
+  color: var(--agent-muted);
+}
+
+/* 同形同色到底：卡里那枚答复节点是橙的 讲它的这一格字符就不能是灰的 另外三格照旧跟着各自的节点走中性 */
+.agent-app .agent-empty-step-glyph[data-answer="true"] {
+  color: var(--agent-signal);
+}
+
+.agent-app .agent-empty-step-desc {
+  font-size: var(--agent-t-xs);
+  line-height: 1.5;
+  color: var(--agent-faint);
+}
+
+/* 示例问题：卡里的末行 接着图注带往下读
+   放到卡下就成了待机屏上没归属的物件：与卡同边同底 读成从卡上掉下来的碎片
+   与图注带同一套形制——发丝上边分行 左内距 s3 与图注带的字对齐
+   演示（图注带）在上 能点的（问句）在下：一张卡里读完"这页怎么用"到"从哪开始" */
+.agent-app .agent-empty-try {
+  display: flex;
+  align-items: baseline;
+  gap: var(--agent-s3);
+  padding: 10px var(--agent-s3);
+  border-top: var(--agent-hair);
+}
+
+.agent-app .agent-empty-try-label {
+  flex: none;
+  font-family: var(--agent-font-mono);
+  font-size: var(--agent-t-xs);
+  letter-spacing: 0.06em;
+  color: var(--agent-faint);
+}
+
+.agent-app .agent-empty-chips {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--agent-s2);
+}
+
+/* 芯片宽度跟着问句走 点一条只预填输入框 发不发由用户按回车决定
+   走沉底：与卡同为 surface 底就只剩一圈发丝边 分不出是芯片还是卡上的划痕
+   靠形不靠色区分——四枚下沉的小块，能点的东西自己长一副能按的样子 */
+.agent-app .agent-empty-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--agent-s2);
+  max-width: 100%;
+  padding: 6px 11px;
+  border: var(--agent-hair);
+  border-radius: var(--agent-radius);
+  background: var(--agent-sunk);
+  font-size: var(--agent-t-sm);
+  color: var(--agent-ink);
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.agent-app .agent-empty-chip > svg {
+  color: var(--agent-grid-strong);
+}
+
+.agent-app .agent-empty-chip > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* hover 反着来：从沉底浮到卡面 边转橙——"指针正压在它上面"与 focus 圈同属"正在发生的事" 走配额里第二件事
+   这一圈只在指针底下存在 不给待机屏添静态的橙 */
+.agent-app .agent-empty-chip:hover {
+  background: var(--agent-surface);
+  border-color: var(--agent-orange);
+}
+
+.agent-app .agent-empty-chip:hover > svg {
+  color: var(--agent-orange);
+}
+
 /* 后台一条没配 或接口没取到：这一行照常在 换成一句交代 */
 .agent-app .agent-empty-blank {
   flex: 1;
@@ -4823,6 +5001,23 @@ textarea {
 }
 
 @media (max-width: 760px) {
+  .agent-app .agent-empty-wrap {
+    padding: var(--agent-s4) var(--agent-s4);
+  }
+
+  /* 窄屏四格挤成一行会把小字压断 改两行两格 分隔线跟着换向 */
+  .agent-app .agent-empty-cap {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .agent-app .agent-empty-step:nth-child(odd) {
+    border-left: none;
+  }
+
+  .agent-app .agent-empty-step:nth-child(n + 3) {
+    border-top: var(--agent-hair);
+  }
+
   .agent-app .agent-empty-blank {
     flex-direction: column;
     align-items: flex-start;

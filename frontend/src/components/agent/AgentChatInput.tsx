@@ -1,4 +1,3 @@
-// Modified for LabDesk.
 import * as React from "react";
 
 import { ArrowUp, Loader2, Square } from "lucide-react";
@@ -38,20 +37,6 @@ export function AgentChatInput() {
   }, [value, adjustHeight]);
 
   React.useEffect(() => {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-    let width = textarea.clientWidth;
-    const observer = new ResizeObserver(() => {
-      const nextWidth = textarea.clientWidth;
-      if (nextWidth === width) return;
-      width = nextWidth;
-      adjustHeight();
-    });
-    observer.observe(textarea);
-    return () => observer.disconnect();
-  }, [adjustHeight]);
-
-  React.useEffect(() => {
     if (!inputFocusKey) return;
     focusInput();
   }, [inputFocusKey, focusInput]);
@@ -82,7 +67,7 @@ export function AgentChatInput() {
           className="agent-composer-input"
           value={value}
           rows={1}
-          placeholder={awaiting ? "请先在上方确认或取消操作" : "想了解哪款手机、配件或服务？"}
+          placeholder={awaiting ? "请先在上方确认或取消该操作" : "想查询哪款手机、配件或服务？"}
           onChange={(event) => setValue(event.target.value)}
           onCompositionStart={() => {
             isComposingRef.current = true;
@@ -140,7 +125,7 @@ export function AgentChatInput() {
       </div>
       {/* 免责一行在框外：框里不摆第二行是因为没有真控件 这句有真职责 */}
       <p className="agent-composer-note" aria-live="polite">
-        {cancelRequested ? "正在停止并保存已生成内容…" : "价格、权益以小米商城为准。维修预约仅供演示。"}
+        {cancelRequested ? "正在停止并保存已生成内容…" : "内容由 AI 生成，请仔细甄别"}
       </p>
     </div>
   );

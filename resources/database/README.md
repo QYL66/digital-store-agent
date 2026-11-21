@@ -1,19 +1,21 @@
-# 数码商城智能体数据库
+# PostgreSQL 数据库脚本
 
-## 本机初始化
+## 全量初始化
 
-[中间件启动脚本](../../local/Start-Middleware.ps1) 在 `store_agent` 数据库执行初始化和商城导入。
+- `schema_pg.sql`：最新版本的完整表结构
+- `init_data_pg.sql`：最新版本的初始化数据
 
-| 文件 | 用途 |
-| --- | --- |
-| [`schema_pg.sql`](schema_pg.sql) | 初始化 PostgreSQL 表结构及 pgvector 扩展 |
-| [`init_data_pg.sql`](init_data_pg.sql) | 写入内置角色和基础配置 |
-| [`store-agent.sql`](../../mcp-server/src/main/resources/db/store-agent.sql) | 初始化商城目录、演示网点和预约表 |
-| [`store_agent_seed.sql`](store_agent_seed.sql) | 注册商城工具、意图、技能和示例问题 |
-| [`memory-version.sql`](upgrades/store-agent/memory-version.sql) | 补齐长期记忆的版本和处理水位字段 |
+商城项目执行本机启动脚本即可初始化基础表、商城目录表、查询工具和示例问题。旧版商城数据卷保留。以下增量脚本记录 Ragent 上游版本演进。
 
-公开目录通过 [商品目录导入脚本](../../local/Import-StoreCatalog.ps1) 导入。已部署的商城数据库可由同一启动脚本应用商城脚本和记忆字段升级。
+## 增量升级
 
-## 历史迁移
+`upgrades/` 按正式发布版本划分目录，目录名是这批变更将随之发布的版本号。当前开发中的版本是 v2.0.0，新的数据库升级脚本统一放在 `upgrades/v2.0.0/`；`upgrades/v1.1.0/` 是上一版本的历史脚本
 
-`upgrades/v1.1.0/` 和 `upgrades/v2.0.0/` 保留通用模块的历史迁移。新建商城数据库按上面的全量初始化流程，旧库迁移按来源版本和文件日期依次应用对应脚本。
+目录内的脚本使用首次提交日期和变更含义命名：
+
+- 默认格式：`yyMMdd_变更含义.sql`
+- 同一天有多个脚本时：`yyMMdd_两位顺序号_变更含义.sql`
+
+已有环境必须按文件名顺序逐个执行，不合并过程脚本。后续正式版本在 `upgrades/` 下新建对应目录并继续使用相同的命名规则
+
+已经对外提供或被其他开发者执行过的升级脚本保持不变，新的数据库变更继续追加独立脚本

@@ -33,7 +33,7 @@ function Get-ManagedService([string]$Name) {
     }
 }
 
-function Invoke-LabDeskCompose {
+function Invoke-StoreAgentCompose {
     & $DockerExe compose @ComposeOptions @args
     if ($LASTEXITCODE -ne 0) { throw "Docker Compose failed (exit $LASTEXITCODE)." }
 }

@@ -45,8 +45,8 @@ interface AgentChatState {
   isLoading: boolean;
   sessionsLoaded: boolean;
   inputFocusKey: number;
-  // 每次预填或清空都用新对象通知输入框，同文重复点击也能重新填入。
-  draft: { text: string } | null;
+  // 欢迎页示例问题点击后预填输入框 key 保证同文重复点击也能触发
+  draft: { text: string; key: number } | null;
   isStreaming: boolean;
   isCreatingNew: boolean;
   streamTaskId: string | null;
@@ -210,10 +210,7 @@ export const useAgentChatStore = create<AgentChatState>((set, get) => {
   const selectView = (key: string, view = getView(key)) => {
     set((state) => ({
       conversationStates: { ...state.conversationStates, [state.currentViewKey]: pickView(state), [key]: view },
-      currentViewKey: key,
-      ...view,
-      ...(state.currentViewKey === key ? {} : { draft: { text: "" } }),
-      inputFocusKey: Date.now()
+      currentViewKey: key, ...view, draft: null, inputFocusKey: Date.now()
     }));
   };
   const moveView = (from: string, to: string) => {
@@ -691,8 +688,7 @@ export const useAgentChatStore = create<AgentChatState>((set, get) => {
         set((state) => ({
           sessions: state.sessions.filter((session) => session.id !== sessionId),
           conversationStates: Object.fromEntries(Object.entries(state.conversationStates).filter(([key]) => key !== sessionId)),
-          ...(state.currentSessionId === sessionId
-            ? { currentViewKey: newViewKey(), ...emptyView(), draft: { text: "" } } : {})
+          ...(state.currentSessionId === sessionId ? { currentViewKey: newViewKey(), ...emptyView(), draft: null } : {})
         }));
         toast.success("删除成功");
       } catch (error) {
@@ -709,7 +705,7 @@ export const useAgentChatStore = create<AgentChatState>((set, get) => {
           sessions: state.sessions.filter((session) => !removed.has(session.id)),
           conversationStates: Object.fromEntries(Object.entries(state.conversationStates).filter(([key]) => !removed.has(key))),
           ...(state.currentSessionId && removed.has(state.currentSessionId)
-            ? { currentViewKey: newViewKey(), ...emptyView(), draft: { text: "" } } : {})
+            ? { currentViewKey: newViewKey(), ...emptyView(), draft: null } : {})
         }));
         toast.success(`已删除 ${sessionIds.length} 条会话`);
       } catch (error) {
@@ -733,7 +729,7 @@ export const useAgentChatStore = create<AgentChatState>((set, get) => {
       }));
     },
     setDraft: (text) => {
-      set({ draft: { text } });
+      set({ draft: { text, key: Date.now() } });
     },
     toggleBlockOpen: (messageId, blockId) => {
       set((state) => ({

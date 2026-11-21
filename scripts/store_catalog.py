@@ -57,13 +57,6 @@ def read_snapshot(path: Path) -> list[dict]:
 
 
 def sql_for(rows: list[dict], emit_effective_snapshot: bool = False) -> str:
-    cities = sorted({row["series"].removesuffix("市") for row in rows if row["kind"] == "service_center"})
-    demo_centers = [
-        {"code": "DEMO-" + hashlib.sha256(city.encode()).hexdigest()[:8].upper() + suffix,
-         "city": city, "name": f"{city}演示维修站 {suffix}"}
-        for city in cities for suffix in ("A", "B")
-    ]
-    demo_payload = base64.b64encode(json.dumps(demo_centers, ensure_ascii=False).encode()).decode()
     payload = base64.b64encode(json.dumps(rows, ensure_ascii=False).encode()).decode()
     sql = f"""INSERT INTO store_catalog (id, kind, name, series, source_url, region, checked_on, details)
 SELECT id, kind, name, series, source_url, region, checked_on, details
@@ -79,11 +72,6 @@ WHERE EXCLUDED.checked_on >= store_catalog.checked_on
         IS DISTINCT FROM
         (EXCLUDED.kind, EXCLUDED.name, EXCLUDED.series, EXCLUDED.source_url,
          EXCLUDED.region, EXCLUDED.checked_on, EXCLUDED.details);
-INSERT INTO store_demo_center (code, city, name, supported_brands)
-SELECT code, city, name, ARRAY['Xiaomi','REDMI']
-FROM jsonb_to_recordset(convert_from(decode('{demo_payload}', 'base64'), 'UTF8')::jsonb)
-    AS d(code text, city text, name text)
-ON CONFLICT (code) DO NOTHING;
 """
     if not emit_effective_snapshot:
         return sql

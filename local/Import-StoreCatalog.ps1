@@ -15,11 +15,11 @@ try {
     & python $catalogTool @options
     if ($LASTEXITCODE -ne 0) { throw 'Catalogue validation failed.' }
     Initialize-LocalCredentials
-    Invoke-LabDeskCompose cp $sql "postgres:$remote"
+    Invoke-StoreAgentCompose cp $sql "postgres:$remote"
     try {
-        $effective = Invoke-LabDeskCompose exec -T postgres psql -X -U postgres -d store_agent -v ON_ERROR_STOP=1 --single-transaction -Atq -f $remote
+        $effective = Invoke-StoreAgentCompose exec -T postgres psql -X -U postgres -d store_agent -v ON_ERROR_STOP=1 --single-transaction -Atq -f $remote
     } finally {
-        Invoke-LabDeskCompose exec -T postgres rm -f $remote
+        Invoke-StoreAgentCompose exec -T postgres rm -f $remote
     }
     if ($DocumentsDirectory) {
         [IO.File]::WriteAllBytes($effectivePath, [Convert]::FromBase64String([string]$effective))

@@ -1,6 +1,6 @@
-// Modified for LabDesk.
 import * as React from "react";
 import {
+  BookOpen,
   Check,
   LogOut,
   MessageSquare,
@@ -64,17 +64,14 @@ function groupSessions(sessions: AgentSession[]): SessionGroup[] {
     .map(([label, items]) => ({ label, items }));
 }
 
-export function AgentSidebar({ onNavigate, onNewChat, sidebarRef, searchRef }: {
-  onNavigate: () => void;
-  onNewChat: () => void;
-  sidebarRef: React.Ref<HTMLElement>;
-  searchRef: React.Ref<HTMLInputElement>;
-}) {
+export function AgentSidebar() {
   const {
     sessions,
     currentSessionId,
     sessionsLoaded,
     isLoadingSessions: isLoading,
+    startNewChat,
+    loadMessages,
     loadSessions,
     renameSession,
     deleteSession,
@@ -92,6 +89,7 @@ export function AgentSidebar({ onNavigate, onNewChat, sidebarRef, searchRef }: {
   const [menuId, setMenuId] = React.useState<string | null>(null);
   const [query, setQuery] = React.useState("");
   const [avatarFailed, setAvatarFailed] = React.useState(false);
+  const searchRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     if (sessions.length === 0 && !sessionsLoaded) {
@@ -102,6 +100,18 @@ export function AgentSidebar({ onNavigate, onNewChat, sidebarRef, searchRef }: {
   React.useEffect(() => {
     setAvatarFailed(false);
   }, [user?.avatar, user?.userId]);
+
+  // ⌘K / Ctrl+K 全局聚焦搜索
+  React.useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   const kbdHint = React.useMemo(() => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl K"), []);
 
@@ -120,8 +130,9 @@ export function AgentSidebar({ onNavigate, onNewChat, sidebarRef, searchRef }: {
   };
 
   const openSession = (sessionId: string) => {
-    if (sessionId !== currentSessionId) navigate(`/chat/${sessionId}`);
-    onNavigate();
+    if (sessionId === currentSessionId) return;
+    loadMessages(sessionId).catch(() => null);
+    navigate(`/chat/${sessionId}`);
   };
 
   const startRename = (session: AgentSession) => {
@@ -137,14 +148,20 @@ export function AgentSidebar({ onNavigate, onNewChat, sidebarRef, searchRef }: {
     setEditingId(null);
   };
 
-  // 会话删除后由当前路由决定是否退回空白页。
+  // 单删与批量删都在这落地 删到当前会话就退回空白页
   const runDelete = () => {
     if (!deleteTarget) return;
+    const ids = deleteTarget.kind === "one" ? [deleteTarget.id] : deleteTarget.ids;
+    const hitCurrent = Boolean(currentSessionId && ids.includes(currentSessionId));
     const task =
-      deleteTarget.kind === "one" ? deleteSession(deleteTarget.id) : batchDeleteSessions(deleteTarget.ids);
+      deleteTarget.kind === "one" ? deleteSession(deleteTarget.id) : batchDeleteSessions(ids);
     setDeleteTarget(null);
     exitSelect();
-    task.catch(() => null);
+    task
+      .then(() => {
+        if (hitCurrent) navigate("/chat");
+      })
+      .catch(() => null);
   };
 
   const username = user?.username || user?.userId || "用户";
@@ -158,7 +175,7 @@ export function AgentSidebar({ onNavigate, onNewChat, sidebarRef, searchRef }: {
   const groups = groupSessions(shown);
 
   return (
-    <aside ref={sidebarRef} className="agent-rail" id="lab-workbench-sidebar" aria-label="会话与账户">
+    <aside className="agent-rail">
       {/* 栏首：主动作卡本身就是卡 外面不再套一层「快速开始」壳 顶栏字标就在正上方 */}
       <div className="agent-quick">
         <button
@@ -166,8 +183,8 @@ export function AgentSidebar({ onNavigate, onNewChat, sidebarRef, searchRef }: {
           className="agent-new-btn"
           onClick={() => {
             exitSelect();
-            onNavigate();
-            onNewChat();
+            startNewChat();
+            navigate("/chat");
           }}
         >
           <span className="agent-new-icon" aria-hidden="true">
@@ -175,6 +192,7 @@ export function AgentSidebar({ onNavigate, onNewChat, sidebarRef, searchRef }: {
           </span>
           <span className="agent-new-text">
             <span className="agent-new-title">新建会话</span>
+            <span className="agent-new-sub">从空白开始</span>
           </span>
         </button>
         {user?.role === "admin" ? (
@@ -357,7 +375,7 @@ export function AgentSidebar({ onNavigate, onNewChat, sidebarRef, searchRef }: {
         ) : null}
       </section>
 
-      {/* 账户菜单 */}
+      {/* 栏底基座：只留身份 外链与退出收进账号菜单 */}
       <div className="agent-railbase">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -380,6 +398,12 @@ export function AgentSidebar({ onNavigate, onNewChat, sidebarRef, searchRef }: {
             sideOffset={8}
             className="w-48 rounded-xl p-1"
           >
+            <DropdownMenuItem asChild className="rounded-lg px-3 py-2 text-[13px]">
+              <a href="https://github.com/QYL66/digital-store-agent#本机启动" target="_blank" rel="noreferrer">
+                <BookOpen className="mr-2 h-4 w-4" />
+                官方文档
+              </a>
+            </DropdownMenuItem>
             <DropdownMenuItem
               className="rounded-lg px-3 py-2 text-[13px] text-rose-600 focus:text-rose-600 data-[highlighted]:text-rose-600"
               onClick={() => logout()}

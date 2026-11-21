@@ -5,7 +5,6 @@ import App from "@/App";
 import { useAuthStore } from "@/stores/authStore";
 import { useThemeStore } from "@/stores/themeStore";
 import "@/styles/globals.css";
-import "@/styles/labdesk.css";
 
 useThemeStore.getState().initialize();
 useAuthStore.getState().checkAuth();

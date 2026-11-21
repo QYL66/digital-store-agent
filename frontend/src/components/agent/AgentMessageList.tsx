@@ -2,6 +2,7 @@ import * as React from "react";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 
 import { AgentTurnItem } from "@/components/agent/AgentTurn";
+import { AgentWelcomeScreen } from "@/components/agent/AgentWelcomeScreen";
 import { cn } from "@/lib/utils";
 import type { AgentMessage, AgentTurn } from "@/types/agent";
 
@@ -53,6 +54,10 @@ export function AgentMessageList({
 
   const scrollToBottom = React.useCallback(() => {
     virtuosoRef.current?.scrollToIndex({ index: "LAST", align: "end", behavior: "auto" });
+    const scroller = scrollerRef.current;
+    if (scroller) {
+      scroller.scrollTop = scroller.scrollHeight;
+    }
   }, []);
 
   const stickToBottom = React.useCallback(() => {
@@ -219,7 +224,14 @@ export function AgentMessageList({
   }, []);
 
   if (messages.length === 0) {
-    return <div className="agent-stream h-full" />;
+    if (isLoading) {
+      return <div className="agent-stream h-full" />;
+    }
+    return (
+      <div className="agent-stream h-full">
+        <AgentWelcomeScreen />
+      </div>
+    );
   }
 
   return (
@@ -227,7 +239,6 @@ export function AgentMessageList({
       key={sessionKey ?? "empty"}
       ref={virtuosoRef}
       data={turns}
-      initialItemCount={1}
       initialTopMostItemIndex={initialTopMostItemIndex}
       // 贴底逻辑与工作流版一致：不启用 followOutput 由 streaming effect 与高度变化回调接管
       followOutput={false}
