@@ -94,11 +94,21 @@ public final class RetrievalChannelConfigValidator {
             boolean backendOff = actualType == null
                     || actualType.isBlank()
                     || !actualType.trim().equalsIgnoreCase(spec.requiredType());
-            if (backendOff && enabledReader.test(spec.enabledKey())) {
+            boolean pgKeyword = spec.typeKey().equals("rag.keyword.type")
+                    && "pg".equalsIgnoreCase(actualType);
+            if (backendOff && !pgKeyword && enabledReader.test(spec.enabledKey())) {
                 violations.add(new Violation(spec.label(), spec.typeKey(),
                         actualType == null ? "" : actualType, spec.requiredType(),
                         spec.enabledKey(), spec.enableHint()));
             }
+        }
+        String vectorType = typeReader.apply("rag.vector.type");
+        if (enabledReader.test("rag.search.channels.keyword.enabled")
+                && "pg".equalsIgnoreCase(typeReader.apply("rag.keyword.type"))
+                && !"pg".equalsIgnoreCase(vectorType)) {
+            violations.add(new Violation("PostgreSQL 关键词检索", "rag.vector.type",
+                    vectorType == null ? "" : vectorType, "pg", "rag.search.channels.keyword.enabled",
+                    "并在共享 pgvector 数据库执行 PostgreSQL 关键词索引迁移"));
         }
         return violations;
     }

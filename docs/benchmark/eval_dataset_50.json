@@ -1,0 +1,1981 @@
+[
+  {
+    "case_id": "SP-01",
+    "category": "spec_query",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "红米K九零大概多少毫安时？盒里头子的瓦数也说下",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_product"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k90"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k90#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "REDMI K90 电池为7100 mAh（典型）",
+        "REDMI K90 有线充电为100 W（充电器标称）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k90/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "SP-02",
+    "category": "spec_query",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "k90promax声音有独立低音吗，屏多大？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_product"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k90-pro-max"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k90-pro-max#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "REDMI K90 Pro Max 扬声器为2.1 声道立体声，含独立低音单元，与 Bose 联合调音",
+        "REDMI K90 Pro Max 屏幕为6.9 英寸 OLED，最高 120 Hz"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k90-pro-max/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "SP-03",
+    "category": "spec_query",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "米17普通款电池是不是七千？无线充能标多少？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_product"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "Xiaomi 17 电池为7000 mAh（典型）",
+        "Xiaomi 17 无线充电为50 W（厂商标称）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "SP-04",
+    "category": "spec_query",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "小米17pro后面那块小屏多大，芯片啥型号？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_product"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17-pro"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17-pro#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "Xiaomi 17 Pro 屏幕为正屏 6.3 英寸、背屏 2.7 英寸",
+        "Xiaomi 17 Pro 芯片为第五代骁龙 8 至尊版"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17-pro/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "SP-05",
+    "category": "spec_query",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "17U不是Pro，电池多大，线充标几W？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_product"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17-ultra"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17-ultra#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "Xiaomi 17 Ultra 电池为6800 mAh（典型值）",
+        "Xiaomi 17 Ultra 有线充电为90 W（官方标称）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17-ultra/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "SP-06",
+    "category": "spec_query",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "k80pro原装线充头子标几瓦，手机电池多大",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_product"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k80-pro"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k80-pro#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "REDMI K80 Pro 有线充电为120 W（官方标称）",
+        "REDMI K80 Pro 电池为6000 mAh（典型值）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k80-pro/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "SP-07",
+    "category": "spec_query",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "note17普通版，电池和有线充大概啥水平？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_product"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-note-17"
+      ],
+      "gold_chunk_ids": [
+        "redmi-note-17#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "REDMI Note 17 电池为8000 mAh（典型值）",
+        "REDMI Note 17 有线充电为45 W（官方标称）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-note-17/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "SP-08",
+    "category": "spec_query",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "红米turbo5max是什么U？电池接近一万吗？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_product"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-turbo-5-max"
+      ],
+      "gold_chunk_ids": [
+        "redmi-turbo-5-max#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "REDMI Turbo 5 Max 芯片为天玑 9500s",
+        "REDMI Turbo 5 Max 电池为9000 mAh（典型值）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-turbo-5-max/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "SP-09",
+    "category": "spec_query",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "米15小屏版的屏幕大小和最高刷新率咋样？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_product"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-15"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-15#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "Xiaomi 15 屏幕为6.36 英寸 1.5K，最高 120 Hz"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-15/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "SP-10",
+    "category": "spec_query",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "MIX Flip二代翻盖里的屏多少寸？外屏呢？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_product"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-mix-flip-2"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-mix-flip-2#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "Xiaomi MIX Flip 2 屏幕为内屏 6.86 英寸、外屏 4.01 英寸"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-mix-flip2/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CP-01",
+    "category": "model_compare",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "K90跟K90pm，谁电池大，分别多少？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compare"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k90",
+        "redmi-k90-pro-max"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k90#01",
+        "redmi-k90-pro-max#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "REDMI K90 电池为7100 mAh（典型）",
+        "REDMI K90 Pro Max 电池为7560 mAh（典型）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k90/specs",
+        "https://www.mi.com/prod/redmi-k90-pro-max/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CP-02",
+    "category": "model_compare",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "米17普版和17pro，续航电池谁多？说典型容量",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compare"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17",
+        "xiaomi-17-pro"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17#01",
+        "xiaomi-17-pro#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "Xiaomi 17 电池为7000 mAh（典型）",
+        "Xiaomi 17 Pro 电池为6300 mAh（典型值）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17/specs",
+        "https://www.mi.com/prod/xiaomi-17-pro/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CP-03",
+    "category": "model_compare",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "17Pro改上17U，插线标称瓦数差多少？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compare"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17-pro",
+        "xiaomi-17-ultra"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17-pro#01",
+        "xiaomi-17-ultra#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "Xiaomi 17 Pro 有线充电为100 W（官方标称）",
+        "Xiaomi 17 Ultra 有线充电为90 W（官方标称）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17-pro/specs",
+        "https://www.mi.com/prod/xiaomi-17-ultra/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CP-04",
+    "category": "model_compare",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "同叫K80，带pro和不带pro的用啥处理器？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compare"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k80",
+        "redmi-k80-pro"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k80#01",
+        "redmi-k80-pro#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "REDMI K80 芯片为第三代骁龙 8",
+        "REDMI K80 Pro 芯片为骁龙 8 至尊版"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k80/specs",
+        "https://www.mi.com/prod/redmi-k80-pro/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CP-05",
+    "category": "model_compare",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "就比一下面积，米15普通和pro分别几英寸？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compare"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-15",
+        "xiaomi-15-pro"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-15#01",
+        "xiaomi-15-pro#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "Xiaomi 15 屏幕为6.36 英寸 1.5K，最高 120 Hz",
+        "Xiaomi 15 Pro 屏幕为6.73 英寸 2K，最高 120 Hz"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-15/specs",
+        "https://www.mi.com/prod/xiaomi-15-pro/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CP-06",
+    "category": "model_compare",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "turbo5还是max电池大？俩数都报下",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compare"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-turbo-5",
+        "redmi-turbo-5-max"
+      ],
+      "gold_chunk_ids": [
+        "redmi-turbo-5#01",
+        "redmi-turbo-5-max#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "REDMI Turbo 5 电池为7560 mAh（典型值）",
+        "REDMI Turbo 5 Max 电池为9000 mAh（典型值）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-turbo-5/specs",
+        "https://www.mi.com/prod/redmi-turbo-5-max/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CP-07",
+    "category": "model_compare",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "Note17和Note17pro的头子的瓦数差多少？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compare"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-note-17",
+        "redmi-note-17-pro"
+      ],
+      "gold_chunk_ids": [
+        "redmi-note-17#01",
+        "redmi-note-17-pro#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "REDMI Note 17 有线充电为45 W（官方标称）",
+        "REDMI Note 17 Pro 有线充电为67 W（官方标称）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-note-17/specs",
+        "https://www.mi.com/prod/redmi-note-17-pro/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CP-08",
+    "category": "model_compare",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "K80普通款和下一代K90，电池差了多少？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compare"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k80",
+        "redmi-k90"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k80#01",
+        "redmi-k90#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "REDMI K80 电池为6550 mAh（典型值）",
+        "REDMI K90 电池为7100 mAh（典型）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k80/specs",
+        "https://www.mi.com/prod/redmi-k90/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CP-09",
+    "category": "model_compare",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "米15和米17的无线充标称瓦数有没有变化？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compare"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-15",
+        "xiaomi-17"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-15#01",
+        "xiaomi-17#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "Xiaomi 15 无线充电为50 W（官方标称）",
+        "Xiaomi 17 无线充电为50 W（厂商标称）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-15/specs",
+        "https://www.mi.com/prod/xiaomi-17/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CP-10",
+    "category": "model_compare",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "17U和K90顶配，典型电池各是多少？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compare"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17-ultra",
+        "redmi-k90-pro-max"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17-ultra#01",
+        "redmi-k90-pro-max#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "Xiaomi 17 Ultra 电池为6800 mAh（典型值）",
+        "REDMI K90 Pro Max 电池为7560 mAh（典型）"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17-ultra/specs",
+        "https://www.mi.com/prod/redmi-k90-pro-max/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-01",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "K90插pb2165自带线，店里写165w是我手机也能满速吗？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k90",
+        "pb2165"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k90#01",
+        "pb2165#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米充电宝 20000 165W 输出为自带 USB-C 线 120 W，USB-C 口 45 W，USB-A 口 22.5 W，双口组合上限 165 W",
+        "区分REDMI K90机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k90/specs",
+        "https://www.mi.com/xiaomi-power-bank-2w/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-02",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "k90pm接165W两万毫安那块砖，能保证120W不？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k90-pro-max",
+        "pb2165"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k90-pro-max#01",
+        "pb2165#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米充电宝 20000 165W 输出为自带 USB-C 线 120 W，USB-C 口 45 W，USB-A 口 22.5 W，双口组合上限 165 W",
+        "区分REDMI K90 Pro Max机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k90-pro-max/specs",
+        "https://www.mi.com/xiaomi-power-bank-2w/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-03",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "米17配那块PB2165，带的C线说120瓦，手机实际也是120吗？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17",
+        "pb2165"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17#01",
+        "pb2165#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米充电宝 20000 165W 输出为自带 USB-C 线 120 W，USB-C 口 45 W，USB-A 口 22.5 W，双口组合上限 165 W",
+        "区分Xiaomi 17机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17/specs",
+        "https://www.mi.com/xiaomi-power-bank-2w/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-04",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "红米note17普版拿20000 165W充电宝，120瓦能直接充吗",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-note-17",
+        "pb2165"
+      ],
+      "gold_chunk_ids": [
+        "redmi-note-17#01",
+        "pb2165#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米充电宝 20000 165W 输出为自带 USB-C 线 120 W，USB-C 口 45 W，USB-A 口 22.5 W，双口组合上限 165 W",
+        "区分REDMI Note 17机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-note-17/specs",
+        "https://www.mi.com/xiaomi-power-bank-2w/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-05",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "万毫安自带线165w那款，给老K80插上就必到165W？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k80",
+        "165w-10000-integrated"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k80#01",
+        "165w-10000-integrated#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米自带线充电宝 10000 165W 输出为厂商标注组合 165 W，自带线与设备协议影响可达功率",
+        "区分REDMI K80机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k80/specs",
+        "https://www.mi.com/xiaomi-power-bank?product_id=2230002415"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-06",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "米15放PLM11ZM上标的10w就是实测能一直到的值吗？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-15",
+        "plm11zm"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-15#01",
+        "plm11zm#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米无线充电宝 10000mAh 输出为无线最高 10 W；适用设备及无线功率由官方按设备类别给出",
+        "区分Xiaomi 15机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-15/specs",
+        "https://www.mi.com/wirelesspb"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-07",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "17pro放小米50W风冷无线充Pro上，店里的50W能当手机实际功率么？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17-pro",
+        "mi-50w-air-wireless-pro"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17-pro#01",
+        "mi-50w-air-wireless-pro#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米50W立式风冷无线充 Pro 输出为商品名称标注 50 W，配对功率需查具体机型",
+        "区分Xiaomi 17 Pro机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17-pro/specs",
+        "https://m.mi.com/commodity/list/1598"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-08",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "车上1A1C写100W，红米turbo5插C口就一直有100瓦？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-turbo-5",
+        "mi-100w-car-1a1c"
+      ],
+      "gold_chunk_ids": [
+        "redmi-turbo-5#01",
+        "mi-100w-car-1a1c#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米车载充电器快充版 1A1C 100W 输出为公开列表标注 USB-C 100 W MAX，USB-A / USB-C 双口",
+        "区分REDMI Turbo 5机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-turbo-5/specs",
+        "https://m.mi.com/commodity/list/1600"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-09",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "17U搭30w小米磁吸充，能直接承诺30w吗？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17-ultra",
+        "mi-30w-magnet"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17-ultra#01",
+        "mi-30w-magnet#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米30W磁吸无线充 输出为商品名称标注 30 W，配对功率需查具体机型",
+        "区分Xiaomi 17 Ultra机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17-ultra/specs",
+        "https://m.mi.com/commodity/list/1598"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-10",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "K80pro原来标120W，拿小米90W套装能稳定到90吗？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k80-pro",
+        "mi-90w-charger-kit"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k80-pro#01",
+        "mi-90w-charger-kit#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米90W充电器套装 输出为商品名称标注 90 W，公开列表包含数据线",
+        "区分REDMI K80 Pro机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k80-pro/specs",
+        "https://www.mi.com/shop/search?keyword=%E5%85%85%E7%94%B5%E5%99%A8"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-11",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "红米K90用两万自带线67W的宝，一插就是67W？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k90",
+        "mi-20000-67w"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k90#01",
+        "mi-20000-67w#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米自带线充电宝 20000 67W 输出为商品名称标注 67 W，公开列表标注双向快充",
+        "区分REDMI K90机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k90/specs",
+        "https://m.mi.com/commodity/list/1650"
+      ]
+    }
+  },
+  {
+    "case_id": "FC-12",
+    "category": "fast_charge_compat",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "米15pro用小米自带线20000 22.5W，实测一定22.5w吗？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-15-pro",
+        "mi-20000-225w"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-15-pro#01",
+        "mi-20000-225w#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米自带线充电宝 20000 22.5W 输出为商品名称标注 22.5 W，公开列表标注双向快充",
+        "区分Xiaomi 15 Pro机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-15-pro/specs",
+        "https://m.mi.com/commodity/list/1650"
+      ]
+    }
+  },
+  {
+    "case_id": "AS-01",
+    "category": "after_sales",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "叠一张券再叠另外一张券行不行，最终扣多少钱看哪？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_policy"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "coupon"
+      ],
+      "gold_chunk_ids": [
+        "coupon#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米商城优惠券规则 叠加为通常不可叠加。商品或活动另有规则时以其规则为准",
+        "小米商城优惠券规则 账户与结算为个人券和实际抵扣以官方账户或结算页面为准"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/article/detail/274941d9a102.html"
+      ]
+    }
+  },
+  {
+    "case_id": "AS-02",
+    "category": "after_sales",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "刚买就降价了，找补差价要在哪儿查这单有没有资格？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_policy"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "price-protection"
+      ],
+      "gold_chunk_ids": [
+        "price-protection#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米商城价格保护规则 条件为核对商品、购买渠道、订单与规则认可的降价情形",
+        "小米商城价格保护规则 结算入口为在官方商城订单和价格保护入口核实资格"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/article/detail/96429198ed9d.html"
+      ]
+    }
+  },
+  {
+    "case_id": "AS-03",
+    "category": "after_sales",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "手机出了问题，商城APP从哪单子走售后，不知道进度去哪看？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_policy"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "aftersale"
+      ],
+      "gold_chunk_ids": [
+        "aftersale#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米商城售后申请指引 申请为登录官方商城，在对应订单的售后入口发起申请",
+        "小米商城售后申请指引 进度为通过官方售后进度入口查询"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/service/salesupport"
+      ]
+    }
+  },
+  {
+    "case_id": "AS-04",
+    "category": "after_sales",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "到店所谓一小时修好，谁都能用吗，官方怎么约？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_policy"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "quick-repair"
+      ],
+      "gold_chunk_ids": [
+        "quick-repair#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米到店快修与预约 快修范围为官网介绍的一小时快修包含保内等适用条件",
+        "小米到店快修与预约 官方预约为登录官方页面填写资料并选择时间；本项目写入的是演示号源"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/service/quick-repair"
+      ]
+    }
+  },
+  {
+    "case_id": "AS-05",
+    "category": "after_sales",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "换了根线还没反应又发烫，先咋处理？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_support"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "charging"
+      ],
+      "gold_chunk_ids": [
+        "charging#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "手机无法充电与充电慢 无法充电为核对原装适配器、线材和供电是否正常。异常发热时停止充电并联系售后检测"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/service/support/power"
+      ]
+    }
+  },
+  {
+    "case_id": "AS-06",
+    "category": "after_sales",
+    "in_rag_ablation": true,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "黑屏没亮开不了机，官方排查在哪里，还是不行呢？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_support"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "power-on"
+      ],
+      "gold_chunk_ids": [
+        "power-on#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "手机无法开机 入口为小米帮助中心的技术支持提供按现象查找的无开机指南",
+        "手机无法开机 适用说明为先明确机型和能否正常充电；仍异常可查询授权维修网点"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/service/support"
+      ]
+    }
+  },
+  {
+    "case_id": "AS-07",
+    "category": "after_sales",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "券忘领或者过期还能用么，哪些东西能用怎么看？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_policy"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "coupon"
+      ],
+      "gold_chunk_ids": [
+        "coupon#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米商城优惠券规则 有效期为券面有效期内使用，过期失效",
+        "小米商城优惠券规则 使用范围为以券面标注的商品、渠道和使用条件为准"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/article/detail/274941d9a102.html"
+      ]
+    }
+  },
+  {
+    "case_id": "AS-08",
+    "category": "after_sales",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": false,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "能充但越来越慢，换头换线要按什么思路排？",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_support"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "charging"
+      ],
+      "gold_chunk_ids": [
+        "charging#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "手机无法充电与充电慢 充电慢为先确认适配器和线材匹配，必要时替换适配线材对照排查",
+        "手机无法充电与充电慢 适用说明为这是通用故障资料。机型专用步骤需另查官方指南；继续异常时转官方检测"
+      ],
+      "forbidden_claims": [],
+      "required_citation_sources": [
+        "https://www.mi.com/service/support/power"
+      ]
+    }
+  },
+  {
+    "case_id": "CL-01",
+    "category": "multi_turn_clarify",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "PB2165我的手机能跑120瓦不？",
+        "expected_behavior": "ask_clarification",
+        "expected_clarification_slot": "target_phone_model",
+        "expected_mcp_tools": []
+      },
+      {
+        "turn_index": 2,
+        "user_query": "我是红米K90普通版。",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k90",
+        "pb2165"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k90#01",
+        "pb2165#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米充电宝 20000 165W 输出为自带 USB-C 线 120 W，USB-C 口 45 W，USB-A 口 22.5 W，双口组合上限 165 W",
+        "区分REDMI K90机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k90/specs",
+        "https://www.mi.com/xiaomi-power-bank-2w/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CL-02",
+    "category": "multi_turn_clarify",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "这块两万165W的我用能满速吗？",
+        "expected_behavior": "ask_clarification",
+        "expected_clarification_slot": "target_phone_model",
+        "expected_mcp_tools": []
+      },
+      {
+        "turn_index": 2,
+        "user_query": "用小米17 Pro，配件是PB2165。",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17-pro",
+        "pb2165"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17-pro#01",
+        "pb2165#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米充电宝 20000 165W 输出为自带 USB-C 线 120 W，USB-C 口 45 W，USB-A 口 22.5 W，双口组合上限 165 W",
+        "区分Xiaomi 17 Pro机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17-pro/specs",
+        "https://www.mi.com/xiaomi-power-bank-2w/specs"
+      ]
+    }
+  },
+  {
+    "case_id": "CL-03",
+    "category": "multi_turn_clarify",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "我拿小米90W套装就能一直充到90吗？",
+        "expected_behavior": "ask_clarification",
+        "expected_clarification_slot": "target_phone_model",
+        "expected_mcp_tools": []
+      },
+      {
+        "turn_index": 2,
+        "user_query": "红米K80普通款。",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k80",
+        "mi-90w-charger-kit"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k80#01",
+        "mi-90w-charger-kit#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米90W充电器套装 输出为商品名称标注 90 W，公开列表包含数据线",
+        "区分REDMI K80机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k80/specs",
+        "https://www.mi.com/shop/search?keyword=%E5%85%85%E7%94%B5%E5%99%A8"
+      ]
+    }
+  },
+  {
+    "case_id": "CL-04",
+    "category": "multi_turn_clarify",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "PLM11ZM给我这台能不能一直跑10瓦？",
+        "expected_behavior": "ask_clarification",
+        "expected_clarification_slot": "target_phone_model",
+        "expected_mcp_tools": []
+      },
+      {
+        "turn_index": 2,
+        "user_query": "小米15手机。",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-15",
+        "plm11zm"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-15#01",
+        "plm11zm#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米无线充电宝 10000mAh 输出为无线最高 10 W；适用设备及无线功率由官方按设备类别给出",
+        "区分Xiaomi 15机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-15/specs",
+        "https://www.mi.com/wirelesspb"
+      ]
+    }
+  },
+  {
+    "case_id": "CL-05",
+    "category": "multi_turn_clarify",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "米17普通款用个车充，能跑100W吗？",
+        "expected_behavior": "ask_clarification",
+        "expected_clarification_slot": "accessory_model",
+        "expected_mcp_tools": []
+      },
+      {
+        "turn_index": 2,
+        "user_query": "车充型号是小米1A1C 100W。",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17",
+        "mi-100w-car-1a1c"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17#01",
+        "mi-100w-car-1a1c#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米车载充电器快充版 1A1C 100W 输出为公开列表标注 USB-C 100 W MAX，USB-A / USB-C 双口",
+        "区分Xiaomi 17机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17/specs",
+        "https://m.mi.com/commodity/list/1600"
+      ]
+    }
+  },
+  {
+    "case_id": "CL-06",
+    "category": "multi_turn_clarify",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "17U配手里那个磁吸无线充可以满多少？",
+        "expected_behavior": "ask_clarification",
+        "expected_clarification_slot": "accessory_model",
+        "expected_mcp_tools": []
+      },
+      {
+        "turn_index": 2,
+        "user_query": "是小米30W磁吸无线充。",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-17-ultra",
+        "mi-30w-magnet"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-17-ultra#01",
+        "mi-30w-magnet#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米30W磁吸无线充 输出为商品名称标注 30 W，配对功率需查具体机型",
+        "区分Xiaomi 17 Ultra机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-17-ultra/specs",
+        "https://m.mi.com/commodity/list/1598"
+      ]
+    }
+  },
+  {
+    "case_id": "CL-07",
+    "category": "multi_turn_clarify",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "我这个小米50W无线充能直接满50吗？",
+        "expected_behavior": "ask_clarification",
+        "expected_clarification_slot": "target_phone_model",
+        "expected_mcp_tools": []
+      },
+      {
+        "turn_index": 2,
+        "user_query": "K90 Pro Max，配件是立式风冷无线充Pro。",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-k90-pro-max",
+        "mi-50w-air-wireless-pro"
+      ],
+      "gold_chunk_ids": [
+        "redmi-k90-pro-max#01",
+        "mi-50w-air-wireless-pro#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米50W立式风冷无线充 Pro 输出为商品名称标注 50 W，配对功率需查具体机型",
+        "区分REDMI K90 Pro Max机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-k90-pro-max/specs",
+        "https://m.mi.com/commodity/list/1598"
+      ]
+    }
+  },
+  {
+    "case_id": "CL-08",
+    "category": "multi_turn_clarify",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "红米Note17普通版连我那个充电宝能不能满速？",
+        "expected_behavior": "ask_clarification",
+        "expected_clarification_slot": "accessory_model",
+        "expected_mcp_tools": []
+      },
+      {
+        "turn_index": 2,
+        "user_query": "是自带线10000 165W那款。",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-note-17",
+        "165w-10000-integrated"
+      ],
+      "gold_chunk_ids": [
+        "redmi-note-17#01",
+        "165w-10000-integrated#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米自带线充电宝 10000 165W 输出为厂商标注组合 165 W，自带线与设备协议影响可达功率",
+        "区分REDMI Note 17机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-note-17/specs",
+        "https://www.mi.com/xiaomi-power-bank?product_id=2230002415"
+      ]
+    }
+  },
+  {
+    "case_id": "CL-09",
+    "category": "multi_turn_clarify",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "20000自带线67瓦的充电宝能给我的手机满67W吗？",
+        "expected_behavior": "ask_clarification",
+        "expected_clarification_slot": "target_phone_model",
+        "expected_mcp_tools": []
+      },
+      {
+        "turn_index": 2,
+        "user_query": "用红米Turbo 5普通版。",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "redmi-turbo-5",
+        "mi-20000-67w"
+      ],
+      "gold_chunk_ids": [
+        "redmi-turbo-5#01",
+        "mi-20000-67w#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米自带线充电宝 20000 67W 输出为商品名称标注 67 W，公开列表标注双向快充",
+        "区分REDMI Turbo 5机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/redmi-turbo-5/specs",
+        "https://m.mi.com/commodity/list/1650"
+      ]
+    }
+  },
+  {
+    "case_id": "CL-10",
+    "category": "multi_turn_clarify",
+    "in_rag_ablation": false,
+    "power_misattribution_risk": true,
+    "turns": [
+      {
+        "turn_index": 1,
+        "user_query": "我的米15pro能从这块充电宝吃多少功率？",
+        "expected_behavior": "ask_clarification",
+        "expected_clarification_slot": "accessory_model",
+        "expected_mcp_tools": []
+      },
+      {
+        "turn_index": 2,
+        "user_query": "充电宝是小米20000 165W PB2165。",
+        "expected_behavior": "answer_with_citation",
+        "expected_clarification_slot": null,
+        "expected_mcp_tools": [
+          "store_compatibility"
+        ]
+      }
+    ],
+    "retrieval_ground_truth": {
+      "gold_doc_ids": [
+        "xiaomi-15-pro",
+        "pb2165"
+      ],
+      "gold_chunk_ids": [
+        "xiaomi-15-pro#01",
+        "pb2165#01"
+      ]
+    },
+    "answer_ground_truth": {
+      "must_include_facts": [
+        "小米充电宝 20000 165W 输出为自带 USB-C 线 120 W，USB-C 口 45 W，USB-A 口 22.5 W，双口组合上限 165 W",
+        "区分Xiaomi 15 Pro机型的公开兼容证据和配件标称规格",
+        "仅有系列或商品级证据时，具体搭配实际功率待核实"
+      ],
+      "forbidden_claims": [
+        "将配件标称最大输出或系列范围承诺为具体机型实际输入功率"
+      ],
+      "required_citation_sources": [
+        "https://www.mi.com/prod/xiaomi-15-pro/specs",
+        "https://www.mi.com/xiaomi-power-bank-2w/specs"
+      ]
+    }
+  }
+]

@@ -20,8 +20,11 @@
 package io.github.qyl66.storeagent.rag.config;
 
 import io.github.qyl66.storeagent.rag.constant.RAGConstant;
+import io.github.qyl66.storeagent.rag.config.validation.RetrievalChannelConfigValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,6 +34,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * 检索预算三段值 {@code recallBudget / candidateLimit / contextTopK} 的解析与漏斗不变式校验
  */
 class SearchChannelPropertiesTest {
+
+    @Test
+    void pgKeywordSearchRequiresTheSharedPgVectorBackend() {
+        var pg = Map.of("rag.keyword.type", "pg", "rag.vector.type", "pg");
+        var milvus = Map.of("rag.keyword.type", "pg", "rag.vector.type", "milvus");
+        assertEquals(0, RetrievalChannelConfigValidator.validate(pg::get,
+                "rag.search.channels.keyword.enabled"::equals).size());
+        var violations = RetrievalChannelConfigValidator.validate(milvus::get,
+                "rag.search.channels.keyword.enabled"::equals);
+        assertEquals(1, violations.size());
+        assertEquals("rag.vector.type", violations.get(0).typeKey());
+        assertEquals(0, RetrievalChannelConfigValidator.validate(milvus::get, key -> false).size());
+    }
 
     @Test
     @DisplayName("recallBudget 默认取绝对值，=0 时回退 contextTopK，>0 用显式值")

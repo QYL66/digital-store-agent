@@ -1,10 +1,10 @@
-param([ValidateSet('Vector','Keyword','Hybrid')][string]$RetrievalMode = 'Vector')
+param([ValidateSet('Vector','PgHybrid','Keyword','Hybrid')][string]$RetrievalMode = 'PgHybrid')
 
 . (Join-Path $PSScriptRoot 'Local-Environment.ps1')
 
 Initialize-LocalCredentials
 $services = @('postgres', 'redis', 'rustfs', 'rmqnamesrv', 'rmqbroker')
-if ($RetrievalMode -ne 'Vector') {
+if ($RetrievalMode -in @('Keyword','Hybrid')) {
     $ComposeOptions += @('-f', (Join-Path $SetupDir 'compose-retrieval.yaml'))
     $services += 'elasticsearch'
     if ($RetrievalMode -eq 'Hybrid') {
@@ -44,6 +44,9 @@ if (($schemaExists | Select-Object -Last 1) -eq '0') {
 $files = @{
     'store-schema' = 'mcp-server\src\main\resources\db\store-agent.sql'
     'store-seed' = 'resources\database\store_agent_seed.sql'
+}
+if ($RetrievalMode -eq 'PgHybrid') {
+    $files['store-keyword'] = 'resources\database\upgrades\store-agent\pg-keyword.sql'
 }
 foreach ($key in $files.Keys) {
     $remote = "/tmp/$key.sql"

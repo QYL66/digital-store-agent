@@ -1,0 +1,610 @@
+{
+  "snapshot_sha256": "5deaa1666730e6ceea3f6f8727438f9f1e4166df23eac59a1cad654962eec208",
+  "chunks": [
+    {
+      "id": "redmi-k90#01",
+      "document_id": "redmi-k90",
+      "source_url": "https://www.mi.com/prod/redmi-k90/specs"
+    },
+    {
+      "id": "redmi-k90-pro-max#01",
+      "document_id": "redmi-k90-pro-max",
+      "source_url": "https://www.mi.com/prod/redmi-k90-pro-max/specs"
+    },
+    {
+      "id": "redmi-k90-max#01",
+      "document_id": "redmi-k90-max",
+      "source_url": "https://www.mi.com/prod/redmi-k90-max/specs"
+    },
+    {
+      "id": "xiaomi-17#01",
+      "document_id": "xiaomi-17",
+      "source_url": "https://www.mi.com/prod/xiaomi-17/specs"
+    },
+    {
+      "id": "xiaomi-18-pro-max#01",
+      "document_id": "xiaomi-18-pro-max",
+      "source_url": "https://www.mi.com/prod/xiaomi-18-pro-max/specs"
+    },
+    {
+      "id": "xiaomi-18-pro#01",
+      "document_id": "xiaomi-18-pro",
+      "source_url": "https://www.mi.com/prod/xiaomi-18-pro/specs"
+    },
+    {
+      "id": "xiaomi-18-fold#01",
+      "document_id": "xiaomi-18-fold",
+      "source_url": "https://www.mi.com/prod/xiaomi-18-fold/specs"
+    },
+    {
+      "id": "xiaomi-17t-pro#01",
+      "document_id": "xiaomi-17t-pro",
+      "source_url": "https://www.mi.com/prod/xiaomi-17t-pro/specs"
+    },
+    {
+      "id": "xiaomi-17t#01",
+      "document_id": "xiaomi-17t",
+      "source_url": "https://www.mi.com/prod/xiaomi-17t/specs"
+    },
+    {
+      "id": "xiaomi-17-max#01",
+      "document_id": "xiaomi-17-max",
+      "source_url": "https://www.mi.com/prod/xiaomi-17-max/specs"
+    },
+    {
+      "id": "xiaomi-17-ultra#01",
+      "document_id": "xiaomi-17-ultra",
+      "source_url": "https://www.mi.com/prod/xiaomi-17-ultra/specs"
+    },
+    {
+      "id": "xiaomi-17-pro-max#01",
+      "document_id": "xiaomi-17-pro-max",
+      "source_url": "https://www.mi.com/prod/xiaomi-17-pro-max/specs"
+    },
+    {
+      "id": "xiaomi-17-pro#01",
+      "document_id": "xiaomi-17-pro",
+      "source_url": "https://www.mi.com/prod/xiaomi-17-pro/specs"
+    },
+    {
+      "id": "xiaomi-15-ultra#01",
+      "document_id": "xiaomi-15-ultra",
+      "source_url": "https://www.mi.com/prod/xiaomi-15-ultra/specs"
+    },
+    {
+      "id": "xiaomi-15s-pro#01",
+      "document_id": "xiaomi-15s-pro",
+      "source_url": "https://www.mi.com/prod/xiaomi-15s-pro/specs"
+    },
+    {
+      "id": "xiaomi-15-pro#01",
+      "document_id": "xiaomi-15-pro",
+      "source_url": "https://www.mi.com/prod/xiaomi-15-pro/specs"
+    },
+    {
+      "id": "xiaomi-15#01",
+      "document_id": "xiaomi-15",
+      "source_url": "https://www.mi.com/prod/xiaomi-15/specs"
+    },
+    {
+      "id": "xiaomi-mix-flip-2#01",
+      "document_id": "xiaomi-mix-flip-2",
+      "source_url": "https://www.mi.com/prod/xiaomi-mix-flip2/specs"
+    },
+    {
+      "id": "redmi-k100-pro-max#01",
+      "document_id": "redmi-k100-pro-max",
+      "source_url": "https://www.mi.com/prod/redmi-k100-pro-max/specs"
+    },
+    {
+      "id": "redmi-k100-pro#01",
+      "document_id": "redmi-k100-pro",
+      "source_url": "https://www.mi.com/prod/redmi-k100-pro/specs"
+    },
+    {
+      "id": "redmi-k100#01",
+      "document_id": "redmi-k100",
+      "source_url": "https://www.mi.com/prod/redmi-k100/specs"
+    },
+    {
+      "id": "redmi-k90-ultra#01",
+      "document_id": "redmi-k90-ultra",
+      "source_url": "https://www.mi.com/prod/redmi-k90-ultra/specs"
+    },
+    {
+      "id": "redmi-k80-pro#01",
+      "document_id": "redmi-k80-pro",
+      "source_url": "https://www.mi.com/prod/redmi-k80-pro/specs"
+    },
+    {
+      "id": "redmi-k80-ultra#01",
+      "document_id": "redmi-k80-ultra",
+      "source_url": "https://www.mi.com/prod/redmi-k80-ultra/specs"
+    },
+    {
+      "id": "redmi-k80#01",
+      "document_id": "redmi-k80",
+      "source_url": "https://www.mi.com/prod/redmi-k80/specs"
+    },
+    {
+      "id": "redmi-17-5g#01",
+      "document_id": "redmi-17-5g",
+      "source_url": "https://www.mi.com/prod/redmi-17-5g/specs"
+    },
+    {
+      "id": "redmi-note-17-pro#01",
+      "document_id": "redmi-note-17-pro",
+      "source_url": "https://www.mi.com/prod/redmi-note-17-pro/specs"
+    },
+    {
+      "id": "redmi-note-17#01",
+      "document_id": "redmi-note-17",
+      "source_url": "https://www.mi.com/prod/redmi-note-17/specs"
+    },
+    {
+      "id": "pb2165#01",
+      "document_id": "pb2165",
+      "source_url": "https://www.mi.com/xiaomi-power-bank-2w/specs"
+    },
+    {
+      "id": "plm11zm#01",
+      "document_id": "plm11zm",
+      "source_url": "https://www.mi.com/wirelesspb"
+    },
+    {
+      "id": "165w-10000-integrated#01",
+      "document_id": "165w-10000-integrated",
+      "source_url": "https://www.mi.com/xiaomi-power-bank?product_id=2230002415"
+    },
+    {
+      "id": "coupon#01",
+      "document_id": "coupon",
+      "source_url": "https://www.mi.com/article/detail/274941d9a102.html"
+    },
+    {
+      "id": "price-protection#01",
+      "document_id": "price-protection",
+      "source_url": "https://www.mi.com/article/detail/96429198ed9d.html"
+    },
+    {
+      "id": "aftersale#01",
+      "document_id": "aftersale",
+      "source_url": "https://www.mi.com/service/salesupport"
+    },
+    {
+      "id": "quick-repair#01",
+      "document_id": "quick-repair",
+      "source_url": "https://www.mi.com/service/quick-repair"
+    },
+    {
+      "id": "charging#01",
+      "document_id": "charging",
+      "source_url": "https://www.mi.com/service/support/power"
+    },
+    {
+      "id": "power-on#01",
+      "document_id": "power-on",
+      "source_url": "https://www.mi.com/service/support"
+    },
+    {
+      "id": "xiaomi-17-ultra-leica#01",
+      "document_id": "xiaomi-17-ultra-leica",
+      "source_url": "https://www.mi.com/shop/buy?product_id=1230805813"
+    },
+    {
+      "id": "xiaomi-15-custom#01",
+      "document_id": "xiaomi-15-custom",
+      "source_url": "https://www.mi.com/shop/buy?product_id=1230802940"
+    },
+    {
+      "id": "xiaomi-civi-5-pro#01",
+      "document_id": "xiaomi-civi-5-pro",
+      "source_url": "https://www.mi.com/prod/xiaomi-civi-5-pro/specs"
+    },
+    {
+      "id": "xiaomi-civi-4-pro#01",
+      "document_id": "xiaomi-civi-4-pro",
+      "source_url": "https://www.mi.com/prod/xiaomi-civi-4-pro/specs"
+    },
+    {
+      "id": "redmi-note-17-pro-refresh#01",
+      "document_id": "redmi-note-17-pro-refresh",
+      "source_url": "https://www.mi.com/prod/redmi-note-17-pro-new/specs"
+    },
+    {
+      "id": "redmi-turbo-5-max#01",
+      "document_id": "redmi-turbo-5-max",
+      "source_url": "https://www.mi.com/prod/redmi-turbo-5-max/specs"
+    },
+    {
+      "id": "redmi-turbo-5#01",
+      "document_id": "redmi-turbo-5",
+      "source_url": "https://www.mi.com/prod/redmi-turbo-5/specs"
+    },
+    {
+      "id": "redmi-17c#01",
+      "document_id": "redmi-17c",
+      "source_url": "https://www.mi.com/prod/redmi-17c/specs"
+    },
+    {
+      "id": "redmi-14c#01",
+      "document_id": "redmi-14c",
+      "source_url": "https://www.mi.com/prod/redmi-14c/specs"
+    },
+    {
+      "id": "mi-100w-car-1a1c#01",
+      "document_id": "mi-100w-car-1a1c",
+      "source_url": "https://m.mi.com/commodity/list/1600"
+    },
+    {
+      "id": "mi-50w-air-wireless-pro#01",
+      "document_id": "mi-50w-air-wireless-pro",
+      "source_url": "https://m.mi.com/commodity/list/1598"
+    },
+    {
+      "id": "mi-30w-magnet#01",
+      "document_id": "mi-30w-magnet",
+      "source_url": "https://m.mi.com/commodity/list/1598"
+    },
+    {
+      "id": "mi-20000-67w#01",
+      "document_id": "mi-20000-67w",
+      "source_url": "https://m.mi.com/commodity/list/1650"
+    },
+    {
+      "id": "mi-20000-225w#01",
+      "document_id": "mi-20000-225w",
+      "source_url": "https://m.mi.com/commodity/list/1650"
+    },
+    {
+      "id": "mi-90w-charger-kit#01",
+      "document_id": "mi-90w-charger-kit",
+      "source_url": "https://www.mi.com/shop/search?keyword=%E5%85%85%E7%94%B5%E5%99%A8"
+    },
+    {
+      "id": "redmi-note-15#01",
+      "document_id": "redmi-note-15",
+      "source_url": "https://www.mi.com/prod/redmi-note-15/specs"
+    },
+    {
+      "id": "redmi-note-15-pro#01",
+      "document_id": "redmi-note-15-pro",
+      "source_url": "https://www.mi.com/prod/redmi-note-15-pro/specs"
+    },
+    {
+      "id": "redmi-note-15-pro-plus#01",
+      "document_id": "redmi-note-15-pro-plus",
+      "source_url": "https://www.mi.com/prod/redmi-note-15-pro+/specs"
+    },
+    {
+      "id": "redmi-note-15r-pro#01",
+      "document_id": "redmi-note-15r-pro",
+      "source_url": "https://www.mi.com/prod/redmi-note-15r-pro/specs"
+    },
+    {
+      "id": "redmi-turbo-4#01",
+      "document_id": "redmi-turbo-4",
+      "source_url": "https://www.mi.com/prod/redmi-turbo-4/specs"
+    },
+    {
+      "id": "redmi-turbo-4-pro#01",
+      "document_id": "redmi-turbo-4-pro",
+      "source_url": "https://www.mi.com/prod/redmi-turbo-4-pro/specs"
+    },
+    {
+      "id": "xiaomi-14-ultra#01",
+      "document_id": "xiaomi-14-ultra",
+      "source_url": "https://www.mi.com/prod/xiaomi-14-ultra/specs"
+    },
+    {
+      "id": "mi-product-11174#01",
+      "document_id": "mi-product-11174",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=11174"
+    },
+    {
+      "id": "mi-product-25761#01",
+      "document_id": "mi-product-25761",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=25761"
+    },
+    {
+      "id": "mi-product-25801#01",
+      "document_id": "mi-product-25801",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=25801"
+    },
+    {
+      "id": "mi-product-25714#01",
+      "document_id": "mi-product-25714",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=25714"
+    },
+    {
+      "id": "mi-product-25210#01",
+      "document_id": "mi-product-25210",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=25210"
+    },
+    {
+      "id": "mi-product-25813#01",
+      "document_id": "mi-product-25813",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=25813"
+    },
+    {
+      "id": "mi-product-15554#01",
+      "document_id": "mi-product-15554",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=15554"
+    },
+    {
+      "id": "mi-product-25745#01",
+      "document_id": "mi-product-25745",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=25745"
+    },
+    {
+      "id": "mi-product-25744#01",
+      "document_id": "mi-product-25744",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=25744"
+    },
+    {
+      "id": "mi-product-25723#01",
+      "document_id": "mi-product-25723",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=25723"
+    },
+    {
+      "id": "mi-product-20878#01",
+      "document_id": "mi-product-20878",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=20878"
+    },
+    {
+      "id": "mi-product-21468#01",
+      "document_id": "mi-product-21468",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=21468"
+    },
+    {
+      "id": "mi-product-22179#01",
+      "document_id": "mi-product-22179",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=22179"
+    },
+    {
+      "id": "mi-product-21382#01",
+      "document_id": "mi-product-21382",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=21382"
+    },
+    {
+      "id": "mi-product-20395#01",
+      "document_id": "mi-product-20395",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=20395"
+    },
+    {
+      "id": "mi-product-13468#01",
+      "document_id": "mi-product-13468",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=13468"
+    },
+    {
+      "id": "mi-product-19993#01",
+      "document_id": "mi-product-19993",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19993"
+    },
+    {
+      "id": "mi-product-20075#01",
+      "document_id": "mi-product-20075",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=20075"
+    },
+    {
+      "id": "mi-product-15869#01",
+      "document_id": "mi-product-15869",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=15869"
+    },
+    {
+      "id": "mi-product-21970#01",
+      "document_id": "mi-product-21970",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=21970"
+    },
+    {
+      "id": "mi-product-18557#01",
+      "document_id": "mi-product-18557",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=18557"
+    },
+    {
+      "id": "mi-product-21775#01",
+      "document_id": "mi-product-21775",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=21775"
+    },
+    {
+      "id": "mi-product-19776#01",
+      "document_id": "mi-product-19776",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19776"
+    },
+    {
+      "id": "mi-product-20841#01",
+      "document_id": "mi-product-20841",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=20841"
+    },
+    {
+      "id": "mi-product-19666#01",
+      "document_id": "mi-product-19666",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19666"
+    },
+    {
+      "id": "mi-product-19601#01",
+      "document_id": "mi-product-19601",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19601"
+    },
+    {
+      "id": "mi-product-19777#01",
+      "document_id": "mi-product-19777",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19777"
+    },
+    {
+      "id": "mi-product-11859#01",
+      "document_id": "mi-product-11859",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=11859"
+    },
+    {
+      "id": "mi-product-18556#01",
+      "document_id": "mi-product-18556",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=18556"
+    },
+    {
+      "id": "mi-product-22699#01",
+      "document_id": "mi-product-22699",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=22699"
+    },
+    {
+      "id": "mi-product-19846#01",
+      "document_id": "mi-product-19846",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19846"
+    },
+    {
+      "id": "mi-product-21190#01",
+      "document_id": "mi-product-21190",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=21190"
+    },
+    {
+      "id": "mi-product-20842#01",
+      "document_id": "mi-product-20842",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=20842"
+    },
+    {
+      "id": "mi-product-19766#01",
+      "document_id": "mi-product-19766",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19766"
+    },
+    {
+      "id": "mi-product-18453#01",
+      "document_id": "mi-product-18453",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=18453"
+    },
+    {
+      "id": "mi-product-14237#01",
+      "document_id": "mi-product-14237",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=14237"
+    },
+    {
+      "id": "mi-product-21326#01",
+      "document_id": "mi-product-21326",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=21326"
+    },
+    {
+      "id": "mi-product-18290#01",
+      "document_id": "mi-product-18290",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=18290"
+    },
+    {
+      "id": "mi-product-20780#01",
+      "document_id": "mi-product-20780",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=20780"
+    },
+    {
+      "id": "mi-product-24336#01",
+      "document_id": "mi-product-24336",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=24336"
+    },
+    {
+      "id": "mi-product-19856#01",
+      "document_id": "mi-product-19856",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19856"
+    },
+    {
+      "id": "mi-product-20003#01",
+      "document_id": "mi-product-20003",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=20003"
+    },
+    {
+      "id": "mi-product-12896#01",
+      "document_id": "mi-product-12896",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=12896"
+    },
+    {
+      "id": "mi-product-19331#01",
+      "document_id": "mi-product-19331",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19331"
+    },
+    {
+      "id": "mi-product-21973#01",
+      "document_id": "mi-product-21973",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=21973"
+    },
+    {
+      "id": "mi-product-19153#01",
+      "document_id": "mi-product-19153",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19153"
+    },
+    {
+      "id": "mi-product-16720#01",
+      "document_id": "mi-product-16720",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=16720"
+    },
+    {
+      "id": "mi-product-21967#01",
+      "document_id": "mi-product-21967",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=21967"
+    },
+    {
+      "id": "mi-product-22305#01",
+      "document_id": "mi-product-22305",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=22305"
+    },
+    {
+      "id": "mi-product-22451#01",
+      "document_id": "mi-product-22451",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=22451"
+    },
+    {
+      "id": "mi-product-16709#01",
+      "document_id": "mi-product-16709",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=16709"
+    },
+    {
+      "id": "mi-product-20188#01",
+      "document_id": "mi-product-20188",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=20188"
+    },
+    {
+      "id": "mi-product-22000#01",
+      "document_id": "mi-product-22000",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=22000"
+    },
+    {
+      "id": "mi-product-20863#01",
+      "document_id": "mi-product-20863",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=20863"
+    },
+    {
+      "id": "mi-product-19694#01",
+      "document_id": "mi-product-19694",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19694"
+    },
+    {
+      "id": "mi-product-18181#01",
+      "document_id": "mi-product-18181",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=18181"
+    },
+    {
+      "id": "mi-product-19586#01",
+      "document_id": "mi-product-19586",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19586"
+    },
+    {
+      "id": "mi-product-19353#01",
+      "document_id": "mi-product-19353",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=19353"
+    },
+    {
+      "id": "mi-product-20421#01",
+      "document_id": "mi-product-20421",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=20421"
+    },
+    {
+      "id": "mi-product-18182#01",
+      "document_id": "mi-product-18182",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=18182"
+    },
+    {
+      "id": "mi-product-21998#01",
+      "document_id": "mi-product-21998",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=21998"
+    },
+    {
+      "id": "mi-product-21660#01",
+      "document_id": "mi-product-21660",
+      "source_url": "https://www.mi.com/shop/buy/detail?product_id=21660"
+    }
+  ]
+}

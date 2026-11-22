@@ -1,7 +1,7 @@
 param(
     [switch]$McpOnly,
     [switch]$NoBrowser,
-    [ValidateSet('Vector','Keyword','Hybrid')][string]$RetrievalMode = 'Vector'
+    [ValidateSet('Vector','PgHybrid','Keyword','Hybrid')][string]$RetrievalMode = 'PgHybrid'
 )
 
 . (Join-Path $PSScriptRoot 'Local-Environment.ps1')
@@ -65,7 +65,11 @@ New-Item -ItemType Directory -Path $LogsDir -Force | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'Start Docker Desktop and wait for the Linux engine, then run this script again.' }
 if ($RetrievalMode -eq 'Hybrid') { Read-LocalSecret 'BAILIAN_API_KEY' 'Bailian API key' }
 & (Join-Path $SetupDir 'Start-Middleware.ps1') -RetrievalMode $RetrievalMode
-$env:STORE_AGENT_KEYWORD_TYPE = if ($RetrievalMode -eq 'Vector') { 'none' } else { 'es' }
+$env:STORE_AGENT_KEYWORD_TYPE = switch ($RetrievalMode) {
+    'Vector' { 'none' }
+    'PgHybrid' { 'pg' }
+    default { 'es' }
+}
 $env:STORE_AGENT_KEYWORD_ENABLED = if ($RetrievalMode -eq 'Vector') { 'false' } else { 'true' }
 $env:STORE_AGENT_GRAPH_TYPE = if ($RetrievalMode -eq 'Hybrid') { 'lightrag' } else { 'none' }
 $env:STORE_AGENT_GRAPH_ENABLED = if ($RetrievalMode -eq 'Hybrid') { 'true' } else { 'false' }

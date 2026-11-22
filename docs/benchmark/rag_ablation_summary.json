@@ -1,0 +1,29 @@
+{
+  "cases": 30,
+  "chunks": 121,
+  "scores": {
+    "vec_only": {
+      "hit_at_5": 0.5666666666666667,
+      "recall_at_5": 0.48333333333333334,
+      "rr_at_5": 0.44833333333333336
+    },
+    "vec_rerank": {
+      "hit_at_5": 0.8,
+      "recall_at_5": 0.7,
+      "rr_at_5": 0.7666666666666667
+    },
+    "pg_hybrid_rrf_rerank": {
+      "hit_at_5": 0.9333333333333333,
+      "recall_at_5": 0.8666666666666667,
+      "rr_at_5": 0.8833333333333333
+    }
+  },
+  "recall_gain": 0.16666666666666674,
+  "relative_miss_reduction": 0.5555555555555557,
+  "offline_gate_passed": true,
+  "snapshot": "5deaa1666730e6ceea3f6f8727438f9f1e4166df23eac59a1cad654962eec208",
+  "model_hashes": {
+    "bge-small-zh-v1.5": "354763b9b1357bc9c44f62c6be2276321081ed2567773608c0d0785b61d5a026",
+    "bge-reranker-base": "ced967c45fd1902eb92716c9ceeca7c95a936770ea9db611f5a841b926e33fbd"
+  }
+}

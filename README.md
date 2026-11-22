@@ -68,7 +68,7 @@ flowchart LR
 
 需要 Windows、JDK 17、Maven、Node.js 22.12 或更新 LTS 版本、Python 3.10 或更新版本，以及已启动 Linux 引擎的 Docker Desktop。准备 DeepSeek 与阿里云百炼 API Key，启动时在本机输入。
 
-默认以 pgvector 启动。首次运行前，若本机缺少镜像，可用 `docker pull <镜像>` 拉取 `pgvector/pgvector:pg16`、`redis:8.4-alpine`、`rustfs/rustfs:1.0.0-alpha.72` 和 `apache/rocketmq:5.2.0`。[Compose 配置](local/compose.yaml)
+本机启动器默认以 PostgreSQL 原生关键词检索与 pgvector 向量检索做 RRF 融合。需要回退时可用 `local/Start-StoreAgent.ps1 -RetrievalMode Vector`，ES 通过 `-RetrievalMode Keyword` 显式启用。首次运行前，若本机缺少镜像，可用 `docker pull <镜像>` 拉取 `pgvector/pgvector:pg16`、`redis:8.4-alpine`、`rustfs/rustfs:1.0.0-alpha.72` 和 `apache/rocketmq:5.2.0`。[Compose 配置](local/compose.yaml)
 
 ### 2. 下载并构建
 
@@ -93,6 +93,8 @@ Pop-Location
 前端、应用后端和 MCP 的默认端口分别是 `25173`、`29090` 和 `29099`，应用 API 前缀为 `/api/store-agent`。遇到启动或分块失败，可查看 `local/logs/` 中对应服务日志，核对 Docker 状态、端口与模型权限。
 
 ## 演示与验收
+
+离线检索消融、公开标注题库和端到端核对方式见[商城查询评测](docs/benchmark.md)。
 
 | 场景 | 试问 | 核对项 |
 | --- | --- | --- |

@@ -25,7 +25,9 @@ import io.github.qyl66.storeagent.rag.config.SearchChannelProperties;
 import io.github.qyl66.storeagent.rag.core.keyword.KeywordRetrieverService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.AnyNestedCondition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -35,17 +37,29 @@ import java.util.concurrent.Executor;
 /**
  * 关键词检索通道
  * <p>
- * 基于全文检索引擎（ES）的 BM25 关键词召回，与向量通道互补：擅长精确词、编号、专有名词等
- * 仅当开启 ES 关键词检索（rag.keyword.type=es）时才注册，
- * 否则整个通道不存在，引擎自动退化为纯向量检索
+ * 基于 ES 或 PostgreSQL 的关键词召回，用于补充精确词、编号和专有名词等。
  * <p>
  * 与其他通道并行执行，结果统一进 RRF 融合，通道间无先后与优先级之分；检索范围读引擎解析好的作用域，与向量通道同源
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "rag.keyword", name = "type", havingValue = "es")
+@Conditional(KeywordSearchChannel.KeywordBackendCondition.class)
 public class KeywordSearchChannel implements SearchChannel {
+
+    static class KeywordBackendCondition extends AnyNestedCondition {
+        KeywordBackendCondition() {
+            super(ConfigurationPhase.REGISTER_BEAN);
+        }
+
+        @ConditionalOnProperty(prefix = "rag.keyword", name = "type", havingValue = "es")
+        static class Elasticsearch {
+        }
+
+        @ConditionalOnProperty(prefix = "rag.keyword", name = "type", havingValue = "pg")
+        static class PostgreSql {
+        }
+    }
 
     private final KeywordRetrieverService keywordRetriever;
     private final SearchChannelProperties properties;
