@@ -26,7 +26,11 @@ def events(response):
     for line in response.iter_lines(chunk_size=1, decode_unicode=True):
         if not line:
             if data:
-                yield kind, json.loads("\n".join(data))
+                raw = "\n".join(data)
+                if kind == "done" and raw == "[DONE]":
+                    yield kind, {}
+                else:
+                    yield kind, json.loads(raw)
             kind, data = "message", []
         elif line.startswith("event:"):
             kind = line[6:].strip()
@@ -55,6 +59,10 @@ def observe(session, base, question, conversation):
                 if result["sse_first_event_ms"] is None:
                     result["sse_first_event_ms"] = event_ms
                     result["first_event_type"] = kind
+                if kind == "done":
+                    if finished and result["answer"].strip():
+                        result["status"] = "OK"
+                    break
                 if not isinstance(payload, dict):
                     continue
                 if kind == "meta":
@@ -75,10 +83,6 @@ def observe(session, base, question, conversation):
                     finished = payload.get("messageStatus") in ("NORMAL", None)
                 if kind == "confirm":
                     result["notes"] = "Unexpected write confirmation for a read-only case"
-                if kind == "done":
-                    if finished and result["answer"].strip():
-                        result["status"] = "OK"
-                    break
             result["tools"] = list(tools.values())
             if result["status"] != "OK" and not result["notes"]:
                 result["notes"] = "Completed answer not observed"
@@ -119,6 +123,7 @@ def main():
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--port", type=int, default=29090)
     parser.add_argument("--username", default="admin")
+    parser.add_argument("--skip-warmup", action="store_true", help="Use after warm-up in a prior capture")
     parser.add_argument("--unavailable", action="store_true", help="Write a clearly unscored roster without making requests")
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
@@ -139,7 +144,8 @@ def main():
         consecutive_failures = 0
         index = 0
         with (args.out / "e2e_local_raw.jsonl").open("x", encoding="utf-8") as raw:
-            for query in ("小米商城优惠券能叠加吗？", "红米K90的典型电池容量是多少？"):
+            warmup = () if args.skip_warmup else ("小米商城优惠券能叠加吗？", "红米K90的典型电池容量是多少？")
+            for query in warmup:
                 calls += 1
                 result, _ = observe(session, base, query, None)
                 raw.write(json.dumps({"case_id": "WARMUP", "turn": calls, **result},

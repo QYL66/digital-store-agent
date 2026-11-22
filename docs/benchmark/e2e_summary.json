@@ -1,0 +1,82 @@
+{
+  "rows": 60,
+  "ok": 60,
+  "status_counts": {
+    "OK": 60,
+    "FAILED": 0,
+    "SKIPPED": 0,
+    "NOT_RUN": 0
+  },
+  "timing_by_observed_tool_calls": {
+    "0-1": {
+      "sse_first_event_ms": {
+        "n": 15,
+        "p50": 21.224,
+        "q1": 20.018,
+        "q3": 23.1415
+      },
+      "sse_first_progress_ms": {
+        "n": 15,
+        "p50": 438.109,
+        "q1": 414.83000000000004,
+        "q3": 478.251
+      },
+      "sse_first_text_ms": {
+        "n": 15,
+        "p50": 1699.733,
+        "q1": 1627.6965,
+        "q3": 2073.8959999999997
+      }
+    },
+    "2+": {
+      "sse_first_event_ms": {
+        "n": 45,
+        "p50": 21.325,
+        "q1": 19.448,
+        "q3": 24.942
+      },
+      "sse_first_progress_ms": {
+        "n": 45,
+        "p50": 456.704,
+        "q1": 420.797,
+        "q3": 504.157
+      },
+      "sse_first_text_ms": {
+        "n": 45,
+        "p50": 5570.483,
+        "q1": 4567.835,
+        "q3": 6888.976
+      }
+    }
+  },
+  "reviewed_scoring": {
+    "clarify_ok": {
+      "pass": 4,
+      "rated": 10
+    },
+    "tool_match": {
+      "pass": 45,
+      "rated": 60
+    },
+    "fact_pass": {
+      "pass": 44,
+      "rated": 50
+    },
+    "citation_ok": {
+      "pass": 36,
+      "rated": 50
+    }
+  },
+  "power_misattribution_by_case": {
+    "errors": 1,
+    "rated": 22,
+    "not_rated": 0,
+    "risk_cases": 22
+  },
+  "local_mcp_tool_ms": {
+    "n": 164,
+    "p50": 5.0,
+    "q1": 5.0,
+    "q3": 6.0
+  }
+}
