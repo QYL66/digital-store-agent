@@ -1,16 +1,33 @@
 # 数码商城智能体
 
-**查手机规格、比同系列机型、核对优惠与售后规则。**
+面向小米商城中国大陆站的导购与售后问答。能查手机规格、比较机型、核对快充兼容性，并附上可核查的官方来源。
 
-数码商城智能体是一个面向小米商城中国大陆站的 AI 查询助手。用户可以查 Xiaomi、REDMI 手机和充电配件，对比两款机型，追问配件的快充兼容性，也可以查询优惠券、价保和充电故障的公开资料。回答提供官方来源，方便核对。
+```text
+Query ──→ AgentScope ReAct
+          ├─→ MCP → 型号、规格、兼容证据
+          └─→ RAG → 关键词 + 向量 → RRF → 重排
+UI    ←── SSE ── AgentScope ReAct（流式正文与来源）
+```
 
-### 我的项目工作
+`Java 17` `Spring Boot 4.1` `AgentScope` `MCP` `PostgreSQL / pgvector` `React` · [Apache-2.0](LICENSE)
 
-- 在 Ragent 的 Agent、RAG 和管理后台上接入小米商城场景，配置商城提示词、工具与示例问题，完成工作台和 Windows 本机部署适配。
-- 整理官方目录和支持资料，统一机型别名、规格字段、配件兼容证据和来源。导入脚本按稳定标识更新 PostgreSQL，并生成涵盖各系列及字段缺失情况的报告。
-- 编写 7 个只读商城 MCP 工具。对比时逐款返回出处，快充查询区分具体机型和系列证据。缺少实时价格、库存或个人优惠资格证据时，引导用户在小米官网核对。
+[本机启动](#本机启动) · [系统流程](#系统流程) · [评测结果](#评测结果) · [界面预览](#界面预览) · [目录结构](#目录结构)
 
-[界面预览](#界面预览) · [核心功能](#核心功能) · [系统流程](#系统流程) · [本机启动](#本机启动) · [演示与验收](#演示与验收) · [目录结构](#目录结构)
+## 评测结果
+
+**离线检索 · 30 题 / 121 个固定分块。** 两组重排都取 20 个候选，用同一模型重排后评估 Top 5。
+
+| 检索配置 | Hit@5 | Recall@5 | MRR@5 |
+| --- | ---: | ---: | ---: |
+| pgvector | 56.7% | 48.3% | 0.448 |
+| pgvector + 重排 | 80.0% | 70.0% | 0.767 |
+| PostgreSQL 混合检索 + 重排 | **93.3%** | **86.7%** | **0.883** |
+
+**真实问答 · 50 题 / 60 回合。** 60 回合均完整返回，关键事实通过 **44/50**，完整可点击引用 36/50。调用 0–1 次和 ≥2 次工具的回合，首段可见正文 P50 分别为 **1.70 s** 和 **5.57 s**。
+
+22 例快充风险题中，0 例把配件标称功率当作具体配对实测功率，1 例将系列功率区间误套到具体配对。
+
+[完整评测报告](docs/eval-report.md) · [题库与真值](docs/benchmark/eval_dataset_50.json) · [检索逐题数据](docs/benchmark/rag_ablation_results.csv) · [问答逐回合数据](docs/benchmark/e2e_eval_results.csv)
 
 ## 界面预览
 
@@ -39,28 +56,30 @@
 
 ```mermaid
 flowchart LR
-    User["商城工作台"] --> Agent["AgentScope ReAct"]
-    Agent -->|查询商品与规则| MCP["只读商城 MCP"]
-    MCP --> Catalog["PostgreSQL 目录"]
-    Agent -->|检索资料| RAG["RAG 检索与精排"]
-    RAG --> Vector["pgvector 文档向量"]
-    Agent -->|SSE 答案与来源| User
-    Admin["管理后台"] -->|上传文档| FS["RustFS"]
-    Admin -->|开始分块| Queue["RocketMQ"]
-    FS --> Worker["解析、分块与向量化"]
-    Queue --> Worker
-    Worker --> Vector
+    UI["React 工作台"] -->|用户问题| Agent["AgentScope ReAct"]
+    Agent -->|流式正文与来源| UI
+    Agent -->|结构化查询| Tools["7 个只读 MCP 工具"]
+    Tools --> Catalog["PostgreSQL 目录"]
+    Agent -->|资料问答| Search["RAG 检索"]
+    Search --> Keyword["tsvector + pg_trgm"]
+    Search --> Vector["pgvector"]
+    Keyword --> Fuse["RRF 融合 → 重排"]
+    Vector --> Fuse
+    Fuse -->|证据分块| Agent
 ```
 
-## 技术栈
+- **商城工具**。规格比对按机型返回出处。快充查询把手机支持的协议、配件标称输出和具体配对证据分开，缺少配对证据时提示实际协商功率待核实。
+- **混合检索**。提取型号与功率词供 `tsvector` 匹配，用 `word_similarity` 处理短问题与长分块。关键词和向量结果经 RRF 融合后重排。本机启动默认使用 `PgHybrid`，可切回纯向量或选用 Elasticsearch。
+- **会话记忆**。事务外提取用户事实，提交时按预期消息游标校验，事实变更和游标推进在同一事务中完成。上下文压缩时保留近期消息和成对工具调用记录。
 
-| 层次 | 技术 | 用途 |
-| --- | --- | --- |
-| 前端 | React、TypeScript、Vite | 商城工作台、流式对话、会话历史和后台管理 |
-| 后端 | Java 17、Spring Boot、MyBatis-Plus | 登录鉴权、资料管理、流式接口与服务编排 |
-| Agent 与模型 | AgentScope、MCP、DeepSeek、阿里云百炼 | 对话推理、商城工具调用、向量化与精排 |
-| 数据与中间件 | PostgreSQL、pgvector、Redis、RocketMQ、RustFS | 目录、向量索引、登录状态、异步分块和文档存储 |
-| 本机部署 | Docker Compose、PowerShell、Python | 管理中间件、导入快照和复验查询 |
+[商城工具源码](mcp-server/src/main/java/io/github/qyl66/storeagent/mcp/store/StoreTools.java) · [PostgreSQL 关键词检索](rag/src/main/java/io/github/qyl66/storeagent/rag/core/keyword/PgKeywordRetrieverService.java) · [检索融合](rag/src/main/java/io/github/qyl66/storeagent/rag/core/retrieval/postprocessor/FusionPostProcessor.java) · [记忆事务](agent/src/main/java/io/github/qyl66/storeagent/agent/memory/AgentMemoryRepository.java)
+
+<details>
+<summary>文档导入与服务组件</summary>
+
+管理后台将文档存入 RustFS，通过 RocketMQ 投递分块任务，解析和向量化后写入 PostgreSQL/pgvector。应用使用 MyBatis-Plus、Redis、DeepSeek 与阿里云百炼，本机中间件由 Docker Compose 管理。
+
+</details>
 
 ## 本机启动
 
@@ -93,8 +112,6 @@ Pop-Location
 前端、应用后端和 MCP 的默认端口分别是 `25173`、`29090` 和 `29099`，应用 API 前缀为 `/api/store-agent`。遇到启动或分块失败，可查看 `local/logs/` 中对应服务日志，核对 Docker 状态、端口与模型权限。
 
 ## 演示与验收
-
-离线消融、真实回答、误差分析和复现资产见[数码商城智能体评测报告](docs/eval-report.md)。
 
 | 场景 | 试问 | 核对项 |
 | --- | --- | --- |
