@@ -19,6 +19,7 @@
 
 package io.github.qyl66.storeagent.rag.core.intent;
 
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
 import io.github.qyl66.storeagent.infra.http.ModelClientErrorType;
 import io.github.qyl66.storeagent.infra.http.ModelClientException;
 import io.github.qyl66.storeagent.infra.jev.JevClient;
@@ -71,7 +72,7 @@ class JevIntentFilterChainTest {
         intentProperties.setType("jev");
 
         IntentNodeRegistry registry = mock(IntentNodeRegistry.class);
-        when(registry.listClassifiableNodes()).thenReturn(List.of(
+        when(registry.listClassifiableNodes(OrchestrationMode.WORKFLOW)).thenReturn(List.of(
                 node("support-aftersale-return", "退换货政策", "bit_policy"),
                 node("support-aftersale-warranty", "保修政策", "bit_policy"),
                 node("support-presale-spec", "参数与配置", "bit_product"),
@@ -157,7 +158,8 @@ class JevIntentFilterChainTest {
         when(jevClient.evaluate(any(), any())).thenThrow(new ModelClientException(
                 "503", ModelClientErrorType.SERVER_ERROR, 503));
 
-        List<SubQuestionIntent> intents = intentResolver.resolve(new RewriteResult("能退吗", List.of()));
+        List<SubQuestionIntent> intents = intentResolver.resolve(
+                new RewriteResult("能退吗", List.of()), OrchestrationMode.WORKFLOW);
 
         assertEquals(1, intents.size());
         assertTrue(intents.get(0).nodeScores().isEmpty());
@@ -172,7 +174,8 @@ class JevIntentFilterChainTest {
 
     private List<SubQuestionIntent> intents(Map<String, Double> nouls) {
         when(jevClient.evaluate(any(), any())).thenReturn(new JevResponse(nouls));
-        return intentResolver.resolve(new RewriteResult("AirPods Pro 左耳没声音能退吗", List.of()));
+        return intentResolver.resolve(
+                new RewriteResult("AirPods Pro 左耳没声音能退吗", List.of()), OrchestrationMode.WORKFLOW);
     }
 
     /**

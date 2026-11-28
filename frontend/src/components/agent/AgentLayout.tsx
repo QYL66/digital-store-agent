@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Menu } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import { AgentRawLog } from "@/components/agent/AgentRawLog";
 import { AgentSidebar } from "@/components/agent/AgentSidebar";
@@ -80,6 +81,9 @@ function AgentHeader({ meta, rawOpen, onToggleRaw, sidebarOpen, onToggleSidebar,
       </div>
 
       <div className="agent-header-right">
+        <Link className="agent-head-btn" to="/knowledge-chat">
+          知识问答
+        </Link>
         <button
           type="button"
           className="agent-head-btn"

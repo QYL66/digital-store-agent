@@ -19,6 +19,7 @@
 
 package io.github.qyl66.storeagent.rag.service;
 
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
 import io.github.qyl66.storeagent.framework.convention.ChatMessage;
 import io.github.qyl66.storeagent.infra.chat.LLMService;
 import io.github.qyl66.storeagent.rag.config.RAGConfigProperties;
@@ -44,6 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -124,7 +126,7 @@ class KnowledgeSearchFacadeTest {
                 .build();
         when(queryRewriteService.rewriteWithSplit(anyString(), anyList()))
                 .thenReturn(new RewriteResult(QUESTION, List.of("报销标准是多少", "公司福利有哪些")));
-        when(intentResolver.resolve(any(RewriteResult.class))).thenReturn(List.of(
+        when(intentResolver.resolve(any(RewriteResult.class), eq(OrchestrationMode.AGENT))).thenReturn(List.of(
                 new SubQuestionIntent("报销标准是多少", List.of(kbNode)),
                 new SubQuestionIntent("公司福利有哪些", List.of())
         ));
@@ -161,7 +163,7 @@ class KnowledgeSearchFacadeTest {
         String prompt = "关于数据安全，请选择 OA 系统或保险系统";
         when(queryRewriteService.rewriteWithSplit(anyString(), anyList()))
                 .thenReturn(new RewriteResult(QUESTION, List.of(QUESTION)));
-        when(intentResolver.resolve(any(RewriteResult.class))).thenReturn(subIntents);
+        when(intentResolver.resolve(any(RewriteResult.class), eq(OrchestrationMode.AGENT))).thenReturn(subIntents);
         when(guidanceService.detectAmbiguity(QUESTION, subIntents))
                 .thenReturn(GuidanceDecision.prompt(prompt));
 
@@ -189,7 +191,7 @@ class KnowledgeSearchFacadeTest {
                 .build();
         when(queryRewriteService.rewriteWithSplit(anyString(), anyList()))
                 .thenReturn(new RewriteResult(QUESTION, List.of(QUESTION)));
-        when(intentResolver.resolve(any(RewriteResult.class)))
+        when(intentResolver.resolve(any(RewriteResult.class), eq(OrchestrationMode.AGENT)))
                 .thenReturn(List.of(new SubQuestionIntent(QUESTION, List.of(kbNode))));
         when(intentResolver.mergeKbIntents(anyList())).thenReturn(List.of(kbNode));
         when(retrievalEngine.retrieve(anyList()))

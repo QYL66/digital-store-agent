@@ -44,9 +44,12 @@ export function ChatPage() {
 
   React.useEffect(() => {
     if (sessionId) {
-      if (sessionsReady && !sessionExists) {
+      if (!sessionsReady || sessionId === currentSessionId) {
+        return;
+      }
+      if (!sessionExists) {
         createSession().catch(() => null);
-        navigate("/chat", { replace: true });
+        navigate("/knowledge-chat", { replace: true });
         return;
       }
       selectSession(sessionId).catch(() => null);
@@ -74,8 +77,8 @@ export function ChatPage() {
   ]);
 
   React.useEffect(() => {
-    if (currentSessionId && currentSessionId !== sessionId) {
-      navigate(`/chat/${currentSessionId}`, { replace: true });
+    if (currentSessionId && !sessionId) {
+      navigate(`/knowledge-chat/${currentSessionId}`, { replace: true });
     }
   }, [currentSessionId, sessionId, navigate]);
 

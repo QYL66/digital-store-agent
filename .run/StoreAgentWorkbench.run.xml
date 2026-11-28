@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="商城工作台" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="envFilePaths">
+      <option value="$PROJECT_DIR$/local/.env.local" />
+      <option value="$PROJECT_DIR$/local/.env.models.local" />
+    </option>
+    <module name="store-agent-bootstrap" />
+    <option name="PROGRAM_PARAMETERS" value="--spring.config.additional-location=file:./local/application-local.yaml" />
+    <option name="SHORTEN_COMMAND_LINE" value="MANIFEST" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="io.github.qyl66.storeagent.StoreAgentApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

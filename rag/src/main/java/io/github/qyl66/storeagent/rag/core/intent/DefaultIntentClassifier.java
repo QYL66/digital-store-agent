@@ -29,7 +29,6 @@ import com.google.gson.JsonParser;
 import io.github.qyl66.storeagent.infra.util.LLMResponseCleaner;
 import io.github.qyl66.storeagent.infra.util.LogSafe;
 import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
-import io.github.qyl66.storeagent.rag.config.OrchestrationProperties;
 import io.github.qyl66.storeagent.rag.dao.entity.IntentNodeDO;
 import io.github.qyl66.storeagent.rag.dao.mapper.IntentNodeMapper;
 import io.github.qyl66.storeagent.framework.convention.ChatMessage;
@@ -66,7 +65,6 @@ public class DefaultIntentClassifier implements IntentClassifier, IntentNodeRegi
     private final IntentNodeMapper intentNodeMapper;
     private final PromptTemplateLoader promptTemplateLoader;
     private final IntentTreeCacheManager intentTreeCacheManager;
-    private final OrchestrationProperties orchestrationProperties;
 
     /**
      * 从Redis加载意图树并构建内存结构
@@ -86,7 +84,7 @@ public class DefaultIntentClassifier implements IntentClassifier, IntentNodeRegi
 
         // 3. 构建内存结构（临时使用）
         if (CollUtil.isEmpty(roots)) {
-            return new IntentTreeData(List.of(), List.of(), Map.of());
+            return new IntentTreeData(List.of(), Map.of());
         }
 
         List<IntentNode> allNodes = flatten(roots);
@@ -98,7 +96,7 @@ public class DefaultIntentClassifier implements IntentClassifier, IntentNodeRegi
 
         log.debug("意图树数据加载完成, 总节点数: {}, 叶子节点数: {}", allNodes.size(), leafNodes.size());
 
-        return new IntentTreeData(allNodes, leafNodes, id2Node);
+        return new IntentTreeData(leafNodes, id2Node);
     }
 
     @Override
@@ -111,15 +109,12 @@ public class DefaultIntentClassifier implements IntentClassifier, IntentNodeRegi
     }
 
     @Override
-    public List<IntentNode> listClassifiableNodes() {
+    public List<IntentNode> listClassifiableNodes(OrchestrationMode mode) {
         IntentTreeData data = loadIntentTreeData();
-        if (data.leafNodes.isEmpty()) {
-            return List.of();
-        }
         // Agent 的知识库工具只识别 KB，Workflow 额外保留 SYSTEM 应答
         return data.leafNodes.stream()
                 .filter(node -> node.isKB()
-                        || (orchestrationProperties.getMode() == OrchestrationMode.WORKFLOW && node.isSystem()))
+                        || (mode == OrchestrationMode.WORKFLOW && node.isSystem()))
                 .toList();
     }
 
@@ -136,7 +131,6 @@ public class DefaultIntentClassifier implements IntentClassifier, IntentNodeRegi
      * 意图树数据结构（临时对象，不持久化）
      */
     private record IntentTreeData(
-            List<IntentNode> allNodes,
             List<IntentNode> leafNodes,
             Map<String, IntentNode> id2Node
     ) {
@@ -162,11 +156,11 @@ public class DefaultIntentClassifier implements IntentClassifier, IntentNodeRegi
      * - 返回结果已按 score 从高到低排序
      */
     @Override
-    public List<NodeScore> classifyTargets(String question) {
-        List<IntentNode> candidates = listClassifiableNodes();
+    public List<NodeScore> classifyTargets(String question, OrchestrationMode mode) {
+        List<IntentNode> candidates = listClassifiableNodes(mode);
         if (candidates.isEmpty()) {
             log.debug("当前编排模式没有可用意图叶子节点，跳过 LLM 意图识别, mode={}",
-                    orchestrationProperties.getMode());
+                    mode);
             return List.of();
         }
         Map<String, IntentNode> candidateById = candidates.stream()

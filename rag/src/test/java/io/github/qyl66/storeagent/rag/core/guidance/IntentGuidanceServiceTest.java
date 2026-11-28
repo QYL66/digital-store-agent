@@ -19,6 +19,7 @@
 
 package io.github.qyl66.storeagent.rag.core.guidance;
 
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
 import io.github.qyl66.storeagent.rag.config.GuidanceProperties;
 import io.github.qyl66.storeagent.rag.core.intent.IntentNode;
 import io.github.qyl66.storeagent.rag.core.intent.IntentNodeRegistry;
@@ -286,7 +287,7 @@ class IntentGuidanceServiceTest {
         }
 
         @Override
-        public List<IntentNode> listClassifiableNodes() {
+        public List<IntentNode> listClassifiableNodes(OrchestrationMode mode) {
             return List.copyOf(nodes.values());
         }
     }

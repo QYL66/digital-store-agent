@@ -19,6 +19,7 @@
 
 package io.github.qyl66.storeagent.rag.service.pipeline;
 
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import io.github.qyl66.storeagent.framework.convention.ChatMessage;
@@ -117,7 +118,7 @@ public class StreamChatPipeline {
     }
 
     private void resolveIntents(StreamChatContext ctx) {
-        List<SubQuestionIntent> subIntents = intentResolver.resolve(ctx.getRewriteResult());
+        List<SubQuestionIntent> subIntents = intentResolver.resolve(ctx.getRewriteResult(), OrchestrationMode.WORKFLOW);
         ctx.setSubIntents(subIntents);
     }
 

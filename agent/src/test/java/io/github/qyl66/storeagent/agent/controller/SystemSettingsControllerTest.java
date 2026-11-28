@@ -89,6 +89,11 @@ class SystemSettingsControllerTest {
             assertThat(ctx).hasSingleBean(SystemSettingsController.class);
             var controller = ctx.getBean(SystemSettingsController.class);
             var mvc = MockMvcBuilders.standaloneSetup(controller).build();
+            mvc.perform(get("/chat/engine"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.data.type").value(mode))
+                    .andExpect(jsonPath("$.data.agent").doesNotExist())
+                    .andExpect(jsonPath("$.data.backends").doesNotExist());
             mvc.perform(get("/system/settings"))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.data.engine.type").value(mode))

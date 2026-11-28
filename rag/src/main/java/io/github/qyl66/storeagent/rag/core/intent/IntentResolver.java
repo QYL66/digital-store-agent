@@ -22,6 +22,7 @@ package io.github.qyl66.storeagent.rag.core.intent;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapBuilder;
 import cn.hutool.json.JSONUtil;
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
 import io.github.qyl66.storeagent.rag.dto.IntentCandidate;
 import io.github.qyl66.storeagent.rag.dto.SubQuestionIntent;
 import io.github.qyl66.storeagent.framework.trace.RagTraceNode;
@@ -50,7 +51,7 @@ public class IntentResolver {
     private final Executor intentClassifyExecutor;
 
     @RagTraceNode(name = "intent-resolve", type = "INTENT")
-    public List<SubQuestionIntent> resolve(RewriteResult rewriteResult) {
+    public List<SubQuestionIntent> resolve(RewriteResult rewriteResult, OrchestrationMode mode) {
         List<String> subQuestions = CollUtil.isNotEmpty(rewriteResult.subQuestions())
                 ? rewriteResult.subQuestions()
                 : List.of(rewriteResult.rewrittenQuestion());
@@ -58,7 +59,7 @@ public class IntentResolver {
                 .map(q -> CompletableFuture.supplyAsync(
                         () -> {
                             try {
-                                return new SubQuestionIntent(q, classifyIntents(q));
+                                return new SubQuestionIntent(q, classifyIntents(q, mode));
                             } catch (Exception e) {
                                 log.error("子问题意图分类失败，降级为空意图，question：{}", q, e);
                                 return new SubQuestionIntent(q, List.of());
@@ -87,8 +88,8 @@ public class IntentResolver {
                 && nodeScores.get(0).getNode().getKind() == SYSTEM;
     }
 
-    private List<NodeScore> classifyIntents(String question) {
-        List<NodeScore> scores = intentClassifier.classifyTargets(question);
+    private List<NodeScore> classifyIntents(String question, OrchestrationMode mode) {
+        List<NodeScore> scores = intentClassifier.classifyTargets(question, mode);
         List<NodeScore> retained = scores.stream()
                 .filter(ns -> ns.getScore() >= INTENT_MIN_SCORE)
                 .limit(MAX_INTENT_COUNT)

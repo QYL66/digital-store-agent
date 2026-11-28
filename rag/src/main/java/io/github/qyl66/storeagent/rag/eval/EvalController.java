@@ -19,6 +19,7 @@
 
 package io.github.qyl66.storeagent.rag.eval;
 
+import io.github.qyl66.storeagent.rag.config.OrchestrationProperties;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import io.github.qyl66.storeagent.framework.convention.RetrievedChunk;
@@ -57,6 +58,7 @@ public class EvalController {
 
     private final QueryRewriteService queryRewriteService;
     private final IntentResolver intentResolver;
+    private final OrchestrationProperties orchestrationProperties;
     private final RetrievalEngine retrievalEngine;
     private final KnowledgeChunkMapper knowledgeChunkMapper;
     private final KnowledgeDocumentMapper knowledgeDocumentMapper;
@@ -66,7 +68,7 @@ public class EvalController {
         long start = System.currentTimeMillis();
 
         RewriteResult rewriteResult = queryRewriteService.rewriteWithSplit(question, List.of());
-        List<SubQuestionIntent> subIntents = intentResolver.resolve(rewriteResult);
+        List<SubQuestionIntent> subIntents = intentResolver.resolve(rewriteResult, orchestrationProperties.getMode());
         RetrievalContext rc = retrievalEngine.retrieve(subIntents);
 
         return Results.success(buildResponse(rc, subIntents, System.currentTimeMillis() - start));

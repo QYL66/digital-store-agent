@@ -47,9 +47,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     sessionsLoaded,
     createSession,
     deleteSession,
-    renameSession,
-    selectSession,
-    fetchSessions
+    renameSession
   } = useChatStore();
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
@@ -62,12 +60,6 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   } | null>(null);
   const [avatarFailed, setAvatarFailed] = React.useState(false);
   const renameInputRef = React.useRef<HTMLInputElement | null>(null);
-
-  React.useEffect(() => {
-    if (sessions.length === 0) {
-      fetchSessions().catch(() => null);
-    }
-  }, [fetchSessions, sessions.length]);
 
   const filteredSessions = React.useMemo(() => {
     const keyword = query.trim().toLowerCase();
@@ -199,7 +191,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                 className="mt-2 flex w-full items-center gap-3 rounded-2xl bg-white/90 px-4 py-3 text-left shadow-[0_10px_20px_rgba(15,23,42,0.08)] transition-all hover:-translate-y-[1px] hover:shadow-[0_16px_30px_rgba(15,23,42,0.12)]"
                 onClick={() => {
                   createSession().catch(() => null);
-                  navigate("/chat");
+                  navigate("/knowledge-chat");
                   onClose();
                 }}
               >
@@ -284,14 +276,12 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                           if (renamingId) {
                             cancelRename();
                           }
-                          selectSession(session.id).catch(() => null);
-                          navigate(`/chat/${session.id}`);
+                          navigate(`/knowledge-chat/${session.id}`);
                           onClose();
                         }}
                         onKeyDown={(event) => {
                           if (event.key === "Enter") {
-                            selectSession(session.id).catch(() => null);
-                            navigate(`/chat/${session.id}`);
+                            navigate(`/knowledge-chat/${session.id}`);
                             onClose();
                           }
                         }}
@@ -440,7 +430,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                 deleteSession(target.id)
                   .then(() => {
                     if (isCurrent) {
-                      navigate("/chat");
+                      navigate("/knowledge-chat");
                     }
                   })
                   .catch(() => null);

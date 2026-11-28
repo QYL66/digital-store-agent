@@ -19,6 +19,7 @@
 
 package io.github.qyl66.storeagent.rag.core.intent;
 
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import io.github.qyl66.storeagent.infra.http.ModelClientException;
@@ -85,8 +86,8 @@ public class JevIntentClassifier implements IntentClassifier {
     }
 
     @Override
-    public List<NodeScore> classifyTargets(String question) {
-        List<IntentNode> candidates = intentNodeRegistry.listClassifiableNodes();
+    public List<NodeScore> classifyTargets(String question, OrchestrationMode mode) {
+        List<IntentNode> candidates = intentNodeRegistry.listClassifiableNodes(mode);
         if (CollUtil.isEmpty(candidates)) {
             return List.of();
         }

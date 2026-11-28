@@ -19,6 +19,8 @@
 
 package io.github.qyl66.storeagent.rag.core.intent;
 
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
+
 import java.util.List;
 
 /**
@@ -38,7 +40,7 @@ public interface IntentNodeRegistry {
     List<IntentNode> listMcpToolNodes();
 
     /**
-     * 获取当前编排模式下可参与意图分类的叶子节点
+     * 获取本次请求的编排模式下可参与意图分类的叶子节点
      */
-    List<IntentNode> listClassifiableNodes();
+    List<IntentNode> listClassifiableNodes(OrchestrationMode mode);
 }

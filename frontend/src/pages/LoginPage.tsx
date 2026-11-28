@@ -1,18 +1,14 @@
 import * as React from "react";
 import { Eye, EyeOff, Lock, User } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useAuthStore } from "@/stores/authStore";
 
 export function LoginPage() {
-  const navigate = useNavigate();
   const { login, isLoading } = useAuthStore();
   const [showPassword, setShowPassword] = React.useState(false);
-  const [remember, setRemember] = React.useState(true);
-  const [form, setForm] = React.useState({ username: "admin", password: "admin" });
+  const [form, setForm] = React.useState({ username: "admin", password: "" });
   const [error, setError] = React.useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -24,10 +20,6 @@ export function LoginPage() {
     }
     try {
       await login(form.username.trim(), form.password.trim());
-      if (!remember) {
-        // 如需仅在内存中保存登录态，可在此扩展。
-      }
-      navigate("/chat");
     } catch (err) {
       setError((err as Error).message || "登录失败，请稍后重试。");
     }
@@ -83,13 +75,7 @@ export function LoginPage() {
               </button>
             </div>
           </div>
-          <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 text-muted-foreground">
-              <Checkbox checked={remember} onCheckedChange={(value) => setRemember(Boolean(value))} />
-              记住我
-            </label>
-            <span className="text-xs text-muted-foreground">账号由管理员初始化</span>
-          </div>
+          <p className="text-xs text-muted-foreground">账号由管理员初始化</p>
           {error ? <p className="text-sm text-destructive">{error}</p> : null}
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? "正在登录..." : "登录"}

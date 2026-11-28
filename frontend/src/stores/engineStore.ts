@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { getSystemSettings } from "@/services/settingsService";
+import { api } from "@/services/api";
 
 export type EngineType = "workflow" | "agent";
 
@@ -18,8 +18,7 @@ export const useEngineStore = create<EngineState>((set, get) => ({
     if (get().engineType || get().loading) return;
     set({ loading: true });
     try {
-      const settings = await getSystemSettings();
-      const type = settings.engine?.type?.toLowerCase();
+      const { type } = await api.get<{ type: EngineType }, { type: EngineType }>("/chat/engine");
       set({ engineType: type === "agent" ? "agent" : "workflow", loading: false });
     } catch (error) {
       console.warn("获取引擎类型失败，回退 workflow", error);

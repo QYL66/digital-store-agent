@@ -19,6 +19,7 @@
 
 package io.github.qyl66.storeagent.rag.service.pipeline;
 
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
 import io.github.qyl66.storeagent.infra.chat.LLMService;
 import io.github.qyl66.storeagent.infra.chat.StreamCallback;
 import io.github.qyl66.storeagent.rag.core.guidance.GuidanceDecision;
@@ -100,7 +101,7 @@ class StreamChatPipelineTest {
         when(memoryService.load("conversation-1", "user-1")).thenReturn(List.of());
         when(memoryService.append(any(), any(), any())).thenReturn("message-1");
         when(queryRewriteService.rewriteWithSplit("原问题", List.of())).thenReturn(rewriteResult);
-        when(intentResolver.resolve(rewriteResult)).thenReturn(subIntents);
+        when(intentResolver.resolve(rewriteResult, OrchestrationMode.WORKFLOW)).thenReturn(subIntents);
         when(guidanceService.detectAmbiguity("改写问题", subIntents)).thenReturn(GuidanceDecision.none());
         when(intentResolver.isSystemOnly(anyList())).thenReturn(false);
         when(retrievalEngine.retrieve(subIntents)).thenReturn(retrievalContext);

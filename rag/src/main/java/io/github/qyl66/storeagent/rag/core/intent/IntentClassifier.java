@@ -19,6 +19,8 @@
 
 package io.github.qyl66.storeagent.rag.core.intent;
 
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
+
 import java.util.List;
 
 /**
@@ -36,7 +38,8 @@ public interface IntentClassifier {
      * 对所有叶子分类节点做意图识别
      *
      * @param question 用户问题
+     * @param mode 本次请求的编排模式
      * @return 按 score 从高到低排序的节点打分列表
      */
-    List<NodeScore> classifyTargets(String question);
+    List<NodeScore> classifyTargets(String question, OrchestrationMode mode);
 }

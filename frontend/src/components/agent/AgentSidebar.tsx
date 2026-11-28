@@ -70,8 +70,6 @@ export function AgentSidebar({ onSelectConversation }: { onSelectConversation: (
     sessionsLoaded,
     isLoadingSessions: isLoading,
     startNewChat,
-    loadMessages,
-    loadSessions,
     renameSession,
     deleteSession,
     batchDeleteSessions
@@ -89,12 +87,6 @@ export function AgentSidebar({ onSelectConversation }: { onSelectConversation: (
   const [query, setQuery] = React.useState("");
   const [avatarFailed, setAvatarFailed] = React.useState(false);
   const searchRef = React.useRef<HTMLInputElement>(null);
-
-  React.useEffect(() => {
-    if (sessions.length === 0 && !sessionsLoaded) {
-      loadSessions().catch(() => null);
-    }
-  }, [loadSessions, sessions.length, sessionsLoaded]);
 
   React.useEffect(() => {
     setAvatarFailed(false);
@@ -132,7 +124,6 @@ export function AgentSidebar({ onSelectConversation }: { onSelectConversation: (
   const openSession = (sessionId: string) => {
     onSelectConversation();
     if (sessionId === currentSessionId) return;
-    loadMessages(sessionId).catch(() => null);
     navigate(`/chat/${sessionId}`);
   };
 

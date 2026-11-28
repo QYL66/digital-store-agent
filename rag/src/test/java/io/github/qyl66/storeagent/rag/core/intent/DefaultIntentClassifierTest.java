@@ -20,7 +20,7 @@
 package io.github.qyl66.storeagent.rag.core.intent;
 
 import io.github.qyl66.storeagent.infra.chat.LLMService;
-import io.github.qyl66.storeagent.rag.config.OrchestrationProperties;
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
 import io.github.qyl66.storeagent.rag.core.prompt.PromptTemplateLoader;
 import io.github.qyl66.storeagent.rag.dao.entity.IntentNodeDO;
 import io.github.qyl66.storeagent.rag.dao.mapper.IntentNodeMapper;
@@ -67,7 +67,6 @@ class DefaultIntentClassifierTest {
     private IntentTreeCacheManager intentTreeCacheManager;
 
     private DefaultIntentClassifier classifier;
-    private OrchestrationProperties orchestrationProperties;
 
     private ListAppender<ILoggingEvent> appender;
     private Logger classifierLogger;
@@ -99,13 +98,11 @@ class DefaultIntentClassifierTest {
 
     @BeforeEach
     void setUp() {
-        orchestrationProperties = new OrchestrationProperties();
         classifier = new DefaultIntentClassifier(
                 llmService,
                 intentNodeMapper,
                 promptTemplateLoader,
-                intentTreeCacheManager,
-                orchestrationProperties
+                intentTreeCacheManager
         );
     }
 
@@ -116,7 +113,7 @@ class DefaultIntentClassifierTest {
         // 实测触发形态：模型用中文散文开头作答，JsonParser 当场抛异常（见 jev-eval 第 10/11/30 题）
         when(llmService.chat(any())).thenReturn("这是一个关于跨平台数据迁移的问题。");
 
-        assertTrue(classifier.classifyTargets("安卓微信怎么迁到 iPhone").isEmpty());
+        assertTrue(classifier.classifyTargets("安卓微信怎么迁到 iPhone", OrchestrationMode.WORKFLOW).isEmpty());
 
         assertTrue(logContains("原因=PARSE_ERROR"),
                 "解析失败必须留下降级证据，否则会被读成模型有意判断无匹配");
@@ -127,7 +124,7 @@ class DefaultIntentClassifierTest {
         when(intentTreeCacheManager.getIntentTreeFromCache()).thenReturn(List.of());
         when(intentNodeMapper.selectList(any())).thenReturn(List.of());
 
-        List<NodeScore> scores = classifier.classifyTargets("How do I apply for leave?");
+        List<NodeScore> scores = classifier.classifyTargets("How do I apply for leave?", OrchestrationMode.WORKFLOW);
 
         assertTrue(scores.isEmpty());
         verifyNoInteractions(llmService, promptTemplateLoader);
@@ -149,7 +146,7 @@ class DefaultIntentClassifierTest {
         when(promptTemplateLoader.render(anyString(), anyMap())).thenReturn("system-prompt");
         when(llmService.chat(any())).thenReturn("[]");
 
-        classifier.classifyTargets("回答得不错");
+        classifier.classifyTargets("回答得不错", OrchestrationMode.WORKFLOW);
 
         ArgumentCaptor<Map<String, String>> captor = ArgumentCaptor.forClass(Map.class);
         verify(promptTemplateLoader).render(anyString(), captor.capture());
@@ -164,14 +161,12 @@ class DefaultIntentClassifierTest {
         IntentNode system = IntentNode.builder().id("sys-greeting").name("打招呼").kind(IntentKind.SYSTEM).build();
         when(intentTreeCacheManager.getIntentTreeFromCache()).thenReturn(List.of(kb, mcp, system));
 
-        orchestrationProperties.setType("agent");
         assertEquals(List.of("kb-return"),
-                classifier.listClassifiableNodes().stream().map(IntentNode::getId).toList(),
+                classifier.listClassifiableNodes(OrchestrationMode.AGENT).stream().map(IntentNode::getId).toList(),
                 "Agent 模式只分类 KB 叶子");
 
-        orchestrationProperties.setType("workflow");
         assertEquals(List.of("kb-return", "sys-greeting"),
-                classifier.listClassifiableNodes().stream().map(IntentNode::getId).sorted().toList(),
+                classifier.listClassifiableNodes(OrchestrationMode.WORKFLOW).stream().map(IntentNode::getId).sorted().toList(),
                 "Workflow 额外保留 SYSTEM");
 
         assertEquals(List.of("mcp-cancel"),
@@ -182,7 +177,6 @@ class DefaultIntentClassifierTest {
     @Test
     @SuppressWarnings("unchecked")
     void agentModeOnlyPromptsAndAcceptsKbCandidates() {
-        orchestrationProperties.setType("agent");
         IntentNode kb = IntentNode.builder()
                 .id("kb-leave")
                 .name("请假制度")
@@ -209,7 +203,7 @@ class DefaultIntentClassifierTest {
                 ]
                 """);
 
-        List<NodeScore> scores = classifier.classifyTargets("帮我请假");
+        List<NodeScore> scores = classifier.classifyTargets("帮我请假", OrchestrationMode.AGENT);
 
         ArgumentCaptor<Map<String, String>> captor = ArgumentCaptor.forClass(Map.class);
         verify(promptTemplateLoader).render(anyString(), captor.capture());
@@ -223,7 +217,6 @@ class DefaultIntentClassifierTest {
     @Test
     @SuppressWarnings("unchecked")
     void workflowModeExcludesMcpCandidatesButKeepsSystemAndKnowledge() {
-        orchestrationProperties.setType("workflow");
         IntentNode kb = IntentNode.builder()
                 .id("kb-leave")
                 .name("请假制度")
@@ -250,7 +243,7 @@ class DefaultIntentClassifierTest {
                 ]
                 """);
 
-        List<NodeScore> scores = classifier.classifyTargets("帮我请假");
+        List<NodeScore> scores = classifier.classifyTargets("帮我请假", OrchestrationMode.WORKFLOW);
 
         ArgumentCaptor<Map<String, String>> captor = ArgumentCaptor.forClass(Map.class);
         verify(promptTemplateLoader).render(anyString(), captor.capture());

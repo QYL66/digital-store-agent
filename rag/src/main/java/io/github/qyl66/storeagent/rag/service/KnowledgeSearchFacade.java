@@ -19,6 +19,7 @@
 
 package io.github.qyl66.storeagent.rag.service;
 
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
 import io.github.qyl66.storeagent.framework.convention.ChatMessage;
 import io.github.qyl66.storeagent.framework.convention.ChatRequest;
 import io.github.qyl66.storeagent.infra.chat.LLMService;
@@ -66,7 +67,7 @@ public class KnowledgeSearchFacade {
     public String search(String query) {
         // 不喂历史：主 Agent 手握完整对话，传进来的已是消解过、且被它有意收窄的查询
         RewriteResult rewriteResult = queryRewriteService.rewriteWithSplit(query, List.of());
-        List<SubQuestionIntent> subIntents = intentResolver.resolve(rewriteResult);
+        List<SubQuestionIntent> subIntents = intentResolver.resolve(rewriteResult, OrchestrationMode.AGENT);
 
         GuidanceDecision guidance = guidanceService.detectAmbiguity(
                 rewriteResult.rewrittenQuestion(), subIntents);

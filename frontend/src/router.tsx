@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter, useLocation } from "react-router-dom";
 
 import { LoginPage } from "@/pages/LoginPage";
 import { EngineGate } from "@/components/common/EngineGate";
@@ -30,8 +30,9 @@ import { useAuthStore } from "@/stores/authStore";
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const { pathname, search, hash } = useLocation();
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" state={{ from: { pathname, search, hash } }} replace />;
   }
   return children;
 }
@@ -53,8 +54,9 @@ function RequireAdmin({ children }: { children: JSX.Element }) {
 
 function RedirectIfAuth({ children }: { children: JSX.Element }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const { state } = useLocation();
   if (isAuthenticated) {
-    return <Navigate to="/chat" replace />;
+    return <Navigate to={state?.from ?? "/chat"} replace />;
   }
   return children;
 }
@@ -78,7 +80,7 @@ export const router = createBrowserRouter([
     )
   },
   {
-    path: "/chat",
+    path: "/chat/:sessionId?",
     element: (
       <RequireAuth>
         <EngineGate />
@@ -86,10 +88,10 @@ export const router = createBrowserRouter([
     )
   },
   {
-    path: "/chat/:sessionId",
+    path: "/knowledge-chat/:sessionId?",
     element: (
       <RequireAuth>
-        <EngineGate />
+        <EngineGate knowledgeChat />
       </RequireAuth>
     )
   },

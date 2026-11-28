@@ -84,15 +84,18 @@ public class SystemSettingsController {
     @Value("${spring.servlet.multipart.max-request-size:100MB}")
     private DataSize maxRequestSize;
 
+    @GetMapping("/chat/engine")
+    public Result<SystemSettingsVO.EngineSettings> chatEngine() {
+        return Results.success(engineSettings());
+    }
+
     /**
      * 汇总已绑定配置，Agent 专属参数仅在该引擎启用时返回
      */
     @GetMapping("/system/settings")
     public Result<SystemSettingsVO> settings() {
         SystemSettingsVO response = SystemSettingsVO.builder()
-                .engine(SystemSettingsVO.EngineSettings.builder()
-                        .type(orchestrationProperties.getMode().name().toLowerCase(Locale.ROOT))
-                        .build())
+                .engine(engineSettings())
                 .agent(orchestrationProperties.getMode() == OrchestrationMode.AGENT ? toAgentSettings() : null)
                 .backends(toBackendSettings())
                 .rag(toRagSettings())
@@ -103,6 +106,12 @@ public class SystemSettingsController {
                         .build())
                 .build();
         return Results.success(response);
+    }
+
+    private SystemSettingsVO.EngineSettings engineSettings() {
+        return SystemSettingsVO.EngineSettings.builder()
+                .type(orchestrationProperties.getMode().name().toLowerCase(Locale.ROOT))
+                .build();
     }
 
     private SystemSettingsVO.AgentSettings toAgentSettings() {

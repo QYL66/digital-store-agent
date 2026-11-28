@@ -19,6 +19,7 @@
 
 package io.github.qyl66.storeagent.rag.core.intent;
 
+import io.github.qyl66.storeagent.rag.config.OrchestrationMode;
 import io.github.qyl66.storeagent.infra.config.AIModelProperties;
 import io.github.qyl66.storeagent.infra.jev.JevClient;
 import io.github.qyl66.storeagent.rag.config.IntentProperties;
@@ -70,7 +71,7 @@ class JevIntentClassifierWiringTest {
                 + "\"usage\":{\"input_tokens\":3795,\"output_tokens\":21}}");
 
         DefaultIntentClassifier registry = mock(DefaultIntentClassifier.class);
-        when(registry.listClassifiableNodes()).thenReturn(List.of(
+        when(registry.listClassifiableNodes(OrchestrationMode.WORKFLOW)).thenReturn(List.of(
                 node("support-aftersale-return", "退换货政策"),
                 node("support-presale-spec", "参数与配置")));
 
@@ -79,7 +80,7 @@ class JevIntentClassifierWiringTest {
         JevClient jevClient = new JevClient(properties(), new OkHttpClient());
 
         List<NodeScore> scores = new JevIntentClassifier(registry, jevClient, intentProperties)
-                .classifyTargets("AirPods Pro 左耳没声音能退吗");
+                .classifyTargets("AirPods Pro 左耳没声音能退吗", OrchestrationMode.WORKFLOW);
 
         assertThat(scores).hasSize(1);
         assertThat(scores.get(0).getNode().getId()).isEqualTo("support-aftersale-return");

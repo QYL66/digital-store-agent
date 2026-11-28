@@ -42,7 +42,10 @@ export function AgentChatPage() {
 
   React.useEffect(() => {
     if (sessionId) {
-      if (sessionsReady && !sessionExists) {
+      if (!sessionsReady || sessionId === currentSessionId) {
+        return;
+      }
+      if (!sessionExists) {
         startNewChat();
         navigate("/chat", { replace: true });
         return;
